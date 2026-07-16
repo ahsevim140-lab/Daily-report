@@ -42,7 +42,7 @@
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
-    height:82px;
+    height:52px;
     width:auto;
     pointer-events:none;
   }
@@ -379,7 +379,7 @@
 <div id="gateOverlay" class="pin-overlay active">
   <div class="pin-box">
     <h3>الدخول إلى النظام</h3>
-    <p>أدخل كلمة المرور للمتابعة إلى سجل التقارير.</p>
+    <p>أدخل كلمة المرور للمتابعة إلى نموذج تسجيل التقارير.</p>
     <input type="password" id="gateInput" placeholder="كلمة المرور" autocomplete="off">
     <div class="pin-box-actions">
       <button type="button" class="pin-unlock" style="flex:1;" onclick="checkGate()">دخول</button>
@@ -534,6 +534,7 @@
     document.getElementById('view-' + name).classList.add('active');
     document.querySelector('.nav-btn[data-view="' + name + '"]').classList.add('active');
     if(name === 'setup') renderSetupLists();
+    if(name === 'manager') startAutoRefresh(); else stopAutoRefresh();
   }
 
   function optionsHtml(list, placeholder){
@@ -854,6 +855,39 @@
       renderReportsTable(filteredReports);
     }catch(err){
       body.innerHTML = '<tr><td colspan="8" class="empty-note">تعذّر تحميل التقارير.</td></tr>';
+    }
+  }
+
+  let autoRefreshTimer = null;
+  const AUTO_REFRESH_MS = 30000; // refresh manager view every 30 seconds
+
+  function startAutoRefresh(){
+    stopAutoRefresh();
+    autoRefreshTimer = setInterval(silentRefreshReports, AUTO_REFRESH_MS);
+  }
+
+  function stopAutoRefresh(){
+    if(autoRefreshTimer){
+      clearInterval(autoRefreshTimer);
+      autoRefreshTimer = null;
+    }
+  }
+
+  // Same as loadReports, but doesn't show the "جارٍ التحميل" loading state,
+  // so the table doesn't flicker every time it refreshes in the background.
+  async function silentRefreshReports(){
+    const key = document.getElementById('managerKey').value.trim();
+    if(!key) return;
+    try{
+      const res = await fetch(SCRIPT_URL + '?key=' + encodeURIComponent(key));
+      const data = await res.json();
+      if(data.error) return;
+      const reports = (data.reports || []).slice().reverse();
+      currentReports = reports;
+      populateFilterDropdowns();
+      applyFilters();
+    }catch(err){
+      // Silent fail — next interval will try again. Manual "تحميل التقارير" still works if needed.
     }
   }
 
