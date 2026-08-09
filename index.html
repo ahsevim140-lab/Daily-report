@@ -75,7 +75,7 @@
     transition:background .15s ease, color .15s ease;
   }
   .nav-btn:hover, .nav-btn.active{background:var(--gold);color:var(--green-900);}
-  
+
   .divider{
     display:flex;
     align-items:center;
@@ -379,6 +379,7 @@
   .pin-unlock:hover{background:var(--green-800);}
   .pin-error{display:none;color:var(--danger);font-size:12px;margin-top:10px;text-align:center;}
   .pin-error.show{display:block;}
+  .pin-loading{opacity:0.6;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -389,9 +390,9 @@
     <p>أدخل كلمة المرور للمتابعة إلى نموذج تسجيل التقارير.</p>
     <input type="password" id="gateInput" placeholder="كلمة المرور" autocomplete="off">
     <div class="pin-box-actions">
-      <button type="button" class="pin-unlock" style="flex:1;" onclick="checkGate()">دخول</button>
+      <button type="button" class="pin-unlock" id="gateBtn" style="flex:1;" onclick="checkGate()">دخول</button>
     </div>
-    <div class="pin-error" id="gateError">كلمة المرور غير صحيحة.</div>
+    <div class="pin-error" id="gateError"></div>
   </div>
 </div>
 
@@ -473,6 +474,7 @@
         <input type="password" id="managerKeyInput" placeholder="أدخل رمز المدير..." autocomplete="off">
         <button type="button" id="loadReportsBtn" onclick="loadManagerReports()">عرض</button>
       </div>
+      <div id="managerErrorMsg" class="pin-error" style="margin-bottom:14px;"></div>
       <div id="managerContent" style="display:none;">
         <div class="filter-bar">
           <select id="filterDept" onchange="applyManagerFilters()">
@@ -573,28 +575,72 @@ function taskOptionsHtmlForDept(dept){
   return html;
 }
 
+// ---- Central fetch helper: gives real diagnostics instead of a generic error ----
+async function safeFetchJson(url, options) {
+  let res;
+  try {
+    res = await fetch(url, options);
+  } catch (networkErr) {
+    // Fetch itself failed: no connection, blocked domain, CORS, DNS, etc.
+    throw new Error('تعذر الوصول إلى الخادم (تحقق من الاتصال أو رابط النشر): ' + networkErr.message);
+  }
+
+  const contentType = res.headers.get('content-type') || '';
+  let bodyText;
+  try {
+    bodyText = await res.text();
+  } catch (readErr) {
+    throw new Error('تعذرت قراءة استجابة الخادم.');
+  }
+
+  if (!res.ok) {
+    throw new Error(`خطأ من الخادم (رمز ${res.status}). ${bodyText.slice(0, 150)}`);
+  }
+
+  if (!contentType.includes('application/json')) {
+    // Usually means Google returned a login/consent page instead of JSON —
+    // classic symptom of the web app deployment not being set to "Anyone".
+    console.error('Non-JSON response body:', bodyText.slice(0, 500));
+    throw new Error('استجابة غير متوقعة من الخادم (قد تكون صفحة تسجيل دخول Google). تحقق من إعدادات نشر Apps Script: "من يمكنه الوصول" يجب أن تكون "Anyone".');
+  }
+
+  try {
+    return JSON.parse(bodyText);
+  } catch (parseErr) {
+    console.error('Failed to parse JSON:', bodyText.slice(0, 500));
+    throw new Error('تعذر تحليل استجابة الخادم كـ JSON.');
+  }
+}
+
 async function checkGate() {
   const pinInput = document.getElementById('gateInput');
   const gateError = document.getElementById('gateError');
+  const gateBtn = document.getElementById('gateBtn');
   const key = pinInput.value.trim();
 
   gateError.classList.remove('show');
   if (!key) return;
 
+  gateBtn.disabled = true;
+  gateBtn.textContent = '...جارٍ التحقق';
+
   try {
-    const res = await fetch(`?action=verify&key=${encodeURIComponent(key)}`);
-    const data = await res.json();
+    const data = await safeFetchJson(`?action=verify&key=${encodeURIComponent(key)}`);
 
     if (data.ok) {
       document.getElementById('gateOverlay').classList.remove('active');
       document.getElementById('appRoot').style.display = 'block';
       loadOptions();
     } else {
+      gateError.innerText = 'كلمة المرور غير صحيحة.';
       gateError.classList.add('show');
     }
   } catch (err) {
-    gateError.innerText = 'حدث خطأ أثناء الاتصال بالخادم.';
+    gateError.innerText = err.message;
     gateError.classList.add('show');
+  } finally {
+    gateBtn.disabled = false;
+    gateBtn.textContent = 'دخول';
   }
 }
 
@@ -604,14 +650,11 @@ document.getElementById('gateInput').addEventListener('keypress', function(e) {
 
 async function loadOptions() {
   try {
-    const [pRes, eRes, tRes] = await Promise.all([
-      fetch('?action=projects'),
-      fetch('?action=employees'),
-      fetch('?action=tasks')
+    const [pData, eData, tData] = await Promise.all([
+      safeFetchJson('?action=projects'),
+      safeFetchJson('?action=employees'),
+      safeFetchJson('?action=tasks')
     ]);
-    const pData = await pRes.json();
-    const eData = await eRes.json();
-    const tData = await tRes.json();
 
     projectOptions = pData.projects || [];
     employeeOptions = eData.employees || [];
@@ -625,6 +668,9 @@ async function loadOptions() {
     }
   } catch (err) {
     console.error('Error loading backend data:', err);
+    const status = document.getElementById('statusMsg');
+    status.innerText = 'تعذر تحميل بيانات النظام: ' + err.message;
+    status.className = 'status err';
   }
 }
 
@@ -733,7 +779,7 @@ async function handleSubmit(e) {
   status.style.display = 'none';
 
   try {
-    const res = await fetch('?', {
+    const data = await safeFetchJson('?', {
       method: 'POST',
       body: JSON.stringify({
         key: SUBMIT_KEY,
@@ -742,7 +788,6 @@ async function handleSubmit(e) {
         entries: entries
       })
     });
-    const data = await res.json();
 
     if (data.ok) {
       status.innerText = 'تم إرسال التقرير بنجاح!';
@@ -817,16 +862,18 @@ function populateFilterDropdowns() {
 async function loadManagerReports() {
   const key = document.getElementById('managerKeyInput').value.trim();
   const btn = document.getElementById('loadReportsBtn');
+  const errBox = document.getElementById('managerErrorMsg');
+  errBox.classList.remove('show');
   if (!key) return;
 
   btn.disabled = true;
 
   try {
-    const res = await fetch(`?key=${encodeURIComponent(key)}`);
-    const data = await res.json();
+    const data = await safeFetchJson(`?key=${encodeURIComponent(key)}`);
 
     if (data.error) {
-      alert('رمز المدير غير صحيح.');
+      errBox.innerText = 'رمز المدير غير صحيح.';
+      errBox.classList.add('show');
       return;
     }
 
@@ -834,7 +881,8 @@ async function loadManagerReports() {
     document.getElementById('managerContent').style.display = 'block';
     applyManagerFilters();
   } catch (err) {
-    alert('حدث خطأ أثناء تحميل التقارير.');
+    errBox.innerText = err.message;
+    errBox.classList.add('show');
   } finally {
     btn.disabled = false;
   }
