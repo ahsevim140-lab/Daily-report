@@ -426,10 +426,6 @@
             <label>القسم</label>
             <select id="employeeDept" required onchange="onDeptChange()">
               <option value="">اختر القسم...</option>
-              <option value="Mechanical">Mechanical</option>
-              <option value="Electrical">Electrical</option>
-              <option value="Civil">Civil</option>
-              <option value="Architecture">Architecture</option>
             </select>
           </div>
           <div class="field">
@@ -479,10 +475,6 @@
         <div class="filter-bar">
           <select id="filterDept" onchange="applyManagerFilters()">
             <option value="">كل الأقسام</option>
-            <option value="Mechanical">Mechanical</option>
-            <option value="Electrical">Electrical</option>
-            <option value="Civil">Civil</option>
-            <option value="Architecture">Architecture</option>
           </select>
           <select id="filterName" onchange="applyManagerFilters()">
             <option value="">كل الموظفين</option>
@@ -524,13 +516,11 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFfqUGWCbGcl2VVeAXWMaQfJzcYpbRFsjTRV6n3uPikC6Lprp65BHvv380PqyyPw/exec';
 const SUBMIT_KEY = '2026';
 
-const DEPT_CATEGORY_MAP = {
-  'Mechanical': ['ميكانيكي'],
-  'Electrical': ['كهربائي'],
-  'Civil': ['انشائي'],
-  'Architecture': ['معماري']
-};
+// Task main-categories that should appear for every department regardless
+// of match (e.g. general meeting / status update entries).
 const ALWAYS_CATEGORIES = ['اجتماع', 'وضع راهن'];
+
+let departmentOptions = [];
 
 let projectOptions = [];
 let employeeOptions = [];
@@ -557,8 +547,10 @@ function optionsHtml(list, placeholder) {
 }
 
 function allowedCategoriesForDept(dept){
-  const extra = DEPT_CATEGORY_MAP[dept] || [];
-  return ALWAYS_CATEGORIES.concat(extra);
+  // The department name itself (from the Employees sheet) is expected to
+  // match the "main category" column in the Tasks sheet directly, e.g.
+  // both use "ميكانيك" — no separate mapping needed.
+  return dept ? ALWAYS_CATEGORIES.concat([dept]) : ALWAYS_CATEGORIES;
 }
 
 function taskOptionsHtmlForDept(dept){
@@ -651,16 +643,19 @@ document.getElementById('gateInput').addEventListener('keypress', function(e) {
 
 async function loadOptions() {
   try {
-    const [pData, eData, tData] = await Promise.all([
+    const [pData, eData, tData, dData] = await Promise.all([
       safeFetchJson(`${SCRIPT_URL}?action=projects`),
       safeFetchJson(`${SCRIPT_URL}?action=employees`),
-      safeFetchJson(`${SCRIPT_URL}?action=tasks`)
+      safeFetchJson(`${SCRIPT_URL}?action=tasks`),
+      safeFetchJson(`${SCRIPT_URL}?action=departments`)
     ]);
 
     projectOptions = pData.projects || [];
     employeeOptions = eData.employees || [];
     taskCategories = tData.categories || [];
+    departmentOptions = dData.departments || [];
 
+    populateDepartmentDropdowns();
     renderSetupLists();
     populateFilterDropdowns();
 
@@ -673,6 +668,19 @@ async function loadOptions() {
     status.innerText = 'تعذر تحميل بيانات النظام: ' + err.message;
     status.className = 'status err';
   }
+}
+
+function populateDepartmentDropdowns() {
+  const deptSel = document.getElementById('employeeDept');
+  const prevDept = deptSel.value;
+  deptSel.innerHTML = optionsHtml(departmentOptions, 'اختر القسم...');
+  if (departmentOptions.includes(prevDept)) deptSel.value = prevDept;
+
+  const filterDeptSel = document.getElementById('filterDept');
+  const prevFilter = filterDeptSel.value;
+  filterDeptSel.innerHTML = '<option value="">كل الأقسام</option>' +
+    departmentOptions.map(d => '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>').join('');
+  if (departmentOptions.includes(prevFilter)) filterDeptSel.value = prevFilter;
 }
 
 function onDeptChange(){
