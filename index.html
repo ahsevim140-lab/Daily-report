@@ -74,8 +74,8 @@
     cursor:pointer;
     transition:background .15s ease, color .15s ease;
   }
-  .nav-btn:hover{background:var(--gold);color:var(--green-900);}
-  .nav-btn.active{background:var(--gold);color:var(--green-900);}
+  .nav-btn:hover, .nav-btn.active{background:var(--gold);color:var(--green-900);}
+  
   .divider{
     display:flex;
     align-items:center;
@@ -98,9 +98,7 @@
     padding:36px 20px 60px;
     transition:max-width .2s ease;
   }
-  main.wide{
-    max-width:1400px;
-  }
+  main.wide{max-width:1400px;}
   .card{
     background:var(--card);
     border:1px solid var(--line);
@@ -292,7 +290,6 @@
   }
   .key-row button:hover{background:var(--green-800);}
   .key-row button:disabled{opacity:0.5;cursor:not-allowed;}
-  .key-row button:disabled:hover{background:var(--gold);}
 
   .filter-bar{
     display:flex;
@@ -375,10 +372,6 @@
   }
   .pin-box input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,155,94,0.18);}
   .pin-box-actions{display:flex;gap:10px;margin-top:16px;}
-  .pin-cancel{
-    flex:1;background:transparent;border:1px solid var(--line);color:var(--ink);
-    padding:9px;border-radius:4px;cursor:pointer;font-size:13px;font-family:inherit;
-  }
   .pin-unlock{
     flex:1;background:var(--green-900);color:#F2EEDD;border:none;
     padding:9px;border-radius:4px;cursor:pointer;font-size:13px;font-family:inherit;
@@ -405,4 +398,495 @@
 <div id="appRoot" style="display:none;">
 
 <div class="topbar">
-  <img class="topbar-logo" src="data:image/png;base64,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
+  <div>
+    <h1>سجل التقارير اليومية</h1>
+    <div class="eyebrow">نظام إدارة المتابعة والتقارير</div>
+  </div>
+  <div class="nav-btns">
+    <button class="nav-btn active" id="btnForm" onclick="switchView('form')">النموذج</button>
+    <button class="nav-btn" id="btnSetup" onclick="switchView('setup')">الإعدادات</button>
+    <button class="nav-btn" id="btnManager" onclick="switchView('manager')">سجل المدير</button>
+  </div>
+</div>
+<div class="divider">
+  <div class="line"></div>
+  <div class="diamond"></div>
+  <div class="line"></div>
+</div>
+<div class="divider-spacer"></div>
+
+<main id="mainContainer">
+  <!-- FORM VIEW -->
+  <div id="viewForm" class="view active">
+    <div class="card">
+      <form id="reportForm" onsubmit="handleSubmit(event)">
+        <div class="row2">
+          <div class="field">
+            <label>القسم</label>
+            <select id="employeeDept" required onchange="onDeptChange()">
+              <option value="">اختر القسم...</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Civil">Civil</option>
+              <option value="Architecture">Architecture</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>الاسم</label>
+            <select id="employeeName" required>
+              <option value="">اختر القسم أولاً…</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="entriesContainer"></div>
+
+        <button type="button" class="add-entry-btn" onclick="addEntry()">+ إضافة إنجاز آخر</button>
+        <button type="submit" class="submit-btn" id="submitBtn">إرسال التقرير</button>
+        <div class="status" id="statusMsg"></div>
+      </form>
+    </div>
+    <div class="footnote">تأكد من اختيار بيانات المهام بدقة قبل إرسال التقرير النهائي.</div>
+  </div>
+
+  <!-- SETUP VIEW -->
+  <div id="viewSetup" class="view">
+    <div class="card">
+      <h2 class="section-title">القوائم المتاحة بالنظام</h2>
+      <div class="list-block">
+        <h3>المشاريع (Projects)</h3>
+        <div class="pill-list" id="projectPills"></div>
+      </div>
+      <div class="list-block">
+        <h3>تصنيفات المهام (Tasks)</h3>
+        <div id="taskBox"></div>
+      </div>
+      <div class="hint">ملاحظة: يمكنك تعديل أو إضافة عناصر جديدة مباشرة عبر الجداول المقابلة داخل ملف Google Sheet الخاص بالنظام.</div>
+    </div>
+  </div>
+
+  <!-- MANAGER VIEW -->
+  <div id="viewManager" class="view">
+    <div class="card">
+      <h2 class="section-title">عرض تقارير الإنجاز</h2>
+      <div class="key-row">
+        <input type="password" id="managerKeyInput" placeholder="أدخل رمز المدير..." autocomplete="off">
+        <button type="button" id="loadReportsBtn" onclick="loadManagerReports()">عرض</button>
+      </div>
+      <div id="managerContent" style="display:none;">
+        <div class="filter-bar">
+          <select id="filterDept" onchange="applyManagerFilters()">
+            <option value="">كل الأقسام</option>
+            <option value="Mechanical">Mechanical</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Civil">Civil</option>
+            <option value="Architecture">Architecture</option>
+          </select>
+          <select id="filterName" onchange="applyManagerFilters()">
+            <option value="">كل الموظفين</option>
+          </select>
+          <select id="filterProject" onchange="applyManagerFilters()">
+            <option value="">كل المشاريع</option>
+          </select>
+          <select id="filterTask" onchange="applyManagerFilters()">
+            <option value="">كل المهام</option>
+          </select>
+          <input type="date" id="filterDate" onchange="applyManagerFilters()">
+          <button type="button" class="clear-filters-btn" onclick="clearManagerFilters()">إعادة ضبط</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>التاريخ والوقت</th>
+                <th>القسم</th>
+                <th>الاسم</th>
+                <th>المشروع</th>
+                <th>المبنى</th>
+                <th>المهمة</th>
+                <th>الإنجاز</th>
+                <th>تفاصيل التقرير</th>
+              </tr>
+            </thead>
+            <tbody id="reportsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<script>
+const SUBMIT_KEY = '2026';
+
+const DEPT_CATEGORY_MAP = {
+  'Mechanical': ['ميكانيكي'],
+  'Electrical': ['كهربائي'],
+  'Civil': ['انشائي'],
+  'Architecture': ['معماري']
+};
+const ALWAYS_CATEGORIES = ['اجتماع', 'وضع راهن'];
+
+let projectOptions = [];
+let employeeOptions = [];
+let taskCategories = [];
+let entryCount = 0;
+let rawManagerReports = [];
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function optionsHtml(list, placeholder) {
+  let html = '<option value="">' + escapeHtml(placeholder) + '</option>';
+  list.forEach(item => {
+    html += '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
+  });
+  return html;
+}
+
+function allowedCategoriesForDept(dept){
+  const extra = DEPT_CATEGORY_MAP[dept] || [];
+  return ALWAYS_CATEGORIES.concat(extra);
+}
+
+function taskOptionsHtmlForDept(dept){
+  const allowed = allowedCategoriesForDept(dept);
+  let groups = taskCategories.filter(c => allowed.includes(c.main));
+  if (groups.length === 0) groups = taskCategories;
+  let html = '<option value="">اختر مهمة…</option>';
+  groups.forEach(group => {
+    html += '<optgroup label="' + escapeHtml(group.main) + '">';
+    group.subs.forEach(sub => {
+      html += '<option value="' + escapeHtml(sub) + '">' + escapeHtml(sub) + '</option>';
+    });
+    html += '</optgroup>';
+  });
+  return html;
+}
+
+async function checkGate() {
+  const pinInput = document.getElementById('gateInput');
+  const gateError = document.getElementById('gateError');
+  const key = pinInput.value.trim();
+
+  gateError.classList.remove('show');
+  if (!key) return;
+
+  try {
+    const res = await fetch(`?action=verify&key=${encodeURIComponent(key)}`);
+    const data = await res.json();
+
+    if (data.ok) {
+      document.getElementById('gateOverlay').classList.remove('active');
+      document.getElementById('appRoot').style.display = 'block';
+      loadOptions();
+    } else {
+      gateError.classList.add('show');
+    }
+  } catch (err) {
+    gateError.innerText = 'حدث خطأ أثناء الاتصال بالخادم.';
+    gateError.classList.add('show');
+  }
+}
+
+document.getElementById('gateInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') checkGate();
+});
+
+async function loadOptions() {
+  try {
+    const [pRes, eRes, tRes] = await Promise.all([
+      fetch('?action=projects'),
+      fetch('?action=employees'),
+      fetch('?action=tasks')
+    ]);
+    const pData = await pRes.json();
+    const eData = await eRes.json();
+    const tData = await tRes.json();
+
+    projectOptions = pData.projects || [];
+    employeeOptions = eData.employees || [];
+    taskCategories = tData.categories || [];
+
+    renderSetupLists();
+    populateFilterDropdowns();
+
+    if (document.getElementById('entriesContainer').children.length === 0) {
+      addEntry();
+    }
+  } catch (err) {
+    console.error('Error loading backend data:', err);
+  }
+}
+
+function onDeptChange(){
+  const dept = document.getElementById('employeeDept').value;
+  const nameSel = document.getElementById('employeeName');
+  if(!dept){
+    nameSel.innerHTML = '<option value="">اختر القسم أولاً…</option>';
+  } else {
+    const names = employeeOptions.filter(e => e.department === dept).map(e => e.name);
+    nameSel.innerHTML = optionsHtml(names, 'اختر اسمك…');
+  }
+  document.querySelectorAll('.entry-card select[id^="task-"]').forEach(sel => {
+    const prev = sel.value;
+    sel.innerHTML = taskOptionsHtmlForDept(dept);
+    if([...sel.options].some(o => o.value === prev)) sel.value = prev;
+  });
+}
+
+function addEntry() {
+  entryCount++;
+  const id = entryCount;
+  const container = document.getElementById('entriesContainer');
+
+  const card = document.createElement('div');
+  card.className = 'entry-card';
+  card.id = 'entryCard-' + id;
+
+  const currentDept = document.getElementById('employeeDept').value;
+
+  card.innerHTML = `
+    <div class="entry-head">
+      <span class="entry-label">الإنجاز #${id}</span>
+      ${id > 1 ? `<button type="button" class="remove-entry" onclick="removeEntry(${id})">حذف</button>` : ''}
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>المشروع</label>
+        <select id="project-${id}" required>
+          ${optionsHtml(projectOptions, 'اختر المشروع…')}
+        </select>
+      </div>
+      <div class="field">
+        <label>المبنى / المنطقة</label>
+        <input type="text" id="building-${id}" placeholder="مثال: مبنى 10" required>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>المهمة</label>
+        <select id="task-${id}" required>${taskOptionsHtmlForDept(currentDept)}</select>
+      </div>
+      <div class="field">
+        <label>نسبة الإنجاز</label>
+        <select id="percentage-${id}" required>
+          <option value="">اختر النسبة…</option>
+          <option value="100%">100%</option>
+          <option value="90%">90%</option>
+          <option value="80%">80%</option>
+          <option value="70%">70%</option>
+          <option value="60%">60%</option>
+          <option value="50%">50%</option>
+          <option value="40%">40%</option>
+          <option value="30%">30%</option>
+          <option value="20%">20%</option>
+          <option value="10%">10%</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>تفاصيل التقرير اليومي</label>
+      <textarea id="report-${id}" placeholder="اكتب التفاصيل هنا..." required></textarea>
+    </div>
+  `;
+  container.appendChild(card);
+}
+
+function removeEntry(id) {
+  const card = document.getElementById('entryCard-' + id);
+  if (card) card.remove();
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('statusMsg');
+
+  const dept = document.getElementById('employeeDept').value;
+  const name = document.getElementById('employeeName').value;
+
+  const entryCards = document.querySelectorAll('.entry-card');
+  const entries = [];
+
+  entryCards.forEach(card => {
+    const id = card.id.replace('entryCard-', '');
+    entries.push({
+      project: document.getElementById(`project-${id}`).value,
+      building: document.getElementById(`building-${id}`).value,
+      task: document.getElementById(`task-${id}`).value,
+      percentage: document.getElementById(`percentage-${id}`).value,
+      report: document.getElementById(`report-${id}`).value
+    });
+  });
+
+  btn.disabled = true;
+  status.style.display = 'none';
+
+  try {
+    const res = await fetch('?', {
+      method: 'POST',
+      body: JSON.stringify({
+        key: SUBMIT_KEY,
+        department: dept,
+        name: name,
+        entries: entries
+      })
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      status.innerText = 'تم إرسال التقرير بنجاح!';
+      status.className = 'status ok';
+      document.getElementById('reportForm').reset();
+      document.getElementById('entriesContainer').innerHTML = '';
+      entryCount = 0;
+      addEntry();
+    } else {
+      throw new Error(data.error || 'فشل الحفظ');
+    }
+  } catch (err) {
+    status.innerText = 'حدث خطأ أثناء الإرسال: ' + err.message;
+    status.className = 'status err';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function switchView(viewName) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+  const mainContainer = document.getElementById('mainContainer');
+
+  if (viewName === 'form') {
+    document.getElementById('btnForm').classList.add('active');
+    document.getElementById('viewForm').classList.add('active');
+    mainContainer.classList.remove('wide');
+  } else if (viewName === 'setup') {
+    document.getElementById('btnSetup').classList.add('active');
+    document.getElementById('viewSetup').classList.add('active');
+    mainContainer.classList.remove('wide');
+  } else if (viewName === 'manager') {
+    document.getElementById('btnManager').classList.add('active');
+    document.getElementById('viewManager').classList.add('active');
+    mainContainer.classList.add('wide');
+  }
+}
+
+function renderSetupLists() {
+  const pList = document.getElementById('projectPills');
+  pList.innerHTML = projectOptions.length
+    ? projectOptions.map(p => '<span class="pill">' + escapeHtml(p) + '</span>').join('')
+    : '<span class="empty-note">لا توجد مشاريع.</span>';
+
+  const tBox = document.getElementById('taskBox');
+  tBox.innerHTML = taskCategories.length
+    ? taskCategories.map(c =>
+        '<div style="margin-bottom:10px;"><strong>' + escapeHtml(c.main) + ':</strong> ' +
+        c.subs.map(s => '<span class="pill">' + escapeHtml(s) + '</span>').join(' ') + '</div>'
+      ).join('')
+    : '<span class="empty-note">لا توجد مهام. أنشئ تبويب Tasks بعمودين (الرئيسي، الفرعي).</span>';
+}
+
+function populateFilterDropdowns() {
+  const nameSel = document.getElementById('filterName');
+  const allNames = [...new Set(employeeOptions.map(e => e.name))];
+  nameSel.innerHTML = '<option value="">كل الموظفين</option>' +
+    allNames.map(n => '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>').join('');
+
+  const projSel = document.getElementById('filterProject');
+  projSel.innerHTML = '<option value="">كل المشاريع</option>' +
+    projectOptions.map(p => '<option value="' + escapeHtml(p) + '">' + escapeHtml(p) + '</option>').join('');
+
+  const taskSel = document.getElementById('filterTask');
+  const allTasks = taskCategories.flatMap(c => c.subs);
+  taskSel.innerHTML = '<option value="">كل المهام</option>' +
+    allTasks.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
+}
+
+async function loadManagerReports() {
+  const key = document.getElementById('managerKeyInput').value.trim();
+  const btn = document.getElementById('loadReportsBtn');
+  if (!key) return;
+
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`?key=${encodeURIComponent(key)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      alert('رمز المدير غير صحيح.');
+      return;
+    }
+
+    rawManagerReports = data.reports || [];
+    document.getElementById('managerContent').style.display = 'block';
+    applyManagerFilters();
+  } catch (err) {
+    alert('حدث خطأ أثناء تحميل التقارير.');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function applyManagerFilters() {
+  const dept = document.getElementById('filterDept').value;
+  const name = document.getElementById('filterName').value;
+  const project = document.getElementById('filterProject').value;
+  const task = document.getElementById('filterTask').value;
+  const dateVal = document.getElementById('filterDate').value;
+
+  const filtered = rawManagerReports.filter(r => {
+    if (dept && r.department !== dept) return false;
+    if (name && r.name !== name) return false;
+    if (project && r.project !== project) return false;
+    if (task && r.task !== task) return false;
+    if (dateVal) {
+      const rDate = new Date(r.timestamp).toISOString().split('T')[0];
+      if (rDate !== dateVal) return false;
+    }
+    return true;
+  });
+
+  const tbody = document.getElementById('reportsTableBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-note">لا توجد تقارير مطابقة للفلاتر.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(r => `
+    <tr>
+      <td>${escapeHtml(new Date(r.timestamp).toLocaleString('ar-EG'))}</td>
+      <td>${escapeHtml(r.department)}</td>
+      <td>${escapeHtml(r.name)}</td>
+      <td>${escapeHtml(r.project)}</td>
+      <td>${escapeHtml(r.building)}</td>
+      <td>${escapeHtml(r.task)}</td>
+      <td>${escapeHtml(r.percentage)}</td>
+      <td>${escapeHtml(r.report)}</td>
+    </tr>
+  `).join('');
+}
+
+function clearManagerFilters() {
+  document.getElementById('filterDept').value = '';
+  document.getElementById('filterName').value = '';
+  document.getElementById('filterProject').value = '';
+  document.getElementById('filterTask').value = '';
+  document.getElementById('filterDate').value = '';
+  applyManagerFilters();
+}
+</script>
+</body>
+</html>
