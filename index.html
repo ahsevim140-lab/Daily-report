@@ -521,6 +521,7 @@
 </div>
 
 <script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFfqUGWCbGcl2VVeAXWMaQfJzcYpbRFsjTRV6n3uPikC6Lprp65BHvv380PqyyPw/exec';
 const SUBMIT_KEY = '2026';
 
 const DEPT_CATEGORY_MAP = {
@@ -625,7 +626,7 @@ async function checkGate() {
   gateBtn.textContent = '...جارٍ التحقق';
 
   try {
-    const data = await safeFetchJson(`?action=verify&key=${encodeURIComponent(key)}`);
+    const data = await safeFetchJson(`${SCRIPT_URL}?action=verify&key=${encodeURIComponent(key)}`);
 
     if (data.ok) {
       document.getElementById('gateOverlay').classList.remove('active');
@@ -651,9 +652,9 @@ document.getElementById('gateInput').addEventListener('keypress', function(e) {
 async function loadOptions() {
   try {
     const [pData, eData, tData] = await Promise.all([
-      safeFetchJson('?action=projects'),
-      safeFetchJson('?action=employees'),
-      safeFetchJson('?action=tasks')
+      safeFetchJson(`${SCRIPT_URL}?action=projects`),
+      safeFetchJson(`${SCRIPT_URL}?action=employees`),
+      safeFetchJson(`${SCRIPT_URL}?action=tasks`)
     ]);
 
     projectOptions = pData.projects || [];
@@ -779,8 +780,10 @@ async function handleSubmit(e) {
   status.style.display = 'none';
 
   try {
-    const data = await safeFetchJson('?', {
+    const data = await safeFetchJson(SCRIPT_URL, {
       method: 'POST',
+      // Use text/plain to avoid a CORS preflight (Apps Script doesn't handle OPTIONS requests)
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         key: SUBMIT_KEY,
         department: dept,
@@ -869,7 +872,7 @@ async function loadManagerReports() {
   btn.disabled = true;
 
   try {
-    const data = await safeFetchJson(`?key=${encodeURIComponent(key)}`);
+    const data = await safeFetchJson(`${SCRIPT_URL}?key=${encodeURIComponent(key)}`);
 
     if (data.error) {
       errBox.innerText = 'رمز المدير غير صحيح.';
