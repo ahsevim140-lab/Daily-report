@@ -472,6 +472,10 @@
       </div>
       <div id="managerErrorMsg" class="pin-error" style="margin-bottom:14px;"></div>
       <div id="managerContent" style="display:none;">
+        <div class="list-block" id="missingBlock">
+          <h3>لم يرسلوا تقرير (للتاريخ المحدد)</h3>
+          <div class="pill-list" id="missingPills"></div>
+        </div>
         <div class="filter-bar">
           <select id="filterDept" onchange="applyManagerFilters()">
             <option value="">كل الأقسام</option>
@@ -890,6 +894,17 @@ async function loadManagerReports() {
 
     rawManagerReports = data.reports || [];
     document.getElementById('managerContent').style.display = 'block';
+
+    // Default to today's date so the "missing reports" list is useful immediately.
+    const dateInput = document.getElementById('filterDate');
+    if (!dateInput.value) {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      dateInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
     applyManagerFilters();
   } catch (err) {
     errBox.innerText = err.message;
@@ -905,6 +920,8 @@ function applyManagerFilters() {
   const project = document.getElementById('filterProject').value;
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
+
+  renderMissingEmployees(dept, dateVal);
 
   const filtered = rawManagerReports.filter(r => {
     if (dept && r.department !== dept) return false;
@@ -936,6 +953,46 @@ function applyManagerFilters() {
       <td>${escapeHtml(r.report)}</td>
     </tr>
   `).join('');
+}
+
+function renderMissingEmployees(dept, dateVal) {
+  const box = document.getElementById('missingPills');
+  const heading = document.querySelector('#missingBlock h3');
+
+  if (!dateVal) {
+    heading.textContent = 'لم يرسلوا تقرير';
+    box.innerHTML = '<span class="empty-note">اختر تاريخًا لعرض من لم يرسل تقريرًا.</span>';
+    return;
+  }
+
+  heading.textContent = `لم يرسلوا تقرير (${dateVal})`;
+
+  // Pool of expected employees for this date: everyone, or just the selected department.
+  const pool = dept
+    ? employeeOptions.filter(e => e.department === dept)
+    : employeeOptions;
+
+  // Names that DID submit a report on this date (optionally within this department).
+  const submitted = new Set(
+    rawManagerReports
+      .filter(r => {
+        if (dept && r.department !== dept) return false;
+        const rDate = new Date(r.timestamp).toISOString().split('T')[0];
+        return rDate === dateVal;
+      })
+      .map(r => r.name)
+  );
+
+  const missing = pool.filter(e => !submitted.has(e.name));
+
+  if (missing.length === 0) {
+    box.innerHTML = '<span class="empty-note">الجميع أرسلوا تقاريرهم لهذا اليوم.</span>';
+    return;
+  }
+
+  box.innerHTML = missing
+    .map(e => '<span class="pill">' + escapeHtml(e.name) + (dept ? '' : ' — ' + escapeHtml(e.department)) + '</span>')
+    .join('');
 }
 
 function clearManagerFilters() {
