@@ -1146,7 +1146,7 @@ function printManagerReport() {
     month: 'long',
     year: 'numeric'
   }).format(reportDate);
-  const departmentLabel = dept || 'جميع الأقسام';
+  const departmentLabel = dept || 'قسم التقييم والتسعير';
   const logoSrc = document.querySelector('.topbar-logo')?.getAttribute('src') || '';
 
   document.getElementById('printHeader').innerHTML = `
