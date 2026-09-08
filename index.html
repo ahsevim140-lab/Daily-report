@@ -336,16 +336,58 @@
   @media print{
     body{background:#fff;}
     #gateOverlay, .topbar, .divider, .divider-spacer, .nav-btns,
-    .key-row, .filter-bar, #missingBlock, .footnote{display:none !important;}
+    .key-row, .filter-bar, #missingBlock, .footnote,
+    #viewManager > .card > .section-title{display:none !important;}
     main.wide{max-width:100%;padding:0;}
     .card{box-shadow:none;border:none;padding:0;}
-    .print-header{display:block;margin-bottom:16px;}
-    .print-header h2{margin:0 0 6px;font-family:"Georgia","Iowan Old Style",serif;color:var(--green-900);}
-    .print-header .print-meta{font-size:12px;color:var(--muted);}
+    .print-header{
+      display:block;
+      text-align:center;
+      margin:0 0 20px;
+      padding:0 0 14px;
+      border-bottom:2px solid var(--gold);
+    }
+    .print-header .print-logo{
+      display:block;
+      width:auto;
+      height:74px;
+      max-width:180px;
+      object-fit:contain;
+      margin:0 auto 8px;
+    }
+    .print-header h1{
+      margin:0 0 6px;
+      font-family:"Georgia","Iowan Old Style",serif;
+      font-size:22px;
+      line-height:1.35;
+      color:var(--green-900);
+    }
+    .print-header h2{
+      margin:0 0 6px;
+      font-family:"Georgia","Iowan Old Style",serif;
+      font-size:18px;
+      color:var(--green-900);
+    }
+    .print-header .print-meta{
+      font-size:13px;
+      line-height:1.7;
+      color:var(--muted);
+    }
     .table-wrap{max-height:none;overflow:visible;border:none;}
-    table{font-size:11px;}
-    th{position:static;background:var(--green-900) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    tr:nth-child(even) td{background:var(--row-alt) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    table{font-size:11.5px;}
+    th{
+      position:static;
+      background:var(--green-900) !important;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+    thead{display:table-header-group;}
+    tr{page-break-inside:avoid;}
+    tr:nth-child(even) td{
+      background:var(--row-alt) !important;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
   }
   .empty-note{color:var(--muted);font-size:13px;padding:14px;text-align:center;}
 
@@ -1095,10 +1137,25 @@ function printManagerReport() {
   if (project) filterParts.push('المشروع: ' + project);
   if (task) filterParts.push('المهمة: ' + task);
 
+  const reportDate = dateVal
+    ? new Date(`${dateVal}T12:00:00`)
+    : new Date();
+  const reportDateLabel = new Intl.DateTimeFormat('ar-EG', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }).format(reportDate);
+  const departmentLabel = dept || 'جميع الأقسام';
+  const logoSrc = document.querySelector('.topbar-logo')?.getAttribute('src') || '';
+
   document.getElementById('printHeader').innerHTML = `
+    ${logoSrc ? `<img class="print-logo" src="${logoSrc}" alt="شعار النظام">` : ''}
+    <h1>${escapeHtml(departmentLabel)}</h1>
     <h2>سجل تقارير الإنجاز</h2>
-    <div class="print-meta">${filterParts.length ? escapeHtml(filterParts.join(' | ')) : 'كل التقارير (بدون فلاتر)'}</div>
-    <div class="print-meta">تاريخ الطباعة: ${escapeHtml(new Date().toLocaleString('ar-EG'))} — عدد السجلات: ${rowCount}</div>
+    <div class="print-meta">${escapeHtml(reportDateLabel)}</div>
+    ${filterParts.length > 1 ? `<div class="print-meta">${escapeHtml(filterParts.filter(part => !part.startsWith('التاريخ:')).join(' | '))}</div>` : ''}
+    <div class="print-meta">عدد السجلات: ${rowCount}</div>
   `;
 
   const originalTitle = document.title;
