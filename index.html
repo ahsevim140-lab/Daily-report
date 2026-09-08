@@ -324,6 +324,29 @@
     white-space:nowrap;
   }
   .clear-filters-btn:hover{border-color:var(--gold);color:var(--ink);}
+  .print-btn{
+    background:transparent;border:1px solid var(--gold);color:var(--green-800);
+    padding:8px 14px;border-radius:4px;font-size:12px;cursor:pointer;
+    font-family:inherit;white-space:nowrap;
+  }
+  .print-btn:hover{background:rgba(184,155,94,0.12);}
+
+  .print-header{display:none;}
+
+  @media print{
+    body{background:#fff;}
+    #gateOverlay, .topbar, .divider, .divider-spacer, .nav-btns,
+    .key-row, .filter-bar, #missingBlock, .footnote{display:none !important;}
+    main.wide{max-width:100%;padding:0;}
+    .card{box-shadow:none;border:none;padding:0;}
+    .print-header{display:block;margin-bottom:16px;}
+    .print-header h2{margin:0 0 6px;font-family:"Georgia","Iowan Old Style",serif;color:var(--green-900);}
+    .print-header .print-meta{font-size:12px;color:var(--muted);}
+    .table-wrap{max-height:none;overflow:visible;border:none;}
+    table{font-size:11px;}
+    th{position:static;background:var(--green-900) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    tr:nth-child(even) td{background:var(--row-alt) !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
   .empty-note{color:var(--muted);font-size:13px;padding:14px;text-align:center;}
 
   .pin-overlay{
@@ -478,6 +501,7 @@
           <h3>لم يرسلوا تقرير (للتاريخ المحدد)</h3>
           <div class="pill-list" id="missingPills"></div>
         </div>
+        <div class="print-header" id="printHeader"></div>
         <div class="filter-bar">
           <select id="filterDept" onchange="applyManagerFilters()">
             <option value="">كل الأقسام</option>
@@ -493,6 +517,7 @@
           </select>
           <input type="date" id="filterDate" onchange="applyManagerFilters()">
           <button type="button" class="clear-filters-btn" onclick="clearManagerFilters()">إعادة ضبط</button>
+          <button type="button" class="print-btn" onclick="printManagerReport()">🖨️ طباعة / حفظ PDF</button>
         </div>
         <div class="table-wrap">
           <table>
@@ -1052,6 +1077,36 @@ function clearManagerFilters() {
   document.getElementById('filterTask').value = '';
   document.getElementById('filterDate').value = '';
   applyManagerFilters();
+}
+
+function printManagerReport() {
+  const dept = document.getElementById('filterDept').value;
+  const name = document.getElementById('filterName').value;
+  const project = document.getElementById('filterProject').value;
+  const task = document.getElementById('filterTask').value;
+  const dateVal = document.getElementById('filterDate').value;
+
+  const rowCount = document.querySelectorAll('#reportsTableBody tr').length;
+
+  const filterParts = [];
+  if (dateVal) filterParts.push('التاريخ: ' + dateVal);
+  if (dept) filterParts.push('القسم: ' + dept);
+  if (name) filterParts.push('الاسم: ' + name);
+  if (project) filterParts.push('المشروع: ' + project);
+  if (task) filterParts.push('المهمة: ' + task);
+
+  document.getElementById('printHeader').innerHTML = `
+    <h2>سجل تقارير الإنجاز</h2>
+    <div class="print-meta">${filterParts.length ? escapeHtml(filterParts.join(' | ')) : 'كل التقارير (بدون فلاتر)'}</div>
+    <div class="print-meta">تاريخ الطباعة: ${escapeHtml(new Date().toLocaleString('ar-EG'))} — عدد السجلات: ${rowCount}</div>
+  `;
+
+  const originalTitle = document.title;
+  document.title = 'تقارير_' + (dateVal || toLocalYMD(new Date()));
+
+  window.print();
+
+  setTimeout(() => { document.title = originalTitle; }, 1000);
 }
 </script>
 </body>
