@@ -1128,8 +1128,6 @@ function printManagerReport() {
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
 
-  const rowCount = document.querySelectorAll('#reportsTableBody tr').length;
-
   const filterParts = [];
   if (dateVal) filterParts.push('التاريخ: ' + dateVal);
   if (dept) filterParts.push('القسم: ' + dept);
@@ -1155,7 +1153,6 @@ function printManagerReport() {
     <h2>سجل تقارير الإنجاز</h2>
     <div class="print-meta">${escapeHtml(reportDateLabel)}</div>
     ${filterParts.length > 1 ? `<div class="print-meta">${escapeHtml(filterParts.filter(part => !part.startsWith('التاريخ:')).join(' | '))}</div>` : ''}
-    <div class="print-meta">عدد السجلات: ${rowCount}</div>
   `;
 
   const originalTitle = document.title;
