@@ -529,6 +529,28 @@
   .pin-error{display:none;color:var(--danger);font-size:12px;margin-top:10px;text-align:center;}
   .pin-error.show{display:block;}
   .pin-loading{opacity:0.6;pointer-events:none;}
+
+  @media print {
+    .print-employee { margin:0 0 12px; page-break-inside:auto; }
+    .print-grouped-table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:9.5px; }
+    .print-grouped-table th { position:static; background:var(--green-800) !important; color:#fff !important; padding:5px 5px; border:1px solid var(--green-800); text-align:center; font-size:9px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-grouped-table td { padding:5px 5px; border:1px solid var(--line); vertical-align:middle; line-height:1.35; overflow-wrap:anywhere; }
+    .print-grouped-table tr:nth-child(even) td { background:var(--row-alt) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-grouped-table tr { page-break-inside:avoid; }
+    .print-grouped-table .merged { background:#fffdf7 !important; font-weight:600; text-align:center; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-grouped-table .employee-cell { background:var(--green-900) !important; color:#fff; font-size:11px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-grouped-table .department-cell { font-size:9px; }
+    .print-grouped-table .percentage-cell { text-align:center; white-space:nowrap; }
+    .print-grouped-table th:nth-child(1), .print-grouped-table td:nth-child(1){width:11%;}
+    .print-grouped-table th:nth-child(2), .print-grouped-table td:nth-child(2){width:9%;}
+    .print-grouped-table th:nth-child(3), .print-grouped-table td:nth-child(3){width:13%;}
+    .print-grouped-table th:nth-child(4), .print-grouped-table td:nth-child(4){width:11%;}
+    .print-grouped-table th:nth-child(5), .print-grouped-table td:nth-child(5){width:14%;}
+    .print-grouped-table th:nth-child(6), .print-grouped-table td:nth-child(6){width:14%;}
+    .print-grouped-table th:nth-child(7), .print-grouped-table td:nth-child(7){width:7%;}
+    .print-grouped-table th:nth-child(8), .print-grouped-table td:nth-child(8){width:21%;}
+  }
+
 </style>
 </head>
 <body>
@@ -638,6 +660,9 @@
           <select id="filterProject" onchange="applyManagerFilters()">
             <option value="">كل المشاريع</option>
           </select>
+          <select id="filterCategory" onchange="applyManagerFilters()">
+            <option value="">كل التصنيفات الرئيسية</option>
+          </select>
           <select id="filterTask" onchange="applyManagerFilters()">
             <option value="">كل المهام</option>
           </select>
@@ -654,6 +679,7 @@
                 <th>الاسم</th>
                 <th>المشروع</th>
                 <th>المبنى</th>
+                <th>التصنيف الرئيسي</th>
                 <th>المهمة</th>
                 <th>الإنجاز</th>
                 <th>تفاصيل التقرير</th>
@@ -721,6 +747,36 @@ function allowedCategoriesForDept(dept){
   // match the "main category" column in the Tasks sheet directly, e.g.
   // both use "ميكانيك" — no separate mapping needed.
   return dept ? ALWAYS_CATEGORIES.concat([dept]) : ALWAYS_CATEGORIES;
+}
+
+function categoriesForDept(dept){
+  const allowed = allowedCategoriesForDept(dept);
+  let groups = taskCategories.filter(c => allowed.includes(c.main));
+  return groups.length ? groups : taskCategories;
+}
+
+function categoryOptionsHtmlForDept(dept){
+  let html = '<option value="">اختر التصنيف…</option>';
+  categoriesForDept(dept).forEach(group => {
+    html += '<option value="' + escapeHtml(group.main) + '">' + escapeHtml(group.main) + '</option>';
+  });
+  return html;
+}
+
+function taskOptionsHtmlForCategory(dept, category){
+  const group = categoriesForDept(dept).find(c => c.main === category);
+  let html = '<option value="">اختر المهمة…</option>';
+  if (group) group.subs.forEach(sub => {
+    html += '<option value="' + escapeHtml(sub) + '">' + escapeHtml(sub) + '</option>';
+  });
+  return html;
+}
+
+function onCategoryChange(id){
+  const dept = document.getElementById('employeeDept').value;
+  const category = document.getElementById('category-' + id).value;
+  const task = document.getElementById('task-' + id);
+  task.innerHTML = taskOptionsHtmlForCategory(dept, category);
 }
 
 function taskOptionsHtmlForDept(dept){
@@ -892,10 +948,16 @@ function onDeptChange(){
     const names = employeeOptions.filter(e => e.department === dept).map(e => e.name);
     nameSel.innerHTML = optionsHtml(names, 'اختر اسمك…');
   }
-  document.querySelectorAll('.entry-card select[id^="task-"]').forEach(sel => {
-    const prev = sel.value;
-    sel.innerHTML = taskOptionsHtmlForDept(dept);
-    if([...sel.options].some(o => o.value === prev)) sel.value = prev;
+  document.querySelectorAll('.entry-card').forEach(card => {
+    const id = card.id.replace('entryCard-', '');
+    const catSel = document.getElementById('category-' + id);
+    const taskSel = document.getElementById('task-' + id);
+    const prevCat = catSel.value;
+    catSel.innerHTML = categoryOptionsHtmlForDept(dept);
+    if ([...catSel.options].some(o => o.value === prevCat)) catSel.value = prevCat;
+    const prevTask = taskSel.value;
+    taskSel.innerHTML = taskOptionsHtmlForCategory(dept, catSel.value);
+    if ([...taskSel.options].some(o => o.value === prevTask)) taskSel.value = prevTask;
   });
 }
 
@@ -929,8 +991,12 @@ function addEntry() {
     </div>
     <div class="row2">
       <div class="field">
+        <label>التصنيف الرئيسي</label>
+        <select id="category-${id}" required onchange="onCategoryChange(${id})">${categoryOptionsHtmlForDept(currentDept)}</select>
+      </div>
+      <div class="field">
         <label>المهمة</label>
-        <select id="task-${id}" required>${taskOptionsHtmlForDept(currentDept)}</select>
+        <select id="task-${id}" required>${taskOptionsHtmlForCategory(currentDept, '')}</select>
       </div>
       <div class="field">
         <label>نسبة الإنجاز</label>
@@ -978,6 +1044,7 @@ async function handleSubmit(e) {
     entries.push({
       project: document.getElementById(`project-${id}`).value,
       building: document.getElementById(`building-${id}`).value,
+      mainCategory: document.getElementById(`category-${id}`).value,
       task: document.getElementById(`task-${id}`).value,
       percentage: document.getElementById(`percentage-${id}`).value,
       report: document.getElementById(`report-${id}`).value
@@ -1068,6 +1135,10 @@ function populateFilterDropdowns() {
   projSel.innerHTML = '<option value="">كل المشاريع</option>' +
     projectOptions.map(p => '<option value="' + escapeHtml(p) + '">' + escapeHtml(p) + '</option>').join('');
 
+  const categorySel = document.getElementById('filterCategory');
+  categorySel.innerHTML = '<option value="">كل التصنيفات الرئيسية</option>' +
+    taskCategories.map(c => '<option value="' + escapeHtml(c.main) + '">' + escapeHtml(c.main) + '</option>').join('');
+
   const taskSel = document.getElementById('filterTask');
   const allTasks = taskCategories.flatMap(c => c.subs);
   taskSel.innerHTML = '<option value="">كل المهام</option>' +
@@ -1115,6 +1186,7 @@ function getFilteredManagerReports() {
   const dept = document.getElementById('filterDept').value;
   const name = document.getElementById('filterName').value;
   const project = document.getElementById('filterProject').value;
+  const category = document.getElementById('filterCategory').value;
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
 
@@ -1122,6 +1194,7 @@ function getFilteredManagerReports() {
     if (dept && r.department !== dept) return false;
     if (name && r.name !== name) return false;
     if (project && r.project !== project) return false;
+    if (category && r.mainCategory !== category) return false;
     if (task && r.task !== task) return false;
     if (dateVal) {
       // Compare using LOCAL date parts, not UTC, so the selected calendar
@@ -1142,7 +1215,7 @@ function applyManagerFilters() {
   const filtered = getFilteredManagerReports();
   const tbody = document.getElementById('reportsTableBody');
   if (filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" class="empty-note">لا توجد تقارير مطابقة للفلاتر.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9" class="empty-note">لا توجد تقارير مطابقة للفلاتر.</td></tr>';
     return;
   }
 
@@ -1153,6 +1226,7 @@ function applyManagerFilters() {
       <td>${escapeHtml(r.name)}</td>
       <td>${escapeHtml(r.project)}</td>
       <td>${escapeHtml(r.building)}</td>
+      <td>${escapeHtml(r.mainCategory)}</td>
       <td>${escapeHtml(r.task)}</td>
       <td>${escapeHtml(r.percentage)}</td>
       <td>${escapeHtml(r.report)}</td>
@@ -1205,6 +1279,7 @@ function clearManagerFilters() {
   document.getElementById('filterDept').value = '';
   document.getElementById('filterName').value = '';
   document.getElementById('filterProject').value = '';
+  document.getElementById('filterCategory').value = '';
   document.getElementById('filterTask').value = '';
   document.getElementById('filterDate').value = '';
   applyManagerFilters();
@@ -1214,6 +1289,7 @@ function printManagerReport() {
   const dept = document.getElementById('filterDept').value;
   const name = document.getElementById('filterName').value;
   const project = document.getElementById('filterProject').value;
+  const category = document.getElementById('filterCategory').value;
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
   const filtered = getFilteredManagerReports();
@@ -1223,134 +1299,88 @@ function printManagerReport() {
   if (dept) filterParts.push('القسم: ' + dept);
   if (name) filterParts.push('الاسم: ' + name);
   if (project) filterParts.push('المشروع: ' + project);
+  if (category) filterParts.push('التصنيف: ' + category);
   if (task) filterParts.push('المهمة: ' + task);
 
-  const reportDate = dateVal
-    ? new Date(`${dateVal}T12:00:00`)
-    : new Date();
-  const reportDateLabel = new Intl.DateTimeFormat('ar-EG', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }).format(reportDate);
+  let reportDateLabel = 'تقرير متعدد الأيام';
+  if (dateVal) {
+    reportDateLabel = new Intl.DateTimeFormat('ar-EG', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+      .format(new Date(`${dateVal}T12:00:00`));
+  } else if (filtered.length) {
+    const days = [...new Set(filtered.map(r => toLocalYMD(new Date(r.timestamp))))].sort();
+    if (days.length === 1) {
+      reportDateLabel = new Intl.DateTimeFormat('ar-EG', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+        .format(new Date(`${days[0]}T12:00:00`));
+    } else if (days.length > 1) {
+      reportDateLabel = `الفترة: ${days[0]} إلى ${days[days.length - 1]}`;
+    }
+  }
+
   const departmentLabel = dept || 'قسم التقييم والتسعير';
   const logoSrc = document.querySelector('.topbar-logo')?.getAttribute('src') || '';
-
   document.getElementById('printHeader').innerHTML = `
     ${logoSrc ? `<img class="print-logo" src="${logoSrc}" alt="شعار النظام">` : ''}
     <h1>${escapeHtml(departmentLabel)}</h1>
     <h2>سجل تقارير الإنجاز</h2>
     <div class="print-meta">${escapeHtml(reportDateLabel)}</div>
-    ${filterParts.length > 1 ? `<div class="print-meta">${escapeHtml(filterParts.filter(part => !part.startsWith('التاريخ:')).join(' | '))}</div>` : ''}
+    ${filterParts.length ? `<div class="print-meta">${escapeHtml(filterParts.join(' | '))}</div>` : ''}
+    <div class="print-meta">وقت الطباعة: ${escapeHtml(new Date().toLocaleString('ar-EG'))}</div>
   `;
 
   const printReport = document.getElementById('printReport');
-
   if (!filtered.length) {
     printReport.innerHTML = '<div class="print-empty">لا توجد تقارير مطابقة للفلاتر المحددة.</div>';
   } else {
-    // Preserve the original submission order. Records are grouped only for
-    // presentation: Employee → Project → Building → Task/Report.
-    const employees = new Map();
-
-    filtered.forEach(r => {
-      const employeeKey = r.name || 'اسم غير محدد';
-      if (!employees.has(employeeKey)) {
-        employees.set(employeeKey, {
-          name: employeeKey,
-          department: r.department || '',
-          projects: new Map()
-        });
-      }
-
-      const employee = employees.get(employeeKey);
-      const projectKey = r.project || 'مشروع غير محدد';
-      if (!employee.projects.has(projectKey)) {
-        employee.projects.set(projectKey, {
-          name: projectKey,
-          buildings: new Map()
-        });
-      }
-
-      const projectGroup = employee.projects.get(projectKey);
-      const buildingKey = r.building || 'عام / غير محدد';
-      if (!projectGroup.buildings.has(buildingKey)) {
-        projectGroup.buildings.set(buildingKey, {
-          name: buildingKey,
-          rows: []
-        });
-      }
-
-      projectGroup.buildings.get(buildingKey).rows.push(r);
+    // Keep the requested hierarchy: Employee → Project → Building → Main category → Task.
+    // Each employee is rendered once in a rowspan cell.
+    const employeeGroups = new Map();
+    filtered.forEach((r, index) => {
+      const employeeKey = `${r.department || ''}|${r.name || 'اسم غير محدد'}`;
+      if (!employeeGroups.has(employeeKey)) employeeGroups.set(employeeKey, { name:r.name || 'اسم غير محدد', department:r.department || '', rows:[] });
+      employeeGroups.get(employeeKey).rows.push({ ...r, _index:index });
     });
 
     let html = '';
-
-    employees.forEach(employee => {
-      html += `
-        <section class="print-employee">
-          <div class="print-employee-heading">
-            ${escapeHtml(employee.name)}
-            ${employee.department ? `<span class="print-employee-dept">القسم: ${escapeHtml(employee.department)}</span>` : ''}
-          </div>
-      `;
-
-      employee.projects.forEach(projectGroup => {
-        html += `
-          <section class="print-project">
-            <div class="print-project-heading">المشروع: ${escapeHtml(projectGroup.name)}</div>
-        `;
-
-        projectGroup.buildings.forEach(buildingGroup => {
-          html += `
-            <section class="print-building">
-              <div class="print-building-heading">المبنى: ${escapeHtml(buildingGroup.name)}</div>
-              <table class="print-building-table">
-                <thead>
-                  <tr>
-                    <th>المهمة</th>
-                    <th>الإنجاز</th>
-                    <th>تفاصيل التقرير</th>
-                  </tr>
-                </thead>
-                <tbody>
-          `;
-
-          buildingGroup.rows.forEach(r => {
-            html += `
-                  <tr>
-                    <td>${escapeHtml(r.task)}</td>
-                    <td>${escapeHtml(r.percentage)}</td>
-                    <td>${escapeHtml(r.report)}</td>
-                  </tr>
-            `;
-          });
-
-          html += `
-                </tbody>
-              </table>
-            </section>
-          `;
-        });
-
-        html += '</section>';
+    employeeGroups.forEach(employee => {
+      const rows = employee.rows.slice().sort((a, b) => {
+        const ak = [a.project || 'مشروع غير محدد', a.building || 'عام / غير محدد', a.mainCategory || 'غير مصنف'];
+        const bk = [b.project || 'مشروع غير محدد', b.building || 'عام / غير محدد', b.mainCategory || 'غير مصنف'];
+        return ak.join('\u0000').localeCompare(bk.join('\u0000'), 'ar') || a._index - b._index;
       });
+      const employeeRowspan = rows.length;
+      html += `<section class="print-employee"><table class="print-grouped-table"><thead><tr>
+        <th class="employee-col">الموظف</th><th class="department-col">القسم</th><th>المشروع</th><th>المبنى</th>
+        <th>التصنيف الرئيسي</th><th>المهمة</th><th class="percentage-col">الإنجاز</th><th>تفاصيل التقرير</th>
+      </tr></thead><tbody>`;
 
-      html += '</section>';
+      const rendered = new Set();
+      rows.forEach((r, i) => {
+        const projectKey = r.project || 'مشروع غير محدد';
+        const buildingKey = `${projectKey}|${r.building || 'عام / غير محدد'}`;
+        const categoryKey = `${buildingKey}|${r.mainCategory || 'غير مصنف'}`;
+        const projectCount = rows.filter(x => (x.project || 'مشروع غير محدد') === projectKey).length;
+        const buildingCount = rows.filter(x => `${x.project || 'مشروع غير محدد'}|${x.building || 'عام / غير محدد'}` === buildingKey).length;
+        const categoryCount = rows.filter(x => `${x.project || 'مشروع غير محدد'}|${x.building || 'عام / غير محدد'}|${x.mainCategory || 'غير مصنف'}` === categoryKey).length;
+        const cells = [];
+        if (i === 0) {
+          cells.push(`<td rowspan="${employeeRowspan}" class="merged employee-cell">${escapeHtml(employee.name)}</td>`);
+          cells.push(`<td rowspan="${employeeRowspan}" class="merged department-cell">${escapeHtml(employee.department)}</td>`);
+        }
+        if (!rendered.has('p|' + projectKey)) { cells.push(`<td rowspan="${projectCount}" class="merged project-cell">${escapeHtml(projectKey)}</td>`); rendered.add('p|' + projectKey); }
+        if (!rendered.has('b|' + buildingKey)) { cells.push(`<td rowspan="${buildingCount}" class="merged building-cell">${escapeHtml(r.building || 'عام / غير محدد')}</td>`); rendered.add('b|' + buildingKey); }
+        if (!rendered.has('c|' + categoryKey)) { cells.push(`<td rowspan="${categoryCount}" class="merged category-cell">${escapeHtml(r.mainCategory || 'غير مصنف')}</td>`); rendered.add('c|' + categoryKey); }
+        cells.push(`<td>${escapeHtml(r.task)}</td><td class="percentage-cell">${escapeHtml(r.percentage)}</td><td>${escapeHtml(r.report)}</td>`);
+        html += '<tr>' + cells.join('') + '</tr>';
+      });
+      html += '</tbody></table></section>';
     });
-
     printReport.innerHTML = html;
   }
 
   const originalTitle = document.title;
   document.title = 'تقارير_' + (dateVal || toLocalYMD(new Date()));
-
   window.print();
-
-  setTimeout(() => {
-    document.title = originalTitle;
-  }, 1000);
+  setTimeout(() => { document.title = originalTitle; }, 1000);
 }
 </script>
 </body>
