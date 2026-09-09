@@ -1294,14 +1294,6 @@ function printManagerReport() {
   const dateVal = document.getElementById('filterDate').value;
   const filtered = getFilteredManagerReports();
 
-  const filterParts = [];
-  if (dateVal) filterParts.push('التاريخ: ' + dateVal);
-  if (dept) filterParts.push('القسم: ' + dept);
-  if (name) filterParts.push('الاسم: ' + name);
-  if (project) filterParts.push('المشروع: ' + project);
-  if (category) filterParts.push('التصنيف: ' + category);
-  if (task) filterParts.push('المهمة: ' + task);
-
   let reportDateLabel = 'تقرير متعدد الأيام';
   if (dateVal) {
     reportDateLabel = new Intl.DateTimeFormat('ar-EG', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
@@ -1323,8 +1315,6 @@ function printManagerReport() {
     <h1>${escapeHtml(departmentLabel)}</h1>
     <h2>سجل تقارير الإنجاز</h2>
     <div class="print-meta">${escapeHtml(reportDateLabel)}</div>
-    ${filterParts.length ? `<div class="print-meta">${escapeHtml(filterParts.join(' | '))}</div>` : ''}
-    <div class="print-meta">وقت الطباعة: ${escapeHtml(new Date().toLocaleString('ar-EG'))}</div>
   `;
 
   const printReport = document.getElementById('printReport');
