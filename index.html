@@ -332,18 +332,20 @@
   .print-btn:hover{background:rgba(184,155,94,0.12);}
 
   .print-header{display:none;}
+  .print-report{display:none;}
 
   @media print{
+    @page{size:A4 portrait;margin:14mm 12mm 16mm;}
     body{background:#fff;}
     #gateOverlay, .topbar, .divider, .divider-spacer, .nav-btns,
-    .key-row, .filter-bar, #missingBlock, .footnote,
+    .key-row, .filter-bar, #missingBlock, .footnote, .table-wrap,
     #viewManager > .card > .section-title{display:none !important;}
     main.wide{max-width:100%;padding:0;}
     .card{box-shadow:none;border:none;padding:0;}
     .print-header{
       display:block;
       text-align:center;
-      margin:0 0 20px;
+      margin:0 0 18px;
       padding:0 0 14px;
       border-bottom:2px solid var(--gold);
     }
@@ -373,20 +375,101 @@
       line-height:1.7;
       color:var(--muted);
     }
-    .table-wrap{max-height:none;overflow:visible;border:none;}
-    table{font-size:11.5px;}
-    th{
-      position:static;
-      background:var(--green-900) !important;
+
+    .print-report{display:block;}
+    .print-employee{
+      margin:0 0 18px;
+      page-break-inside:auto;
+    }
+    .print-employee-heading{
+      background:var(--green-900);
+      color:#fff;
+      padding:9px 12px;
+      margin:0 0 10px;
+      font-size:17px;
+      font-weight:700;
+      border-radius:3px;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+      page-break-after:avoid;
+    }
+    .print-employee-dept{
+      display:block;
+      margin-top:3px;
+      font-size:11px;
+      font-weight:400;
+      opacity:.9;
+    }
+    .print-project{
+      margin:0 0 15px;
+      page-break-inside:auto;
+    }
+    .print-project-heading{
+      margin:10px 0 7px;
+      padding:6px 9px;
+      border-right:4px solid var(--gold);
+      background:var(--row-alt);
+      color:var(--green-900);
+      font-size:15px;
+      font-weight:700;
+      page-break-after:avoid;
       -webkit-print-color-adjust:exact;
       print-color-adjust:exact;
     }
-    thead{display:table-header-group;}
-    tr{page-break-inside:avoid;}
-    tr:nth-child(even) td{
+    .print-building{
+      margin:0 0 12px;
+      page-break-inside:auto;
+    }
+    .print-building-heading{
+      margin:7px 0 5px;
+      color:var(--ink);
+      font-size:12.5px;
+      font-weight:700;
+      page-break-after:avoid;
+    }
+    .print-building-table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+      font-size:10.5px;
+      margin:0;
+    }
+    .print-building-table th{
+      position:static;
+      background:var(--green-800) !important;
+      color:#fff !important;
+      padding:6px 7px;
+      border:1px solid var(--green-800);
+      text-align:right;
+      font-weight:700;
+      -webkit-print-color-adjust:exact;
+      print-color-adjust:exact;
+    }
+    .print-building-table td{
+      padding:6px 7px;
+      border:1px solid var(--line);
+      vertical-align:top;
+      line-height:1.45;
+      overflow-wrap:anywhere;
+    }
+    .print-building-table th:nth-child(1),
+    .print-building-table td:nth-child(1){width:22%;}
+    .print-building-table th:nth-child(2),
+    .print-building-table td:nth-child(2){width:12%;text-align:center;white-space:nowrap;}
+    .print-building-table th:nth-child(3),
+    .print-building-table td:nth-child(3){width:66%;}
+    .print-building-table tbody tr:nth-child(even) td{
       background:var(--row-alt) !important;
       -webkit-print-color-adjust:exact;
       print-color-adjust:exact;
+    }
+    .print-building-table tr{page-break-inside:avoid;}
+    .print-empty{
+      text-align:center;
+      padding:30px 10px;
+      color:var(--muted);
+      font-size:13px;
+      border:1px solid var(--line);
     }
   }
   .empty-note{color:var(--muted);font-size:13px;padding:14px;text-align:center;}
@@ -544,6 +627,7 @@
           <div class="pill-list" id="missingPills"></div>
         </div>
         <div class="print-header" id="printHeader"></div>
+        <div class="print-report" id="printReport"></div>
         <div class="filter-bar">
           <select id="filterDept" onchange="applyManagerFilters()">
             <option value="">كل الأقسام</option>
@@ -1027,30 +1111,35 @@ async function loadManagerReports() {
   }
 }
 
-function applyManagerFilters() {
+function getFilteredManagerReports() {
   const dept = document.getElementById('filterDept').value;
   const name = document.getElementById('filterName').value;
   const project = document.getElementById('filterProject').value;
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
 
-  renderMissingEmployees(dept, dateVal);
-
-  const filtered = rawManagerReports.filter(r => {
+  return rawManagerReports.filter(r => {
     if (dept && r.department !== dept) return false;
     if (name && r.name !== name) return false;
     if (project && r.project !== project) return false;
     if (task && r.task !== task) return false;
     if (dateVal) {
-      // Compare using LOCAL date parts, not toISOString() (which is UTC
-      // and would misfile late-night/early-morning entries under the
-      // wrong day for timezones ahead of UTC, e.g. Syria at UTC+3).
+      // Compare using LOCAL date parts, not UTC, so the selected calendar
+      // date matches the user's local browser date.
       const rDate = toLocalYMD(new Date(r.timestamp));
       if (rDate !== dateVal) return false;
     }
     return true;
   });
+}
 
+function applyManagerFilters() {
+  const dept = document.getElementById('filterDept').value;
+  const dateVal = document.getElementById('filterDate').value;
+
+  renderMissingEmployees(dept, dateVal);
+
+  const filtered = getFilteredManagerReports();
   const tbody = document.getElementById('reportsTableBody');
   if (filtered.length === 0) {
     tbody.innerHTML = '<tr><td colspan="8" class="empty-note">لا توجد تقارير مطابقة للفلاتر.</td></tr>';
@@ -1127,6 +1216,7 @@ function printManagerReport() {
   const project = document.getElementById('filterProject').value;
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
+  const filtered = getFilteredManagerReports();
 
   const filterParts = [];
   if (dateVal) filterParts.push('التاريخ: ' + dateVal);
@@ -1155,12 +1245,112 @@ function printManagerReport() {
     ${filterParts.length > 1 ? `<div class="print-meta">${escapeHtml(filterParts.filter(part => !part.startsWith('التاريخ:')).join(' | '))}</div>` : ''}
   `;
 
+  const printReport = document.getElementById('printReport');
+
+  if (!filtered.length) {
+    printReport.innerHTML = '<div class="print-empty">لا توجد تقارير مطابقة للفلاتر المحددة.</div>';
+  } else {
+    // Preserve the original submission order. Records are grouped only for
+    // presentation: Employee → Project → Building → Task/Report.
+    const employees = new Map();
+
+    filtered.forEach(r => {
+      const employeeKey = r.name || 'اسم غير محدد';
+      if (!employees.has(employeeKey)) {
+        employees.set(employeeKey, {
+          name: employeeKey,
+          department: r.department || '',
+          projects: new Map()
+        });
+      }
+
+      const employee = employees.get(employeeKey);
+      const projectKey = r.project || 'مشروع غير محدد';
+      if (!employee.projects.has(projectKey)) {
+        employee.projects.set(projectKey, {
+          name: projectKey,
+          buildings: new Map()
+        });
+      }
+
+      const projectGroup = employee.projects.get(projectKey);
+      const buildingKey = r.building || 'عام / غير محدد';
+      if (!projectGroup.buildings.has(buildingKey)) {
+        projectGroup.buildings.set(buildingKey, {
+          name: buildingKey,
+          rows: []
+        });
+      }
+
+      projectGroup.buildings.get(buildingKey).rows.push(r);
+    });
+
+    let html = '';
+
+    employees.forEach(employee => {
+      html += `
+        <section class="print-employee">
+          <div class="print-employee-heading">
+            ${escapeHtml(employee.name)}
+            ${employee.department ? `<span class="print-employee-dept">القسم: ${escapeHtml(employee.department)}</span>` : ''}
+          </div>
+      `;
+
+      employee.projects.forEach(projectGroup => {
+        html += `
+          <section class="print-project">
+            <div class="print-project-heading">المشروع: ${escapeHtml(projectGroup.name)}</div>
+        `;
+
+        projectGroup.buildings.forEach(buildingGroup => {
+          html += `
+            <section class="print-building">
+              <div class="print-building-heading">المبنى: ${escapeHtml(buildingGroup.name)}</div>
+              <table class="print-building-table">
+                <thead>
+                  <tr>
+                    <th>المهمة</th>
+                    <th>الإنجاز</th>
+                    <th>تفاصيل التقرير</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+
+          buildingGroup.rows.forEach(r => {
+            html += `
+                  <tr>
+                    <td>${escapeHtml(r.task)}</td>
+                    <td>${escapeHtml(r.percentage)}</td>
+                    <td>${escapeHtml(r.report)}</td>
+                  </tr>
+            `;
+          });
+
+          html += `
+                </tbody>
+              </table>
+            </section>
+          `;
+        });
+
+        html += '</section>';
+      });
+
+      html += '</section>';
+    });
+
+    printReport.innerHTML = html;
+  }
+
   const originalTitle = document.title;
   document.title = 'تقارير_' + (dateVal || toLocalYMD(new Date()));
 
   window.print();
 
-  setTimeout(() => { document.title = originalTitle; }, 1000);
+  setTimeout(() => {
+    document.title = originalTitle;
+  }, 1000);
 }
 </script>
 </body>
