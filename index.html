@@ -539,6 +539,7 @@
     .print-grouped-table tr { page-break-inside:avoid; }
     .print-grouped-table .merged { background:#fffdf7 !important; font-weight:600; text-align:center; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .print-grouped-table .employee-cell { background:var(--green-900) !important; color:#fff; font-size:11px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .print-attendance { display:block; margin-top:5px; font-size:8.5px; font-weight:400; line-height:1.4; }
     .print-grouped-table .department-cell { font-size:9px; }
     .print-grouped-table .percentage-cell { text-align:center; white-space:nowrap; }
     .print-grouped-table th:nth-child(1), .print-grouped-table td:nth-child(1){width:11%;}
@@ -550,6 +551,23 @@
     .print-grouped-table th:nth-child(7), .print-grouped-table td:nth-child(7){width:7%;}
     .print-grouped-table th:nth-child(8), .print-grouped-table td:nth-child(8){width:21%;}
   }
+
+
+  .manager-tabs{display:flex;gap:8px;margin:0 0 16px;border-bottom:1px solid var(--line);padding-bottom:10px;}
+  .manager-tab{background:transparent;border:1px solid var(--line);color:var(--green-800);padding:8px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px;}
+  .manager-tab.active{background:var(--green-900);border-color:var(--green-900);color:#fff;}
+  .manager-report-panel{display:block;}
+  .manager-report-panel:not(.active){display:none;}
+  .attendance-panel{display:none;}
+  .attendance-panel.active{display:block;}
+  .attendance-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;padding:14px;background:var(--row-alt);border:1px solid var(--line);border-radius:4px;}
+  .attendance-actions label{margin:0;}
+  .attendance-actions input{width:auto;min-width:120px;}
+  .attendance-save{background:var(--green-900);color:#fff;border:0;padding:9px 16px;border-radius:4px;cursor:pointer;font-family:inherit;}
+  .attendance-table input{min-width:100px;padding:6px 8px;font-size:13px;}
+  .attendance-table td,.attendance-table th{text-align:right;}
+  .attendance-status{font-weight:600;white-space:nowrap;}
+  @media print{.manager-tabs,.attendance-panel{display:none !important;}}
 
 </style>
 </head>
@@ -644,6 +662,27 @@
       </div>
       <div id="managerErrorMsg" class="pin-error" style="margin-bottom:14px;"></div>
       <div id="managerContent" style="display:none;">
+        <div class="manager-tabs">
+          <button type="button" class="manager-tab active" id="reportsTabBtn" onclick="showManagerTab('reports')">تقارير الإنجاز</button>
+          <button type="button" class="manager-tab" id="attendanceTabBtn" onclick="showManagerTab('attendance')">الحضور</button>
+        </div>
+        <div id="attendancePanel" class="attendance-panel">
+          <div class="attendance-actions">
+            <label for="attendanceDate">تاريخ الحضور</label>
+            <input type="date" id="attendanceDate">
+            <label for="workStartTime">بداية الدوام</label>
+            <input type="time" id="workStartTime" value="08:00">
+            <button type="button" class="attendance-save" onclick="saveAttendance()">حفظ بيانات الحضور</button>
+          </div>
+          <div class="table-wrap">
+            <table class="attendance-table">
+              <thead><tr><th>الموظف</th><th>القسم</th><th>وقت الحضور</th><th>الحالة</th><th>التأخير بالدقائق</th><th>ملاحظات</th></tr></thead>
+              <tbody id="attendanceTableBody"></tbody>
+            </table>
+          </div>
+          <div class="status" id="attendanceStatus"></div>
+        </div>
+        <div id="reportsPanel" class="manager-report-panel active">
         <div class="list-block" id="missingBlock">
           <h3>لم يرسلوا تقرير (للتاريخ المحدد)</h3>
           <div class="pill-list" id="missingPills"></div>
@@ -688,6 +727,7 @@
             <tbody id="reportsTableBody"></tbody>
           </table>
         </div>
+        </div>
       </div>
     </div>
   </div>
@@ -710,6 +750,9 @@ let employeeOptions = [];
 let taskCategories = [];
 let entryCount = 0;
 let rawManagerReports = [];
+let managerKeyForAttendance = '';
+let attendanceRecords = {};
+let attendanceStartTime = '08:00';
 
 // ---- Local-date helper -------------------------------------------------
 // IMPORTANT: never use Date#toISOString() for "which calendar day is this"
@@ -1145,6 +1188,81 @@ function populateFilterDropdowns() {
     allTasks.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
 }
 
+function showManagerTab(tab){
+  const reports = tab === 'reports';
+  document.getElementById('reportsPanel').classList.toggle('active', reports);
+  document.getElementById('attendancePanel').classList.toggle('active', !reports);
+  document.getElementById('reportsTabBtn').classList.toggle('active', reports);
+  document.getElementById('attendanceTabBtn').classList.toggle('active', !reports);
+  if (!reports) {
+    const date = document.getElementById('filterDate').value || toLocalYMD(new Date());
+    document.getElementById('attendanceDate').value = date;
+    loadAttendance(date);
+  }
+}
+function attendanceKey(dept, name){ return `${dept}|${name}`; }
+function renderAttendanceRows(records){
+  const map = {};
+  (records || []).forEach(r => { map[attendanceKey(r.department, r.name)] = r; });
+  attendanceRecords = map;
+  const body = document.getElementById('attendanceTableBody');
+  body.innerHTML = employeeOptions.map(e => {
+    const r = map[attendanceKey(e.department, e.name)] || {};
+    return `<tr data-dept="${escapeHtml(e.department)}" data-name="${escapeHtml(e.name)}">
+      <td>${escapeHtml(e.name)}</td><td>${escapeHtml(e.department)}</td>
+      <td><input type="time" class="arrival-time" value="${escapeHtml(r.arrivalTime || '')}"></td>
+      <td class="attendance-status">${escapeHtml(r.status || 'لم يسجل')}</td>
+      <td class="late-minutes">${escapeHtml(r.lateMinutes == null ? '—' : r.lateMinutes)}</td>
+      <td><input type="text" class="attendance-note" maxlength="500" value="${escapeHtml(r.note || '')}" placeholder="ملاحظة"></td>
+    </tr>`;
+  }).join('');
+  body.querySelectorAll('.arrival-time').forEach(input => input.addEventListener('change', updateAttendancePreview));
+  updateAttendancePreview();
+}
+function calculateAttendance(arrival, start){
+  if (!arrival) return {status:'لم يسجل', lateMinutes:''};
+  const [ah, am] = arrival.split(':').map(Number); const [sh, sm] = (start || '08:00').split(':').map(Number);
+  const late = Math.max(0, (ah * 60 + am) - (sh * 60 + sm));
+  return {status: late ? 'متأخر' : 'حاضر', lateMinutes: late};
+}
+function updateAttendancePreview(){
+  const start = document.getElementById('workStartTime').value || '08:00';
+  document.querySelectorAll('#attendanceTableBody tr').forEach(row => {
+    const result = calculateAttendance(row.querySelector('.arrival-time').value, start);
+    row.querySelector('.attendance-status').textContent = result.status;
+    row.querySelector('.late-minutes').textContent = result.lateMinutes === '' ? '—' : result.lateMinutes;
+  });
+}
+async function loadAttendance(date){
+  if (!managerKeyForAttendance || !date) return;
+  document.getElementById('attendanceDate').value = date;
+  try {
+    const data = await safeFetchJson(`${SCRIPT_URL}?action=attendance&key=${encodeURIComponent(managerKeyForAttendance)}&date=${encodeURIComponent(date)}`);
+    attendanceStartTime = data.startTime || '08:00';
+    document.getElementById('workStartTime').value = attendanceStartTime;
+    renderAttendanceRows(data.records || []);
+  } catch(err) {
+    const box = document.getElementById('attendanceStatus'); box.innerText = err.message; box.className = 'status err'; box.style.display = 'block';
+  }
+}
+async function saveAttendance(){
+  const date = document.getElementById('attendanceDate').value;
+  const startTime = document.getElementById('workStartTime').value || '08:00';
+  const box = document.getElementById('attendanceStatus');
+  if (!date) { box.innerText = 'اختر تاريخ الحضور أولاً.'; box.className='status err'; box.style.display='block'; return; }
+  const records = [...document.querySelectorAll('#attendanceTableBody tr')].map(row => ({
+    department: row.dataset.dept, name: row.dataset.name,
+    arrivalTime: row.querySelector('.arrival-time').value,
+    note: row.querySelector('.attendance-note').value
+  }));
+  try {
+    const data = await safeFetchJson(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:managerKeyForAttendance, action:'saveAttendance', date, startTime, records})});
+    if (!data.ok) throw new Error(data.error || 'فشل حفظ الحضور');
+    box.innerText = '✓ تم حفظ بيانات الحضور بنجاح.'; box.className='status ok'; box.style.display='block';
+    await loadAttendance(date);
+  } catch(err) { box.innerText = 'حدث خطأ أثناء حفظ الحضور: ' + err.message; box.className='status err'; box.style.display='block'; }
+}
+
 async function loadManagerReports() {
   const key = document.getElementById('managerKeyInput').value.trim();
   const btn = document.getElementById('loadReportsBtn');
@@ -1164,6 +1282,7 @@ async function loadManagerReports() {
     }
 
     rawManagerReports = data.reports || [];
+    managerKeyForAttendance = key;
     document.getElementById('managerContent').style.display = 'block';
 
     // Default to today's date (LOCAL date, not UTC) so the "missing
@@ -1174,6 +1293,7 @@ async function loadManagerReports() {
     }
 
     applyManagerFilters();
+    loadAttendance(dateInput.value);
   } catch (err) {
     errBox.innerText = err.message;
     errBox.classList.add('show');
@@ -1207,6 +1327,7 @@ function getFilteredManagerReports() {
 }
 
 function applyManagerFilters() {
+  if (managerKeyForAttendance && document.getElementById('filterDate').value) loadAttendance(document.getElementById('filterDate').value);
   const dept = document.getElementById('filterDept').value;
   const dateVal = document.getElementById('filterDate').value;
 
@@ -1285,7 +1406,7 @@ function clearManagerFilters() {
   applyManagerFilters();
 }
 
-function printManagerReport() {
+async function printManagerReport() {
   const dept = document.getElementById('filterDept').value;
   const name = document.getElementById('filterName').value;
   const project = document.getElementById('filterProject').value;
@@ -1293,6 +1414,7 @@ function printManagerReport() {
   const task = document.getElementById('filterTask').value;
   const dateVal = document.getElementById('filterDate').value;
   const filtered = getFilteredManagerReports();
+  if (managerKeyForAttendance && dateVal) await loadAttendance(dateVal);
 
   let reportDateLabel = 'تقرير متعدد الأيام';
   if (dateVal) {
@@ -1353,7 +1475,9 @@ function printManagerReport() {
         const categoryCount = rows.filter(x => `${x.project || 'مشروع غير محدد'}|${x.building || 'عام / غير محدد'}|${x.mainCategory || 'غير مصنف'}` === categoryKey).length;
         const cells = [];
         if (i === 0) {
-          cells.push(`<td rowspan="${employeeRowspan}" class="merged employee-cell">${escapeHtml(employee.name)}</td>`);
+          const attendance = attendanceRecords[attendanceKey(employee.department, employee.name)] || {};
+          const attendanceLine = attendance.arrivalTime ? `<span class="print-attendance">وقت الحضور: ${escapeHtml(attendance.arrivalTime)} — ${escapeHtml(attendance.status || '')}</span>` : '';
+          cells.push(`<td rowspan="${employeeRowspan}" class="merged employee-cell">${escapeHtml(employee.name)}${attendanceLine}</td>`);
           cells.push(`<td rowspan="${employeeRowspan}" class="merged department-cell">${escapeHtml(employee.department)}</td>`);
         }
         if (!rendered.has('p|' + projectKey)) { cells.push(`<td rowspan="${projectCount}" class="merged project-cell">${escapeHtml(projectKey)}</td>`); rendered.add('p|' + projectKey); }
