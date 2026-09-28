@@ -542,9 +542,11 @@
   .emp-head .att-line{margin:0;}
   .emp-head .attendance-badge{margin-top:0;}
   .proj-head{padding:7px 14px;background:var(--row-alt);border-inline-start:4px solid var(--gold);color:var(--green-900);font-weight:700;font-size:14px;}
-  .bld-head{padding:8px 14px 2px;font-size:12px;font-weight:700;color:var(--muted);}
-  .task-row{display:grid;grid-template-columns:1fr 160px;gap:2px 14px;align-items:center;padding:6px 14px;border-bottom:1px solid var(--line);}
-  .task-row:last-child{border-bottom:none;}
+  .bld-group{margin:8px 14px 10px;border:1px solid var(--line);border-inline-start:3px solid var(--green-800);border-radius:4px;overflow:hidden;background:#fff;}
+  .bld-head{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:#E8EEDF;color:var(--green-900);font-size:13px;font-weight:700;}
+  .bld-head small{font-weight:400;font-size:11px;color:var(--muted);}
+  .task-row{display:grid;grid-template-columns:1fr 160px;gap:2px 14px;align-items:center;padding:6px 12px;border-bottom:1px dotted var(--line);}
+  .bld-group .task-row:last-child{border-bottom:none;}
   .task-name{font-size:13px;}
   .chip{display:inline-block;margin-inline-start:8px;padding:1px 9px;border-radius:999px;background:var(--row-alt);border:1px solid var(--line);font-size:11px;color:var(--green-800);}
   .task-date{margin-inline-start:8px;font-size:11px;color:var(--muted);}
@@ -556,7 +558,8 @@
   .emp-empty{padding:10px 14px;font-size:13px;color:var(--muted);font-style:italic;}
   @media print{
     .emp-card{margin:0 0 10px;border-color:#999;}
-    .emp-head,.proj-head,.pct-bar,.pct-bar i,.attendance-badge,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .emp-head,.proj-head,.bld-head,.pct-bar,.pct-bar i,.attendance-badge,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .bld-group{break-inside:avoid;}
     .emp-head,.proj-head,.bld-head{break-after:avoid;}
     .task-row{break-inside:avoid;padding:4px 10px;font-size:10.5px;}
   }
@@ -1700,7 +1703,7 @@ function buildEmployeeGroupTables(groups, opts) {
     projects.forEach((buildings, p) => {
       html += `<div class="proj-head">${escapeHtml(p)}</div>`;
       buildings.forEach((rows, b) => {
-        html += `<div class="bld-head">${escapeHtml(b)}</div>`;
+        html += `<div class="bld-group"><div class="bld-head"><span>${escapeHtml(b)}</span><small>${rows.length} مهمة</small></div>`;
         rows.forEach(r => {
           const pct = Math.max(0, Math.min(100, parseInt(r.percentage, 10) || 0));
           const detail = (r.report || '').toString().trim();
@@ -1713,6 +1716,7 @@ function buildEmployeeGroupTables(groups, opts) {
             (detail ? `<div class="task-detail">${escapeHtml(detail)}</div>` : '') +
             `</div>`;
         });
+        html += `</div>`;
       });
     });
     return html + '</div>';
