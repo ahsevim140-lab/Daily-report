@@ -401,70 +401,6 @@
       font-weight:400;
       opacity:.9;
     }
-    .print-project{
-      margin:0 0 15px;
-      page-break-inside:auto;
-    }
-    .print-project-heading{
-      margin:10px 0 7px;
-      padding:6px 9px;
-      border-right:4px solid var(--gold);
-      background:var(--row-alt);
-      color:var(--green-900);
-      font-size:15px;
-      font-weight:700;
-      page-break-after:avoid;
-      -webkit-print-color-adjust:exact;
-      print-color-adjust:exact;
-    }
-    .print-building{
-      margin:0 0 12px;
-      page-break-inside:auto;
-    }
-    .print-building-heading{
-      margin:7px 0 5px;
-      color:var(--ink);
-      font-size:12.5px;
-      font-weight:700;
-      page-break-after:avoid;
-    }
-    .print-building-table{
-      width:100%;
-      border-collapse:collapse;
-      table-layout:fixed;
-      font-size:10.5px;
-      margin:0;
-    }
-    .print-building-table th{
-      position:static;
-      background:var(--green-800) !important;
-      color:#fff !important;
-      padding:6px 7px;
-      border:1px solid var(--green-800);
-      text-align:right;
-      font-weight:700;
-      -webkit-print-color-adjust:exact;
-      print-color-adjust:exact;
-    }
-    .print-building-table td{
-      padding:6px 7px;
-      border:1px solid var(--line);
-      vertical-align:top;
-      line-height:1.45;
-      overflow-wrap:anywhere;
-    }
-    .print-building-table th:nth-child(1),
-    .print-building-table td:nth-child(1){width:22%;}
-    .print-building-table th:nth-child(2),
-    .print-building-table td:nth-child(2){width:12%;text-align:center;white-space:nowrap;}
-    .print-building-table th:nth-child(3),
-    .print-building-table td:nth-child(3){width:66%;}
-    .print-building-table tbody tr:nth-child(even) td{
-      background:var(--row-alt) !important;
-      -webkit-print-color-adjust:exact;
-      print-color-adjust:exact;
-    }
-    .print-building-table tr{page-break-inside:avoid;}
     .print-empty{
       text-align:center;
       padding:30px 10px;
@@ -531,29 +467,6 @@
   .pin-error.show{display:block;}
   .pin-loading{opacity:0.6;pointer-events:none;}
 
-  @media print {
-    .print-employee { margin:0 0 12px; page-break-inside:auto; }
-    .print-grouped-table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:9.5px; }
-    .print-grouped-table th { position:static; background:var(--green-800) !important; color:#fff !important; padding:5px 5px; border:1px solid var(--green-800); text-align:center; font-size:9px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .print-grouped-table td { padding:5px 5px; border:1px solid var(--line); vertical-align:middle; line-height:1.35; overflow-wrap:anywhere; }
-    .print-grouped-table tr:nth-child(even) td { background:var(--row-alt) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .print-grouped-table tr { page-break-inside:avoid; }
-    .print-grouped-table .merged { background:#fffdf7 !important; font-weight:600; text-align:center; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .print-grouped-table .employee-cell { background:var(--green-900) !important; color:#fff; font-size:11px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .print-attendance { display:block; margin-top:5px; font-size:8.5px; font-weight:400; line-height:1.4; }
-    .print-grouped-table .department-cell { font-size:9px; }
-    .print-grouped-table .percentage-cell { text-align:center; white-space:nowrap; }
-    .print-grouped-table th:nth-child(1), .print-grouped-table td:nth-child(1){width:11%;}
-    .print-grouped-table th:nth-child(2), .print-grouped-table td:nth-child(2){width:9%;}
-    .print-grouped-table th:nth-child(3), .print-grouped-table td:nth-child(3){width:13%;}
-    .print-grouped-table th:nth-child(4), .print-grouped-table td:nth-child(4){width:11%;}
-    .print-grouped-table th:nth-child(5), .print-grouped-table td:nth-child(5){width:14%;}
-    .print-grouped-table th:nth-child(6), .print-grouped-table td:nth-child(6){width:14%;}
-    .print-grouped-table th:nth-child(7), .print-grouped-table td:nth-child(7){width:7%;}
-    .print-grouped-table th:nth-child(8), .print-grouped-table td:nth-child(8){width:21%;}
-  }
-
-
   .manager-tabs{display:flex;gap:8px;margin:0 0 16px;border-bottom:1px solid var(--line);padding-bottom:10px;}
   .manager-tab{background:transparent;border:1px solid var(--line);color:var(--green-800);padding:8px 16px;border-radius:4px;cursor:pointer;font-family:inherit;font-size:13px;}
   .manager-tab.active{background:var(--green-900);border-color:var(--green-900);color:#fff;}
@@ -578,7 +491,6 @@
   .grouped-table td.merged{background:#fffdf7;font-weight:600;}
   .grouped-table td.employee-cell{background:var(--green-900);color:#fff;font-weight:700;}
   .grouped-table tr.missing-report-row td{color:var(--muted);font-style:italic;background:var(--row-alt);}
-  .employee-group-spacer{height:14px;}
   .attendance-badge{display:inline-block;margin-top:6px;font-size:11px;padding:2px 9px;border-radius:999px;background:var(--row-alt);color:var(--green-900);font-weight:600;}
   .attendance-badge.vacation{background:#EADFF0;color:#5B3E7A;}
   .attendance-badge.late{background:#F1DFDA;color:var(--danger);}
@@ -610,7 +522,44 @@
   .attendance-badge.absent{background:#F1DFDA;color:var(--danger);}
   .attendance-note-text{display:block;margin-top:4px;font-size:11px;font-weight:400;line-height:1.4;opacity:.9;}
   .attendance-actions input[type=checkbox]{min-width:0;}
-  @media print{ .print-grouped-table .attendance-note-text{font-size:8.5px;} }
+
+  /* ---- Entry form (nested) ---- */
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+  input[readonly]{background:var(--row-alt)!important;color:var(--muted);}
+  .proj-block{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px;}
+  .bld-block{background:var(--row-alt);border:1px solid var(--line);border-radius:6px;padding:14px;margin:0 10px 12px 0;}
+  .task-block{background:var(--card);border:1px solid var(--line);border-inline-start:3px solid var(--gold);border-radius:4px;padding:14px 14px 4px;margin-bottom:12px;}
+  .blk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .add-entry-btn.sub{margin-bottom:12px;padding:9px;font-size:12px;}
+
+  /* ---- Report cards (screen + print) ---- */
+  #reportsTableWrap{max-width:1200px;margin:0 auto;}
+  .emp-card{background:#fff;border:1px solid var(--line);border-radius:6px;margin:0 0 16px;overflow:hidden;}
+  .emp-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;background:var(--green-900);color:#fff;padding:10px 14px;}
+  .emp-name{font-weight:700;font-size:15px;}
+  .emp-dept{font-size:12px;color:var(--gold-light);}
+  .emp-count{margin-inline-start:auto;font-size:12px;opacity:.85;}
+  .emp-head .att-line{margin:0;}
+  .emp-head .attendance-badge{margin-top:0;}
+  .proj-head{padding:7px 14px;background:var(--row-alt);border-inline-start:4px solid var(--gold);color:var(--green-900);font-weight:700;font-size:14px;}
+  .bld-head{padding:8px 14px 2px;font-size:12px;font-weight:700;color:var(--muted);}
+  .task-row{display:grid;grid-template-columns:1fr 160px;gap:2px 14px;align-items:center;padding:6px 14px;border-bottom:1px solid var(--line);}
+  .task-row:last-child{border-bottom:none;}
+  .task-name{font-size:13px;}
+  .chip{display:inline-block;margin-inline-start:8px;padding:1px 9px;border-radius:999px;background:var(--row-alt);border:1px solid var(--line);font-size:11px;color:var(--green-800);}
+  .task-date{margin-inline-start:8px;font-size:11px;color:var(--muted);}
+  .pct{display:flex;align-items:center;gap:8px;}
+  .pct-bar{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden;}
+  .pct-bar i{display:block;height:100%;background:var(--gold);}
+  .pct b{font-size:12px;min-width:34px;text-align:end;}
+  .task-detail{grid-column:1/-1;font-size:12px;color:var(--muted);line-height:1.5;white-space:pre-wrap;}
+  .emp-empty{padding:10px 14px;font-size:13px;color:var(--muted);font-style:italic;}
+  @media print{
+    .emp-card{margin:0 0 10px;border-color:#999;}
+    .emp-head,.proj-head,.pct-bar,.pct-bar i,.attendance-badge,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .emp-head,.proj-head,.bld-head{break-after:avoid;}
+    .task-row{break-inside:avoid;padding:4px 10px;font-size:10.5px;}
+  }
 </style>
 </head>
 <body>
@@ -654,7 +603,11 @@
   <div id="viewForm" class="view active">
     <div class="card">
       <form id="reportForm" onsubmit="handleSubmit(event)">
-        <div class="row2">
+        <div class="row3">
+          <div class="field">
+            <label>التاريخ</label>
+            <input type="text" id="reportDate" readonly>
+          </div>
           <div class="field">
             <label>القسم</label>
             <select id="employeeDept" required onchange="onDeptChange()">
@@ -669,10 +622,10 @@
           </div>
         </div>
 
-        <div id="entriesContainer"></div>
+        <div id="projectsContainer"></div>
 
-        <button type="button" class="add-entry-btn" onclick="addEntry()">+ إضافة مهمة أخرى</button>
-        <button type="submit" class="submit-btn" id="submitBtn">إرسال التقرير</button>
+        <button type="button" class="add-entry-btn" onclick="addProject()">+ إضافة مشروع آخر</button>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>إرسال التقرير</button>
         <div class="status" id="statusMsg"></div>
       </form>
     </div>
@@ -796,7 +749,6 @@ let departmentOptions = [];
 let projectOptions = [];
 let employeeOptions = [];
 let taskCategories = [];
-let entryCount = 0;
 let rawManagerReports = [];
 let managerKeyForAttendance = '';
 let attendanceRecords = {};
@@ -1002,6 +954,7 @@ async function loadOptions() {
   const deptSel = document.getElementById('employeeDept');
   const submitBtn = document.getElementById('submitBtn');
   const status = document.getElementById('statusMsg');
+  document.getElementById('reportDate').value = toLocalYMD(new Date()) + ' — يُسجَّل التقرير بتاريخ اليوم';
 
   deptSel.innerHTML = '<option value="">جارٍ تحميل البيانات...</option>';
   deptSel.disabled = true;
@@ -1026,8 +979,8 @@ async function loadOptions() {
     renderSetupLists();
     populateFilterDropdowns();
 
-    if (document.getElementById('entriesContainer').children.length === 0) {
-      addEntry();
+    if (document.getElementById('projectsContainer').children.length === 0) {
+      addProject();
     }
 
     status.style.display = 'none';
@@ -1037,7 +990,7 @@ async function loadOptions() {
     status.className = 'status err';
   } finally {
     deptSel.disabled = false;
-    submitBtn.disabled = false;
+    updateSubmitState();
   }
 }
 
@@ -1054,145 +1007,161 @@ function populateDepartmentDropdowns() {
   if (departmentOptions.includes(prevFilter)) filterDeptSel.value = prevFilter;
 }
 
-function onDeptChange(){
+let uid = 0;
+const cleanText = s => (s || '').replace(/\s+/g, ' ').trim();
+
+function addProject() {
+  const el = document.createElement('div');
+  el.className = 'proj-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">المشروع</span>
+      <button type="button" class="remove-entry" data-remove="proj-block">حذف المشروع</button></div>
+    <div class="field"><select class="proj-sel" required>${optionsHtml(projectOptions, 'اختر المشروع…')}</select></div>
+    <div class="buildings"></div>
+    <button type="button" class="add-entry-btn sub" data-add="building">+ إضافة مبنى آخر لهذا المشروع</button>`;
+  document.getElementById('projectsContainer').appendChild(el);
+  addBuilding(el);
+  refreshRemoveButtons();
+}
+
+function addBuilding(projEl) {
+  const el = document.createElement('div');
+  el.className = 'bld-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">المبنى / المنطقة</span>
+      <button type="button" class="remove-entry" data-remove="bld-block">حذف المبنى</button></div>
+    <div class="field"><input type="text" class="bld-inp" placeholder="مثال: مبنى 10" maxlength="200" required></div>
+    <div class="tasks"></div>
+    <button type="button" class="add-entry-btn sub" data-add="task">+ إضافة مهمة أخرى لهذا المبنى</button>`;
+  projEl.querySelector('.buildings').appendChild(el);
+  addTask(el);
+}
+
+function addTask(bldEl) {
+  const dept = document.getElementById('employeeDept').value;
+  const pcts = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]
+    .map(p => `<option value="${p}%">${p}%</option>`).join('');
+  const el = document.createElement('div');
+  el.className = 'task-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">مهمة</span>
+      <button type="button" class="remove-entry" data-remove="task-block">حذف</button></div>
+    <div class="row2">
+      <div class="field"><label>التصنيف الرئيسي</label>
+        <select class="cat-sel" required>${categoryOptionsHtmlForDept(dept)}</select></div>
+      <div class="field"><label>المهمة</label>
+        <select class="task-sel" required>${taskOptionsHtmlForCategory(dept, '')}</select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>نسبة الإنجاز</label>
+        <select class="pct-sel" required><option value="">اختر النسبة…</option>${pcts}</select></div>
+    </div>
+    <div class="field"><label>ملاحظات إضافية (اختياري)</label>
+      <textarea class="note-txt" placeholder="تفاصيل إضافية عن المهمة..."></textarea></div>`;
+  bldEl.querySelector('.tasks').appendChild(el);
+}
+
+// Hide a "delete" button when it would remove the last block of its kind.
+function refreshRemoveButtons() {
+  document.querySelectorAll('[data-remove]').forEach(b => {
+    const blk = b.closest('.' + b.dataset.remove);
+    b.hidden = blk.parentElement.children.length < 2;
+  });
+}
+
+function updateSubmitState() {
+  document.getElementById('submitBtn').disabled = !document.getElementById('reportForm').checkValidity();
+}
+
+(function wireForm() {
+  const container = document.getElementById('projectsContainer');
+  const form = document.getElementById('reportForm');
+  container.addEventListener('click', e => {
+    const add = e.target.closest('[data-add]');
+    if (add) {
+      if (add.dataset.add === 'building') addBuilding(add.closest('.proj-block'));
+      else addTask(add.closest('.bld-block'));
+      refreshRemoveButtons(); updateSubmitState();
+      return;
+    }
+    const rm = e.target.closest('[data-remove]');
+    if (rm) {
+      rm.closest('.' + rm.dataset.remove).remove();
+      refreshRemoveButtons(); updateSubmitState();
+    }
+  });
+  // Category -> task list. Registered before the form-level listener below, so it runs first.
+  container.addEventListener('change', e => {
+    if (!e.target.classList.contains('cat-sel')) return;
+    const dept = document.getElementById('employeeDept').value;
+    e.target.closest('.task-block').querySelector('.task-sel').innerHTML =
+      taskOptionsHtmlForCategory(dept, e.target.value);
+  });
+  form.addEventListener('input', updateSubmitState);
+  form.addEventListener('change', updateSubmitState);
+})();
+
+function onDeptChange() {
   const dept = document.getElementById('employeeDept').value;
   const nameSel = document.getElementById('employeeName');
-  if(!dept){
+  if (!dept) {
     nameSel.innerHTML = '<option value="">اختر القسم أولاً…</option>';
   } else {
     const names = employeeOptions.filter(e => e.department === dept).map(e => e.name);
     nameSel.innerHTML = optionsHtml(names, 'اختر اسمك…');
   }
-  document.querySelectorAll('.entry-card').forEach(card => {
-    const id = card.id.replace('entryCard-', '');
-    const catSel = document.getElementById('category-' + id);
-    const taskSel = document.getElementById('task-' + id);
-    if (!catSel || !taskSel) return;
-    const prevCat = catSel.value;
-    catSel.innerHTML = categoryOptionsHtmlForDept(dept);
-    if ([...catSel.options].some(o => o.value === prevCat)) catSel.value = prevCat;
-    const prevTask = taskSel.value;
-    taskSel.innerHTML = taskOptionsHtmlForCategory(dept, catSel.value);
-    if ([...taskSel.options].some(o => o.value === prevTask)) taskSel.value = prevTask;
+  document.querySelectorAll('.task-block').forEach(t => {
+    const cat = t.querySelector('.cat-sel'), task = t.querySelector('.task-sel');
+    const prevCat = cat.value, prevTask = task.value;
+    cat.innerHTML = categoryOptionsHtmlForDept(dept);
+    if ([...cat.options].some(o => o.value === prevCat)) cat.value = prevCat;
+    task.innerHTML = taskOptionsHtmlForCategory(dept, cat.value);
+    if ([...task.options].some(o => o.value === prevTask)) task.value = prevTask;
   });
-}
-
-function addEntry() {
-  entryCount++;
-  const id = entryCount;
-  const container = document.getElementById('entriesContainer');
-
-  const card = document.createElement('div');
-  card.className = 'entry-card';
-  card.id = 'entryCard-' + id;
-
-  const currentDept = document.getElementById('employeeDept').value;
-
-  card.innerHTML = `
-    <div class="entry-head">
-      <span class="entry-label">مهمة #${id}</span>
-      ${id > 1 ? `<button type="button" class="remove-entry" onclick="removeEntry(${id})">حذف</button>` : ''}
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>المشروع</label>
-        <select id="project-${id}" required>
-          ${optionsHtml(projectOptions, 'اختر المشروع…')}
-        </select>
-      </div>
-      <div class="field">
-        <label>المبنى / المنطقة</label>
-        <input type="text" id="building-${id}" placeholder="مثال: مبنى 10" required>
-      </div>
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>التصنيف الرئيسي</label>
-        <select id="category-${id}" required onchange="onCategoryChange(${id})">${categoryOptionsHtmlForDept(currentDept)}</select>
-      </div>
-      <div class="field">
-        <label>المهمة</label>
-        <select id="task-${id}" required>${taskOptionsHtmlForCategory(currentDept, '')}</select>
-      </div>
-      <div class="field">
-        <label>نسبة الإنجاز</label>
-        <select id="percentage-${id}" required>
-          <option value="">اختر النسبة…</option>
-          <option value="100%">100%</option>
-          <option value="90%">90%</option>
-          <option value="80%">80%</option>
-          <option value="70%">70%</option>
-          <option value="60%">60%</option>
-          <option value="50%">50%</option>
-          <option value="40%">40%</option>
-          <option value="30%">30%</option>
-          <option value="20%">20%</option>
-          <option value="10%">10%</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>تفاصيل التقرير اليومي</label>
-      <textarea id="report-${id}" placeholder="اكتب التفاصيل هنا..."></textarea>
-    </div>
-  `;
-  container.appendChild(card);
-}
-
-function removeEntry(id) {
-  const card = document.getElementById('entryCard-' + id);
-  if (card) card.remove();
+  updateSubmitState();
 }
 
 async function handleSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   const status = document.getElementById('statusMsg');
-
   const dept = document.getElementById('employeeDept').value;
   const name = document.getElementById('employeeName').value;
 
-  const entryCards = document.querySelectorAll('#entriesContainer .entry-card');
+  // Flatten Project > Building > Tasks into the same entries[] the backend already expects.
   const entries = [];
-
-  entryCards.forEach(card => {
-    const id = card.id.replace('entryCard-', '');
-    entries.push({
-      project: document.getElementById(`project-${id}`).value,
-      building: document.getElementById(`building-${id}`).value,
-      mainCategory: document.getElementById(`category-${id}`).value,
-      task: document.getElementById(`task-${id}`).value,
-      percentage: document.getElementById(`percentage-${id}`).value,
-      report: document.getElementById(`report-${id}`).value
+  document.querySelectorAll('.proj-block').forEach(p => {
+    const project = p.querySelector('.proj-sel').value;
+    p.querySelectorAll('.bld-block').forEach(b => {
+      const building = cleanText(b.querySelector('.bld-inp').value);
+      b.querySelectorAll('.task-block').forEach(t => {
+        entries.push({
+          project, building,
+          mainCategory: t.querySelector('.cat-sel').value,
+          task: t.querySelector('.task-sel').value,
+          percentage: t.querySelector('.pct-sel').value,
+          report: t.querySelector('.note-txt').value
+        });
+      });
     });
   });
 
   btn.disabled = true;
   status.style.display = 'none';
-
   try {
     const data = await safeFetchJson(SCRIPT_URL, {
       method: 'POST',
-      // Use text/plain to avoid a CORS preflight (Apps Script doesn't handle OPTIONS requests)
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        key: SUBMIT_KEY,
-        department: dept,
-        name: name,
-        entries: entries
-      })
+      body: JSON.stringify({ key: SUBMIT_KEY, department: dept, name: name, entries: entries })
     });
-
     if (data.ok) {
       status.innerText = '✓ تم إرسال التقرير بنجاح!';
       status.className = 'status ok';
       status.style.display = 'block';
       document.getElementById('reportForm').reset();
-      document.getElementById('entriesContainer').innerHTML = '';
-      entryCount = 0;
-      addEntry();
-      // Make sure the confirmation is actually seen: scroll it into view
-      // in case the page was scrolled down while filling the form.
+      document.getElementById('projectsContainer').innerHTML = '';
+      onDeptChange();
+      addProject();
       status.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       throw new Error(data.error || 'فشل الحفظ');
@@ -1201,7 +1170,7 @@ async function handleSubmit(e) {
     status.innerText = 'حدث خطأ أثناء الإرسال: ' + err.message;
     status.className = 'status err';
   } finally {
-    btn.disabled = false;
+    updateSubmitState();
   }
 }
 
@@ -1594,8 +1563,8 @@ function renderReportsTable() {
   const groups = groupReportsByEmployee(filtered);
   // Attendance lines only make sense for a single selected day whose data is loaded.
   const withAtt = !!dateVal && attendanceLoadedFor === dateVal;
-  const tables = buildEmployeeGroupTables(groups, { showDate: true, withAttendance: withAtt, tableClass: 'grouped-table' });
-  wrap.innerHTML = tables.join('<div class="employee-group-spacer"></div>');
+  const tables = buildEmployeeGroupTables(groups, { showDate: !dateVal, withAttendance: withAtt });
+  wrap.innerHTML = tables.join('');
 }
 
 function applyManagerFilters() {
@@ -1692,67 +1661,51 @@ function attendanceLineFor(dept, name, cssClass) {
   return html ? `<div class="att-line">${html}</div>` : '';
 }
 
-// Renders one mini-table per employee (rowspan-merged employee/department/
-// project/building/category columns), matching the printed layout. Returns
-// an array of table HTML strings, one per employee group.
+// Renders one card per employee, nested project > building > task rows.
 function buildEmployeeGroupTables(groups, opts) {
   opts = opts || {};
   const showDate = !!opts.showDate;
   const withAttendance = !!opts.withAttendance;
-  const tableClass = opts.tableClass || 'grouped-table';
   const attendanceClass = opts.attendanceClass || 'attendance-badge';
-  // Fixed column widths so every employee's table lines up (on-screen report only).
-  const colgroup = (tableClass === 'grouped-table' && showDate)
-    ? '<colgroup><col style="width:9%"><col style="width:7%"><col style="width:8%"><col style="width:13%"><col style="width:11%"><col style="width:8%"><col style="width:12%"><col style="width:5%"><col style="width:27%"></colgroup>'
-    : '';
 
   return groups.map(g => {
-    const attendanceLine = withAttendance ? attendanceLineFor(g.department, g.name, attendanceClass) : '';
-    const dateHeader = showDate ? '<th>التاريخ</th>' : '';
+    const att = withAttendance ? attendanceLineFor(g.department, g.name, attendanceClass) : '';
+    let html = `<div class="emp-card"><div class="emp-head">
+      <span class="emp-name">${escapeHtml(g.name)}</span>
+      <span class="emp-dept">${escapeHtml(g.department)}</span>${att}
+      <span class="emp-count">${g.rows.length ? g.rows.length + ' مهمة' : ''}</span></div>`;
 
-    if (!g.rows.length) {
-      return `<table class="${tableClass}">${colgroup}<thead><tr>
-          <th class="employee-col">الموظف</th><th class="department-col">القسم</th>${dateHeader}<th>المشروع</th><th>المبنى</th>
-          <th>التصنيف الرئيسي</th><th>المهمة</th><th class="percentage-col">الإنجاز</th><th>تفاصيل التقرير</th>
-        </tr></thead><tbody>
-          <tr class="missing-report-row">
-            <td class="merged employee-cell">${escapeHtml(g.name)}${attendanceLine}</td>
-            <td class="merged department-cell">${escapeHtml(g.department)}</td>
-            ${showDate ? '<td>—</td>' : ''}
-            <td colspan="6">لم يتم إرسال أي تقرير</td>
-          </tr>
-        </tbody></table>`;
-    }
+    if (!g.rows.length) return html + '<div class="emp-empty">لم يتم إرسال أي تقرير</div></div>';
 
-    const rowspan = g.rows.length;
-    const rendered = new Set();
-    let bodyRows = '';
-    g.rows.forEach((r, i) => {
-      const projectKey = r.project || 'مشروع غير محدد';
-      const buildingKey = `${projectKey}|${r.building || 'عام / غير محدد'}`;
-      const categoryKey = `${buildingKey}|${r.mainCategory || 'غير مصنف'}`;
-      const projectCount = g.rows.filter(x => (x.project || 'مشروع غير محدد') === projectKey).length;
-      const buildingCount = g.rows.filter(x => `${x.project || 'مشروع غير محدد'}|${x.building || 'عام / غير محدد'}` === buildingKey).length;
-      const categoryCount = g.rows.filter(x => `${x.project || 'مشروع غير محدد'}|${x.building || 'عام / غير محدد'}|${x.mainCategory || 'غير مصنف'}` === categoryKey).length;
-      const cells = [];
-      if (i === 0) {
-        cells.push(`<td rowspan="${rowspan}" class="merged employee-cell">${escapeHtml(g.name)}${attendanceLine}</td>`);
-        cells.push(`<td rowspan="${rowspan}" class="merged department-cell">${escapeHtml(g.department)}</td>`);
-      }
-      if (showDate) {
-        cells.push(`<td>${escapeHtml(toLocalYMD(new Date(r.timestamp)))}</td>`);
-      }
-      if (!rendered.has('p|' + projectKey)) { cells.push(`<td rowspan="${projectCount}" class="merged project-cell">${escapeHtml(projectKey)}</td>`); rendered.add('p|' + projectKey); }
-      if (!rendered.has('b|' + buildingKey)) { cells.push(`<td rowspan="${buildingCount}" class="merged building-cell">${escapeHtml(r.building || 'عام / غير محدد')}</td>`); rendered.add('b|' + buildingKey); }
-      if (!rendered.has('c|' + categoryKey)) { cells.push(`<td rowspan="${categoryCount}" class="merged category-cell">${escapeHtml(r.mainCategory || 'غير مصنف')}</td>`); rendered.add('c|' + categoryKey); }
-      cells.push(`<td>${escapeHtml(r.task)}</td><td class="percentage-cell">${escapeHtml(r.percentage)}</td><td>${escapeHtml(r.report)}</td>`);
-      bodyRows += '<tr>' + cells.join('') + '</tr>';
+    // rows are already sorted project > building > category
+    const projects = new Map();
+    g.rows.forEach(r => {
+      const p = r.project || 'مشروع غير محدد', b = r.building || 'عام / غير محدد';
+      if (!projects.has(p)) projects.set(p, new Map());
+      const bm = projects.get(p);
+      if (!bm.has(b)) bm.set(b, []);
+      bm.get(b).push(r);
     });
 
-    return `<table class="${tableClass}">${colgroup}<thead><tr>
-        <th class="employee-col">الموظف</th><th class="department-col">القسم</th>${dateHeader}<th>المشروع</th><th>المبنى</th>
-        <th>التصنيف الرئيسي</th><th>المهمة</th><th class="percentage-col">الإنجاز</th><th>تفاصيل التقرير</th>
-      </tr></thead><tbody>${bodyRows}</tbody></table>`;
+    projects.forEach((buildings, p) => {
+      html += `<div class="proj-head">${escapeHtml(p)}</div>`;
+      buildings.forEach((rows, b) => {
+        html += `<div class="bld-head">${escapeHtml(b)}</div>`;
+        rows.forEach(r => {
+          const pct = Math.max(0, Math.min(100, parseInt(r.percentage, 10) || 0));
+          const detail = (r.report || '').toString().trim();
+          html += `<div class="task-row">
+            <div><span class="task-name">${escapeHtml(r.task)}</span>` +
+            (r.mainCategory ? `<span class="chip">${escapeHtml(r.mainCategory)}</span>` : '') +
+            (showDate ? `<span class="task-date">${escapeHtml(toLocalYMD(new Date(r.timestamp)))}</span>` : '') +
+            `</div>
+            <div class="pct"><div class="pct-bar"><i style="width:${pct}%"></i></div><b>${pct}%</b></div>` +
+            (detail ? `<div class="task-detail">${escapeHtml(detail)}</div>` : '') +
+            `</div>`;
+        });
+      });
+    });
+    return html + '</div>';
   });
 }
 
@@ -1824,10 +1777,8 @@ async function printManagerReport() {
     printReport.innerHTML = '<div class="print-empty">لا توجد تقارير مطابقة للفلاتر المحددة.</div>';
   } else {
     const tables = buildEmployeeGroupTables(groups, {
-      showDate: false,
-      withAttendance: !!dateVal && attendanceLoadedFor === dateVal,
-      tableClass: 'print-grouped-table',
-      attendanceClass: 'print-attendance'
+      showDate: !dateVal,
+      withAttendance: !!dateVal && attendanceLoadedFor === dateVal
     });
     printReport.innerHTML = tables.map(t => `<section class="print-employee">${t}</section>`).join('');
   }
