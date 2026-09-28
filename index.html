@@ -765,7 +765,8 @@ let arQuery = null;
 let attendanceLoadedFor = '';
 let managerUnlocked = false;
 let attendanceAutoRefreshTimer = null;
-let attendanceCurrentDate = '';
+let attendanceDirty = false;
+let attendanceFollowsToday = true;
 
 // ---- Local-date helper -------------------------------------------------
 // IMPORTANT: never use Date#toISOString() for "which calendar day is this"
@@ -778,10 +779,6 @@ function toLocalYMD(date) {
   const mm = String(date.getMonth() + 1).padStart(2, '0');
   const dd = String(date.getDate()).padStart(2, '0');
   return `${yyyy}-${mm}-${dd}`;
-}
-
-function getTodayLocal() {
-  return toLocalYMD(new Date());
 }
 
 // ---- Department ordering: مدني, معماري, كهرباء, ميكانيك (anything else last) ----
@@ -1249,30 +1246,32 @@ function populateFilterDropdowns() {
     allTasks.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
 }
 
-// ---- Attendance auto-refresh helpers ----
-// The server is treated as the source of truth: whenever we refresh, we
-// re-pull whatever was saved for the currently selected date and, on a new
-// calendar day, automatically advance to today's date.
-async function refreshAttendanceForCurrentDate(forceToday = false) {
-  if (!managerKeyForAttendance) return;
+// ---- Attendance date handling + auto-refresh ----
+// The attendance grid always starts on today's date, reloads immediately
+// when the manager picks a different date, and silently re-pulls the same
+// date every 60 seconds — unless there are unsaved edits (dirty state), in
+// which case the refresh is skipped so nothing the manager typed gets lost.
+function initAttendanceDateHandling() {
+  const dateInput = document.getElementById('attendanceDate');
 
-  const today = getTodayLocal();
-  const input = document.getElementById('attendanceDate');
+  if (!dateInput) return;
 
-  // Automatically move to today when a new day starts
-  if (forceToday || !input.value || input.value !== today) {
-    input.value = today;
+  // Set today's date when the attendance page is first opened
+  if (!dateInput.value) {
+    dateInput.value = toLocalYMD(new Date());
   }
 
-  const date = input.value;
+  // Reload immediately whenever the selected date changes
+  dateInput.addEventListener('change', async function () {
+    const date = this.value;
 
-  // Don't overwrite a date that the manager deliberately selected
-  // unless forceToday is true.
-  if (!forceToday && attendanceCurrentDate !== date) {
-    attendanceCurrentDate = date;
-  }
+    if (!date) return;
 
-  await loadAttendance(date);
+    attendanceFollowsToday = date === toLocalYMD(new Date());
+    attendanceDirty = false;
+
+    await loadAttendance(date);
+  });
 }
 
 function startAttendanceAutoRefresh() {
@@ -1280,35 +1279,50 @@ function startAttendanceAutoRefresh() {
     clearInterval(attendanceAutoRefreshTimer);
   }
 
-  attendanceAutoRefreshTimer = setInterval(async () => {
-    const today = getTodayLocal();
-    const input = document.getElementById('attendanceDate');
+  attendanceAutoRefreshTimer = setInterval(async function () {
+    if (!managerKeyForAttendance) return;
 
-    // New calendar day
-    if (input.value !== today) {
-      input.value = today;
-      attendanceCurrentDate = today;
-      await loadAttendance(today);
-      return;
+    const dateInput = document.getElementById('attendanceDate');
+
+    if (!dateInput) return;
+
+    const today = toLocalYMD(new Date());
+
+    // Automatically move to the new day at midnight
+    if (attendanceFollowsToday && dateInput.value !== today) {
+
+      // Don't destroy unsaved work
+      if (attendanceDirty) {
+        const box = document.getElementById('attendanceStatus');
+
+        if (box) {
+          box.innerText =
+            '⚠ يوجد تغييرات غير محفوظة. احفظ بيانات الحضور قبل الانتقال لليوم الجديد.';
+          box.className = 'status err';
+          box.style.display = 'block';
+        }
+
+        return;
+      }
+
+      dateInput.value = today;
+      attendanceLoadedFor = today;
     }
 
-    // Refresh today's data from Google Sheets
-    if (document.getElementById('attendancePanel').classList.contains('active')) {
-      await loadAttendance(input.value);
-    }
-  }, 60000); // every 60 seconds
+    // Don't overwrite anything the manager is currently editing
+    if (attendanceDirty) return;
+
+    await loadAttendance(dateInput.value);
+
+  }, 60000); // 60 seconds
 }
 
+// Re-sync when the manager comes back to the tab after it was hidden.
 document.addEventListener('visibilitychange', async () => {
-  if (!document.hidden && managerKeyForAttendance) {
-    const input = document.getElementById('attendanceDate');
-    const today = getTodayLocal();
-
-    if (input.value !== today) {
-      input.value = today;
-    }
-
-    await loadAttendance(input.value);
+  if (!document.hidden && managerKeyForAttendance && !attendanceDirty) {
+    const dateInput = document.getElementById('attendanceDate');
+    if (!dateInput || !dateInput.value) return;
+    await loadAttendance(dateInput.value);
   }
 });
 
@@ -1324,10 +1338,17 @@ function showManagerTab(tab){
   document.getElementById('attendanceReportTabBtn').classList.toggle('active', isArReport);
   if (isReports && managerKeyForAttendance) applyManagerFilters();
   if (isAttendance) {
+    const attendanceDateInput = document.getElementById('attendanceDate');
     const today = toLocalYMD(new Date());
-    document.getElementById('attendanceDate').value = today;
-    attendanceCurrentDate = today;
-    loadAttendance(today);
+
+    if (!attendanceDateInput.value) {
+      attendanceDateInput.value = today;
+    }
+
+    attendanceFollowsToday =
+      attendanceDateInput.value === today;
+
+    loadAttendance(attendanceDateInput.value);
     startAttendanceAutoRefresh();
   } else if (isArReport) {
     populateAttendanceReportFilters();
@@ -1364,6 +1385,25 @@ function renderAttendanceRows(records){
     updateAttendancePreview();
   }));
   updateAttendancePreview();
+
+  // Mark the grid as "dirty" as soon as the manager touches any field,
+  // so the auto-refresh won't clobber their edits.
+  document
+    .querySelectorAll(
+      '#attendanceTableBody .arrival-time, ' +
+      '#attendanceTableBody .vacation-check, ' +
+      '#attendanceTableBody .absent-check, ' +
+      '#attendanceTableBody .attendance-note'
+    )
+    .forEach(function (el) {
+      el.addEventListener('input', function () {
+        attendanceDirty = true;
+      });
+
+      el.addEventListener('change', function () {
+        attendanceDirty = true;
+      });
+    });
 }
 // Present is the default: no arrival time entered = present on time.
 function calculateAttendance(arrival, start){
@@ -1393,6 +1433,8 @@ async function loadAttendance(date){
     document.getElementById('workStartTime').value = attendanceStartTime;
     renderAttendanceRows(data.records || []);
     attendanceLoadedFor = date;
+    // Fresh server data = clean state.
+    attendanceDirty = false;
     return true;
   } catch(err) {
     attendanceLoadedFor = '';
@@ -1415,14 +1457,7 @@ async function saveAttendance(){
   try {
     const data = await safeFetchJson(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:managerKeyForAttendance, action:'saveAttendance', date, startTime, records})});
     if (!data.ok) throw new Error(data.error || 'فشل حفظ الحضور');
-
-    // Record the date that was actually saved so the auto-refresh doesn't
-    // snap back to today's date mid-edit.
-    attendanceCurrentDate = date;
-
     box.innerText = '✓ تم حفظ بيانات الحضور بنجاح.'; box.className='status ok'; box.style.display='block';
-
-    // Re-pull from the server so we see exactly what was persisted.
     await loadAttendance(date);
     if (rawManagerReports.length) renderReportsTable();
   } catch(err) { box.innerText = 'حدث خطأ أثناء حفظ الحضور: ' + err.message; box.className='status err'; box.style.display='block'; }
@@ -1602,19 +1637,15 @@ async function loadManagerReports() {
     managerKeyForAttendance = key;
     document.getElementById('managerContent').style.display = 'block';
 
-    // Always initialize both date pickers to today's LOCAL date so the
-    // "missing reports" list and the attendance grid start on the current
-    // calendar day regardless of what was previously in the inputs.
-    const today = toLocalYMD(new Date());
-
-    document.getElementById('filterDate').value = today;
-    document.getElementById('attendanceDate').value = today;
-
-    attendanceCurrentDate = today;
+    // Default to today's date (LOCAL date, not UTC) so the "missing
+    // reports" list is useful immediately without a timezone off-by-one.
+    const dateInput = document.getElementById('filterDate');
+    if (!dateInput.value) {
+      dateInput.value = toLocalYMD(new Date());
+    }
 
     applyManagerFilters();
-    await loadAttendance(today);
-    startAttendanceAutoRefresh();
+    loadAttendance(dateInput.value);
   } catch (err) {
     errBox.innerText = err.message;
     errBox.classList.add('show');
@@ -1884,6 +1915,9 @@ async function printManagerReport() {
   window.print();
   setTimeout(() => { document.title = originalTitle; }, 1000);
 }
+
+// Initialize the attendance date listener once the page loads.
+initAttendanceDateHandling();
 </script>
 </body>
 </html>
