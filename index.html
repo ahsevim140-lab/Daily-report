@@ -750,6 +750,8 @@ let arQuery = null;
 let attendanceLoadedFor = '';
 let managerUnlocked = false;
 let attendanceAutoRefreshTimer = null;
+let managerReportsAutoRefreshTimer = null;
+let managerReportsRefreshing = false;
 let attendanceDirty = false;
 let attendanceFollowsToday = true;
 
@@ -1249,6 +1251,7 @@ function showManagerTab(tab){
     attendanceFollowsToday = attendanceDateInput.value === today;
     loadAttendance(attendanceDateInput.value);
     startAttendanceAutoRefresh();
+    startManagerReportsAutoRefresh();
   } else if (isArReport) {
     populateAttendanceReportFilters();
     if (!document.getElementById('arStart').value) setArRange('month');
@@ -1279,6 +1282,54 @@ function startAttendanceAutoRefresh(){
     if (!attendanceDirty) await loadAttendance(input.value);
   }, 60000);
 }
+
+// ---- Manager reports auto-refresh -------------------------------------
+// Refreshes only the manager reports data. It does not reload the page,
+// reset filters, ask for the PIN again, or interfere with attendance edits.
+async function refreshManagerReports(){
+  if (!managerKeyForAttendance || managerReportsRefreshing) return;
+
+  const panel = document.getElementById('reportsPanel');
+  if (!panel || !panel.classList.contains('active')) return;
+
+  managerReportsRefreshing = true;
+
+  try {
+    const data = await safeFetchJson(
+      `${SCRIPT_URL}?key=${encodeURIComponent(managerKeyForAttendance)}`
+    );
+
+    if (data.error) return;
+
+    rawManagerReports = data.reports || [];
+
+    // Re-render using the current manager filters/date.
+    applyManagerFilters();
+  } catch (err) {
+    console.error('Manager reports auto-refresh failed:', err);
+  } finally {
+    managerReportsRefreshing = false;
+  }
+}
+
+function startManagerReportsAutoRefresh(){
+  if (managerReportsAutoRefreshTimer) {
+    clearInterval(managerReportsAutoRefreshTimer);
+  }
+
+  managerReportsAutoRefreshTimer = setInterval(function(){
+    refreshManagerReports();
+  }, 30000);
+}
+
+document.addEventListener('visibilitychange', async function(){
+  if (document.hidden || !managerKeyForAttendance) return;
+
+  const reportsPanel = document.getElementById('reportsPanel');
+  if (reportsPanel && reportsPanel.classList.contains('active')) {
+    await refreshManagerReports();
+  }
+});
 
 document.addEventListener('visibilitychange', async function(){
   if (document.hidden || !managerKeyForAttendance) return;
