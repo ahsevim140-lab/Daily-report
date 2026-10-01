@@ -494,16 +494,70 @@
   /* Attendance range report (separate from the daily attendance grid) */
   .ar-panel{display:none;}
   .ar-panel.active{display:block;}
-  .ar-card{margin-bottom:20px;}
-  .ar-summary{margin-bottom:12px;}
+  .ar-report-header{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin:0 0 16px;padding:18px 20px;background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);border-radius:4px;}
+  .ar-report-title{margin:0;color:var(--green-900);font-size:18px;font-weight:700;}
+  .ar-report-subtitle{margin:5px 0 0;color:var(--muted);font-size:12px;}
+  .ar-scope{font-size:12px;color:var(--muted);text-align:left;}
+  .ar-kpis{display:grid;grid-template-columns:repeat(7,minmax(105px,1fr));gap:10px;margin-bottom:20px;}
+  .ar-kpi{background:#fff;border:1px solid var(--line);border-radius:4px;padding:12px 13px;min-width:0;}
+  .ar-kpi-label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px;}
+  .ar-kpi-value{display:block;color:var(--green-900);font-size:21px;font-weight:700;line-height:1.1;}
+  .ar-kpi.late .ar-kpi-value,.ar-kpi.absent .ar-kpi-value{color:var(--danger);}
+  .ar-kpi.vacation .ar-kpi-value{color:#5B3E7A;}
+  .ar-section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;color:var(--green-900);font-size:14px;}
+  .ar-section-note{font-size:11px;color:var(--muted);font-weight:400;}
+  .ar-overview-wrap{background:#fff;border:1px solid var(--line);border-radius:4px;overflow:auto;margin-bottom:22px;}
+  .ar-overview{width:100%;border-collapse:collapse;min-width:760px;}
+  .ar-overview th,.ar-overview td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:right;font-size:12px;white-space:nowrap;}
+  .ar-overview th{background:var(--row-alt);color:var(--green-800);font-weight:700;}
+  .ar-overview tr:last-child td{border-bottom:0;}
+  .ar-overview .employee-name{font-weight:700;color:var(--ink);}
+  .ar-overview .number{text-align:center;font-variant-numeric:tabular-nums;}
+  .ar-overview .exception{font-weight:700;color:var(--danger);}
+  .ar-card{margin-bottom:12px;background:#fff;border:1px solid var(--line);border-inline-start:3px solid var(--gold);border-radius:4px;overflow:hidden;}
+  .ar-card > summary{list-style:none;cursor:pointer;padding:13px 15px;}
+  .ar-card > summary::-webkit-details-marker{display:none;}
+  .ar-card > summary:hover{background:var(--row-alt);}
+  .ar-employee-head{display:grid;grid-template-columns:minmax(180px,1fr) auto;align-items:center;gap:12px;}
+  .ar-employee-name{color:var(--green-900);font-size:13px;font-weight:700;}
+  .ar-employee-dept{display:block;color:var(--muted);font-size:11px;margin-top:3px;}
+  .ar-mini-stats{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;}
+  .ar-stat{font-size:11px;padding:3px 8px;border-radius:999px;background:var(--row-alt);color:var(--green-900);white-space:nowrap;}
+  .ar-stat.late,.ar-stat.absent{background:#F1DFDA;color:var(--danger);}
+  .ar-stat.vacation{background:#EADFF0;color:#5B3E7A;}
+  .ar-detail{padding:0 15px 15px;}
+  .ar-detail .hint{margin:0 0 10px;}
+  .ar-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:3px;}
+  .ar-table{min-width:680px;}
+  .ar-table .status-pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:600;background:var(--row-alt);color:var(--green-900);white-space:nowrap;}
+  .ar-table .status-pill.late,.ar-table .status-pill.absent{background:#F1DFDA;color:var(--danger);}
+  .ar-table .status-pill.vacation{background:#EADFF0;color:#5B3E7A;}
+  .ar-table .status-pill.default{opacity:.8;}
+  .ar-empty{padding:14px;text-align:center;color:var(--muted);font-size:12px;}
+  .ar-empty-card{background:#fff;border:1px solid var(--line);padding:22px;text-align:center;color:var(--muted);border-radius:4px;}
+  @media (max-width:900px){
+    .ar-kpis{grid-template-columns:repeat(4,minmax(120px,1fr));}
+  }
+  @media (max-width:600px){
+    .ar-kpis{grid-template-columns:repeat(2,minmax(120px,1fr));}
+    .ar-report-header{align-items:flex-start;}
+    .ar-scope{text-align:right;}
+    .ar-employee-head{grid-template-columns:1fr;}
+    .ar-mini-stats{justify-content:flex-start;}
+  }
   @media print{
     body.printing-ar .topbar, body.printing-ar .divider, body.printing-ar .divider-spacer,
     body.printing-ar .manager-tabs, body.printing-ar .attendance-actions,
     body.printing-ar #arStatus, body.printing-ar #reportsPanel,
     body.printing-ar #attendancePanel { display:none !important; }
     body.printing-ar .ar-panel{display:block !important;}
+    body.printing-ar .ar-report-header{page-break-after:avoid;}
     body.printing-ar .ar-card{page-break-inside:avoid;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body.printing-ar .ar-card > summary{cursor:default;}
+    body.printing-ar .ar-card > summary::-webkit-details-marker{display:none;}
+    body.printing-ar .ar-detail{display:block !important;}
     body.printing-ar .attendance-table th{position:static;background:var(--green-800) !important;color:#fff !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body.printing-ar .ar-overview th{background:var(--green-800) !important;color:#fff !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   }
 
   .att-line{margin-top:6px;}
@@ -1551,38 +1605,124 @@ function renderAttendanceReport(){
   const showAll = document.getElementById('arShowAll').checked;
   const groups = buildAttendanceGroups(arRecords, arQuery);
   if (!groups.length) {
-    wrap.innerHTML = '<div class="empty-note">لا يوجد موظفون مطابقون لهذا الاختيار.</div>';
+    wrap.innerHTML = '<div class="ar-empty-card">لا يوجد موظفون مطابقون لهذا الاختيار.</div>';
     return;
   }
-  wrap.innerHTML = groups.map(g => {
+
+  const total = { employees: groups.length, days: 0, onTime: 0, late: 0, absent: 0, vacation: 0, notRecorded: 0, lateMinutes: 0 };
+  groups.forEach(g => {
+    const s = summarizeAttendance(g.rows);
+    total.days += s.days;
+    total.onTime += s.onTime;
+    total.late += s.late;
+    total.absent += s.absent;
+    total.vacation += s.vacation;
+    total.notRecorded += s.notRecorded;
+    total.lateMinutes += s.lateMinutes;
+  });
+
+  const periodText = `${escapeHtml(arQuery.start)} — ${escapeHtml(arQuery.end)}`;
+  const scopeText = arQuery.name
+    ? `الموظف: ${escapeHtml(arQuery.name)}`
+    : (arQuery.dept ? `القسم: ${escapeHtml(arQuery.dept)}` : 'النطاق: جميع الموظفين');
+
+  const overviewRows = groups.map(g => {
+    const s = summarizeAttendance(g.rows);
+    return `<tr>
+      <td><span class="employee-name">${escapeHtml(g.name)}</span></td>
+      <td>${escapeHtml(g.department)}</td>
+      <td class="number">${s.days}</td>
+      <td class="number">${s.onTime}</td>
+      <td class="number ${s.late ? 'exception' : ''}">${s.late}</td>
+      <td class="number ${s.absent ? 'exception' : ''}">${s.absent}</td>
+      <td class="number">${s.vacation}</td>
+      <td class="number">${s.lateMinutes}</td>
+    </tr>`;
+  }).join('');
+
+  const employeeCards = groups.map(g => {
     const s = summarizeAttendance(g.rows);
     const shown = g.rows.filter(r => showAll || r.status !== 'حاضر' || (r.note || '').toString().trim());
     const rowsHtml = shown.length
-      ? shown.map(r =>
-          `<tr><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.arrivalTime || '—')}</td>` +
-          `<td>${escapeHtml(r.isDefault ? 'حاضر (افتراضي)' : r.status)}</td>` +
-          `<td>${r.lateMinutes === '' || r.lateMinutes == null ? '—' : escapeHtml(String(r.lateMinutes))}</td>` +
-          `<td>${escapeHtml(r.note || '')}</td></tr>`
-        ).join('')
-      : '<tr><td colspan="5" class="empty-note">لا توجد استثناءات في هذه الفترة (حاضر في كل أيام العمل).</td></tr>';
-    return `<div class="entry-card ar-card">
-      <div class="entry-head"><span class="entry-label">${escapeHtml(g.name)} — ${escapeHtml(g.department)}</span></div>
-      <div class="hint ar-summary">
-        أيام العمل: ${s.days} | في الموعد: ${s.onTime} | متأخر: ${s.late} (إجمالي التأخير: ${s.lateMinutes} دقيقة) | غائب: ${s.absent} | إجازة: ${s.vacation}${s.notRecorded ? ` | لم يسجل: ${s.notRecorded}` : ''}
+      ? shown.map(r => {
+          const statusClass = r.status === 'متأخر' ? 'late' : r.status === 'غائب' ? 'absent' : r.status === 'إجازة' ? 'vacation' : 'present';
+          const statusText = r.isDefault ? 'حاضر (افتراضي)' : (r.status || '—');
+          return `<tr>
+            <td>${escapeHtml(r.date)}</td>
+            <td>${escapeHtml(r.arrivalTime || '—')}</td>
+            <td><span class="status-pill ${statusClass}${r.isDefault ? ' default' : ''}">${escapeHtml(statusText)}</span></td>
+            <td>${r.lateMinutes === '' || r.lateMinutes == null ? '—' : escapeHtml(String(r.lateMinutes))}</td>
+            <td>${escapeHtml(r.note || '')}</td>
+          </tr>`;
+        }).join('')
+      : '<tr><td colspan="5" class="ar-empty">لا توجد استثناءات في هذه الفترة — جميع أيام العمل مسجلة كحاضر.</td></tr>';
+
+    return `<details class="ar-card" ${showAll ? 'open' : ''}>
+      <summary>
+        <div class="ar-employee-head">
+          <div><span class="ar-employee-name">${escapeHtml(g.name)}</span><span class="ar-employee-dept">${escapeHtml(g.department)}</span></div>
+          <div class="ar-mini-stats">
+            <span class="ar-stat">${s.onTime} في الموعد</span>
+            <span class="ar-stat late">${s.late} متأخر</span>
+            <span class="ar-stat absent">${s.absent} غائب</span>
+            <span class="ar-stat vacation">${s.vacation} إجازة</span>
+          </div>
+        </div>
+      </summary>
+      <div class="ar-detail">
+        <div class="hint ar-summary">أيام العمل: ${s.days} | في الموعد: ${s.onTime} | متأخر: ${s.late} (إجمالي التأخير: ${s.lateMinutes} دقيقة) | غائب: ${s.absent} | إجازة: ${s.vacation}${s.notRecorded ? ` | لم يسجل: ${s.notRecorded}` : ''}</div>
+        <div class="ar-table-wrap">
+          <table class="attendance-table ar-table">
+            <thead><tr><th>التاريخ</th><th>وقت الحضور</th><th>الحالة</th><th>دقائق التأخير</th><th>ملاحظات</th></tr></thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
       </div>
-      <table class="attendance-table">
-        <thead><tr><th>التاريخ</th><th>وقت الحضور</th><th>الحالة</th><th>دقائق التأخير</th><th>ملاحظات</th></tr></thead>
-        <tbody>${rowsHtml}</tbody>
-      </table>
-    </div>`;
+    </details>`;
   }).join('');
+
+  wrap.innerHTML = `
+    <div class="ar-report-header">
+      <div>
+        <h2 class="ar-report-title">تقرير الحضور</h2>
+        <p class="ar-report-subtitle">الفترة: ${periodText}</p>
+      </div>
+      <div class="ar-scope">${scopeText}</div>
+    </div>
+
+    <div class="ar-kpis">
+      <div class="ar-kpi"><span class="ar-kpi-label">الموظفون</span><span class="ar-kpi-value">${total.employees}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">أيام العمل</span><span class="ar-kpi-value">${total.days}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">في الموعد</span><span class="ar-kpi-value">${total.onTime}</span></div>
+      <div class="ar-kpi late"><span class="ar-kpi-label">متأخر</span><span class="ar-kpi-value">${total.late}</span></div>
+      <div class="ar-kpi absent"><span class="ar-kpi-label">غائب</span><span class="ar-kpi-value">${total.absent}</span></div>
+      <div class="ar-kpi vacation"><span class="ar-kpi-label">إجازة</span><span class="ar-kpi-value">${total.vacation}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">إجمالي التأخير</span><span class="ar-kpi-value">${total.lateMinutes} د</span></div>
+    </div>
+
+    <div class="ar-section-title"><span>ملخص الموظفين</span><span class="ar-section-note">عرض سريع للفترة المحددة</span></div>
+    <div class="ar-overview-wrap">
+      <table class="ar-overview">
+        <thead><tr><th>الموظف</th><th>القسم</th><th>أيام العمل</th><th>في الموعد</th><th>متأخر</th><th>غائب</th><th>إجازة</th><th>دقائق التأخير</th></tr></thead>
+        <tbody>${overviewRows}</tbody>
+      </table>
+    </div>
+
+    <div class="ar-section-title"><span>${showAll ? 'التفاصيل اليومية' : 'استثناءات الحضور'}</span><span class="ar-section-note">${showAll ? 'جميع الأيام' : 'افتح الموظف لعرض التفاصيل'}</span></div>
+    <div>${employeeCards}</div>`;
 }
 
 function printAttendanceReport(){
   if (!arQuery) return;
+  const details = [...document.querySelectorAll('#arResults .ar-card')];
+  const previousOpen = details.map(d => d.open);
+  details.forEach(d => { d.open = true; });
   document.body.classList.add('printing-ar');
   window.print();
-  setTimeout(() => document.body.classList.remove('printing-ar'), 500);
+  setTimeout(() => {
+    document.body.classList.remove('printing-ar');
+    details.forEach((d, i) => { d.open = previousOpen[i]; });
+  }, 500);
 }
 
 async function loadManagerReports() {
