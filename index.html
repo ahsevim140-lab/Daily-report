@@ -607,7 +607,6 @@
     .grouped-table tr{break-inside:avoid;}
     .print-employee{margin:0;}
   }
-
   @media print{
     .print-table th:nth-child(1){width:16%}
     .print-table th:nth-child(2){width:26%}
@@ -616,6 +615,28 @@
     .print-table tr{break-inside:avoid;}
     .print-table tr.grp td{background:#EFE8D6;color:var(--green-900);font-weight:700;text-align:start;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .print-employee-heading .emp-status{color:#fff;opacity:.85;}
+  }
+  /* ---- View-only (disabled) styling ---- */
+  #reportForm input, #reportForm select, #reportForm textarea,
+  #reportForm button,
+  #workStartTime:disabled, .attendance-save[onclick="saveAttendance()"]:disabled,
+  #attendanceTableBody input:disabled{
+    background:var(--row-alt) !important;
+    color:var(--muted) !important;
+    cursor:not-allowed !important;
+    opacity:0.65;
+    pointer-events:none;
+  }
+  .view-only-banner{
+    background:#EFE8D6;
+    border:1px solid var(--gold);
+    border-inline-start:4px solid var(--gold);
+    color:var(--green-900);
+    padding:10px 14px;
+    border-radius:4px;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:16px;
   }
 </style>
 </head>
@@ -641,11 +662,6 @@
     <div class="eyebrow">نظام إدارة المتابعة والتقارير</div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- LOGO PLACEHOLDER                                             -->
-  <!-- Replace src="logo.png" with your logo file path or a         -->
-  <!-- base64 data URI (src="data:image/png;base64,.....").         -->
-  <!-- ============================================================ -->
   <img class="topbar-logo" src="logo.png" alt="Logo">
 
   <div class="nav-btns">
@@ -665,21 +681,23 @@
   <!-- FORM VIEW -->
   <div id="viewForm" class="view active">
     <div class="card">
-      <form id="reportForm" onsubmit="handleSubmit(event)">
+      <div class="view-only-banner">🔒 هذا النموذج في وضع العرض فقط (View Only) — تم إيقاف إدخال وتعديل البيانات.</div>
+      <form id="reportForm" onsubmit="return false;">
+        <fieldset disabled style="border:0;padding:0;margin:0;min-inline-size:0;">
         <div class="row3">
           <div class="field">
             <label>التاريخ</label>
-            <input type="text" id="reportDate" readonly>
+            <input type="text" id="reportDate" readonly disabled>
           </div>
           <div class="field">
             <label>القسم</label>
-            <select id="employeeDept" required onchange="onDeptChange()">
+            <select id="employeeDept" required disabled onchange="onDeptChange()">
               <option value="">اختر القسم...</option>
             </select>
           </div>
           <div class="field">
             <label>الاسم</label>
-            <select id="employeeName" required>
+            <select id="employeeName" required disabled>
               <option value="">اختر القسم أولاً…</option>
             </select>
           </div>
@@ -687,8 +705,9 @@
 
         <div id="projectsContainer"></div>
 
-        <button type="button" class="add-entry-btn" onclick="addProject()">+ إضافة مشروع آخر</button>
-        <button type="submit" class="submit-btn" id="submitBtn" disabled>إرسال التقرير</button>
+        <button type="button" class="add-entry-btn" disabled>+ إضافة مشروع آخر</button>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>إرسال التقرير (وضع العرض فقط)</button>
+        </fieldset>
         <div class="status" id="statusMsg"></div>
       </form>
     </div>
@@ -731,8 +750,8 @@
             <label for="attendanceDate">تاريخ الحضور</label>
             <input type="date" id="attendanceDate" onchange="handleAttendanceDateChange(this.value)">
             <label for="workStartTime">بداية الدوام</label>
-            <input type="time" id="workStartTime" value="08:00">
-            <button type="button" class="attendance-save" onclick="saveAttendance()">حفظ بيانات الحضور</button>
+            <input type="time" id="workStartTime" value="08:00" disabled readonly>
+            <button type="button" class="attendance-save" onclick="saveAttendance()" disabled>حفظ بيانات الحضور (عرض فقط)</button>
           </div>
           <div class="table-wrap">
             <table class="attendance-table">
@@ -1100,8 +1119,8 @@ async function loadOptions() {
     status.innerText = 'تعذر تحميل بيانات النظام: ' + err.message;
     status.className = 'status err';
   } finally {
-    deptSel.disabled = false;
-    updateSubmitState();
+    deptSel.disabled = true;
+    submitBtn.disabled = true;
   }
 }
 
@@ -1126,10 +1145,10 @@ function addProject() {
   el.className = 'proj-block';
   el.innerHTML = `
     <div class="blk-head"><span class="entry-label">المشروع</span>
-      <button type="button" class="remove-entry" data-remove="proj-block">حذف المشروع</button></div>
-    <div class="field"><select class="proj-sel" required>${optionsHtml(projectOptions, 'اختر المشروع…')}</select></div>
+      <button type="button" class="remove-entry" disabled data-remove="proj-block">حذف المشروع</button></div>
+    <div class="field"><select class="proj-sel" required disabled>${optionsHtml(projectOptions, 'اختر المشروع…')}</select></div>
     <div class="buildings"></div>
-    <button type="button" class="add-entry-btn sub" data-add="building">+ إضافة مبنى آخر لهذا المشروع</button>`;
+    <button type="button" class="add-entry-btn sub" disabled data-add="building">+ إضافة مبنى آخر لهذا المشروع</button>`;
   document.getElementById('projectsContainer').appendChild(el);
   addBuilding(el);
   refreshRemoveButtons();
@@ -1140,10 +1159,10 @@ function addBuilding(projEl) {
   el.className = 'bld-block';
   el.innerHTML = `
     <div class="blk-head"><span class="entry-label">المبنى / المنطقة</span>
-      <button type="button" class="remove-entry" data-remove="bld-block">حذف المبنى</button></div>
-    <div class="field"><input type="text" class="bld-inp" placeholder="مثال: مبنى 10" maxlength="200" required></div>
+      <button type="button" class="remove-entry" disabled data-remove="bld-block">حذف المبنى</button></div>
+    <div class="field"><input type="text" class="bld-inp" placeholder="مثال: مبنى 10" maxlength="200" required disabled readonly></div>
     <div class="tasks"></div>
-    <button type="button" class="add-entry-btn sub" data-add="task">+ إضافة مهمة أخرى لهذا المبنى</button>`;
+    <button type="button" class="add-entry-btn sub" disabled data-add="task">+ إضافة مهمة أخرى لهذا المبنى</button>`;
   projEl.querySelector('.buildings').appendChild(el);
   addTask(el);
 }
@@ -1156,17 +1175,17 @@ function addTask(bldEl) {
   el.className = 'task-block';
   el.innerHTML = `
     <div class="blk-head"><span class="entry-label">مهمة</span>
-      <button type="button" class="remove-entry" data-remove="task-block">حذف</button></div>
+      <button type="button" class="remove-entry" disabled data-remove="task-block">حذف</button></div>
     <div class="row3">
       <div class="field"><label>التصنيف الرئيسي</label>
-        <select class="cat-sel" required>${categoryOptionsHtmlForDept(dept)}</select></div>
+        <select class="cat-sel" required disabled>${categoryOptionsHtmlForDept(dept)}</select></div>
       <div class="field"><label>المهمة</label>
-        <select class="task-sel" required>${taskOptionsHtmlForCategory(dept, '')}</select></div>
+        <select class="task-sel" required disabled>${taskOptionsHtmlForCategory(dept, '')}</select></div>
       <div class="field"><label>نسبة الإنجاز</label>
-        <select class="pct-sel" required><option value="">اختر النسبة…</option>${pcts}</select></div>
+        <select class="pct-sel" required disabled><option value="">اختر النسبة…</option>${pcts}</select></div>
     </div>
     <div class="field"><label>ملاحظات إضافية (اختياري)</label>
-      <textarea class="note-txt" placeholder="تفاصيل إضافية عن المهمة..."></textarea></div>`;
+      <textarea class="note-txt" placeholder="تفاصيل إضافية عن المهمة..." disabled readonly></textarea></div>`;
   bldEl.querySelector('.tasks').appendChild(el);
 }
 
@@ -1179,7 +1198,7 @@ function refreshRemoveButtons() {
 }
 
 function updateSubmitState() {
-  document.getElementById('submitBtn').disabled = !document.getElementById('reportForm').checkValidity();
+  document.getElementById('submitBtn').disabled = true;
 }
 
 (function wireForm() {
@@ -1459,12 +1478,12 @@ function renderAttendanceRows(records){
     const isAbsent = r.status === 'غائب';
     return `<tr data-dept="${escapeHtml(e.department)}" data-name="${escapeHtml(e.name)}">
       <td>${escapeHtml(e.name)}</td><td>${escapeHtml(e.department)}</td>
-      <td><input type="time" class="arrival-time" value="${escapeHtml(r.arrivalTime || '')}" ${(isVacation || isAbsent) ? 'disabled' : ''}></td>
-      <td class="vacation-cell"><input type="checkbox" class="vacation-check" ${isVacation ? 'checked' : ''}></td>
-      <td class="vacation-cell"><input type="checkbox" class="absent-check" ${isAbsent ? 'checked' : ''}></td>
+      <td><input type="time" class="arrival-time" value="${escapeHtml(r.arrivalTime || '')}" disabled readonly></td>
+      <td class="vacation-cell"><input type="checkbox" class="vacation-check" ${isVacation ? 'checked' : ''} disabled></td>
+      <td class="vacation-cell"><input type="checkbox" class="absent-check" ${isAbsent ? 'checked' : ''} disabled></td>
       <td class="attendance-status"></td>
       <td class="late-minutes">—</td>
-      <td><input type="text" class="attendance-note" maxlength="500" value="${escapeHtml(r.note || '')}" placeholder="ملاحظة"></td>
+      <td><input type="text" class="attendance-note" maxlength="500" value="${escapeHtml(r.note || '')}" placeholder="ملاحظة" disabled readonly></td>
     </tr>`;
   }).join('');
   body.querySelectorAll('.arrival-time').forEach(input => input.addEventListener('change', updateAttendancePreview));
