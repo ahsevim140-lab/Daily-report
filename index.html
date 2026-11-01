@@ -608,7 +608,6 @@
     .print-employee{margin:0;}
   }
 
-  /* ---- Print overrides for unmerged print layout ---- */
   @media print{
     .print-table th:nth-child(1){width:16%}
     .print-table th:nth-child(2){width:26%}
@@ -644,5 +643,1490 @@
 
   <!-- ============================================================ -->
   <!-- LOGO PLACEHOLDER                                             -->
+  <!-- Replace src="logo.png" with your logo file path or a         -->
+  <!-- base64 data URI (src="data:image/png;base64,.....").         -->
   <!-- ============================================================ -->
-  <img class="topbar-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAEPCAYAAABvFF43AADOeElEQVR42ux9eZwcVdX2Offe2rpnsmFAwI1FlAyuREFkyQCBJOxCFyRhEZfEDRGBZJKANaWQhF3E5Z0osmahmn3JDh3EDQ0ur04+RcWdKBGSzHR3bffe8/1R3UlAXk33ZJkkfX6/JjBkuqurbj117nPOeR6AVrRiFw8CQADAFcH0t5QCr611RlqxuwRrnYJW7PLheQgAZAjrauRwPAFgEBR468S0YlcP0ToFrdils2cCRPR1EFzmSKXOBkALAR6lwihqnZ1WtDLoVrRiJ0axGDAAgL1YvtOxzOGk9QkrHuzaC9HXntda361oAXQrWrHTQ0t9ptYElmXsJ7Q4DQCgoyPA1plpxa4cLYqjFbtsZPSGq3682BvS15eOj+MEDFNAqvRkALizt7e3RXO0opVBt6IVOyPq9MaGjfGxtmW8SSqloyglhnjcymDGKN/3ted5rTXeihZAt6IVOwGis0WMcDbnjABRkyads01DSn0eAMCYXW+NY+3Vila0FkIrtqQMCAEAEJF2hWNFRCo9dOmwOLSfNwxjZJpKAgSyDINFcfqH/n/84V2FLxYjQAAE2GW+U2sltqIF0K0YtCBVLBb/a9bbtvYZUd73GDkk/flpjmM8FEaJRkRWew9tWyYrV+NTq9YLS0fBKL4GOtR/e89CwdWIOwfItwTnUuC1dbp+ubUaWtEqErYCCAARgFYUZ12UY2LJh8/2X/I8j/m+r3d4xpCBlNqKv6oAboNl82ecxzkjeHWGTEIwMjm76FS3+MRWvt9OC8/zGCLqh+64dNjQfP72NA5vAIAf76xr0IoWQLdiEEUxKDBwi8ri/LRYy3MBYEJHR0edC90hGWXWkQG0eMGMd48Ymn+vTNMNgAwR9b/t8rTWiCi0Jm2EYTwmjlOEV3HNyKI4RQ0w9vsPf2kyY7wPNAhi+t++i1IACExxwYZs3BA+Nf6C2Wvrx7IDM2e9Ipg+1Dbsx6XWH5YgL22tylYAtIqErdgipNIvjRwxdPxTwawvu66rgiBoeH0QATbbOUEECElaiaL4rLY25xHG4GGt4SEA9qoXY+JBRHiYM1ZEZPtIpQERcXMWDqiUBsZwGDJ+LwE8SgwefO37aI0PMYYPDR3qPJqmyec4T5EGQFdTEHCiracNM86/G0t3eDaCuM+2jQ9rrf8yzHKqAADd3d0tPrqVQbeiFVmkiZQb+0MtDHH10nu7+sa57o2lkic6O33535iJICiwkSNHIaIvAfyGgQURiABwAtz4BwA4a9n8rs8wzm7knDlxEiWIIF7vTRmy/7PrgYior1yl124DEACIUHHODMEZrf3H+usfWLX86nnznksJoOlCHbquAgAoeZ4Y0w0a8b/QE8UiQ9dXKxbO/FresU5ev7GiOeOGysUtYG5FC6Bb8VqEgQoRsTBKUidn3rB40bS/dXb6i0ql40Rn59PytdlusVhgBSgAuq5y3aICAHi0Z0rOaB92wLiJ161pFOgQgDzPY93dAIj+N1fM7/o5cbx9SHvu0HIlkkDAERsqbGMNwF/1S0Qk8znLUEr/E4A+dfKkOQ9vQTc0dMz131l234zzBUPz5X9uCDo/55fBr6nsBQGDQkG/9n1LnifQdeXSe6ddkctZn+wrR6lpcENKlfxpfUW1FmMrWhRHK2pRqINuGRGAgCCVUtvcvH3F/OlHd3Y+LSlTh8MgKPAgKHBEINctKnRd1dMzxVgRTD96RTBzzvC93/grg/GjEZGaUZTzfV8j+rpU8sTYyXN/tLGqjqmE0QP5nCUYQySipotmlIVub3dEmspn+qrp0Z3nXPNwEBR4xjs3njl3d3cjAIDJzdWM8a/vve9ev3ryvlk3loreaAQgdF2FiETksdr5wFLJE52+L5ct7DrJcsy5lTDSQISCc0DAP5x/wW392a6i1XLXyplascdHEATcdV21IphxiWNZXytXIg0AYJqCIcFLYaQ6J1wwZ82Wv7P41kssZ78hH1KKTiGGExBg1F7D2+Dl9eXVJ8DzR0Ih0AAIAym2BUGB1zPzpQtndBmCfZkxZsSxVIjQEPgTaS
+  <img class="topbar-logo" src="logo.png" alt="Logo">
+
+  <div class="nav-btns">
+    <button class="nav-btn active" id="btnForm" onclick="switchView('form')">النموذج</button>
+    <button class="nav-btn" id="btnSetup" onclick="switchView('setup')">الإعدادات</button>
+    <button class="nav-btn" id="btnManager" style="display:none" onclick="switchView('manager')">سجل المدير</button>
+  </div>
+</div>
+<div class="divider">
+  <div class="line"></div>
+  <div class="diamond"></div>
+  <div class="line"></div>
+</div>
+<div class="divider-spacer"></div>
+
+<main id="mainContainer">
+  <!-- FORM VIEW -->
+  <div id="viewForm" class="view active">
+    <div class="card">
+      <form id="reportForm" onsubmit="handleSubmit(event)">
+        <div class="row3">
+          <div class="field">
+            <label>التاريخ</label>
+            <input type="text" id="reportDate" readonly>
+          </div>
+          <div class="field">
+            <label>القسم</label>
+            <select id="employeeDept" required onchange="onDeptChange()">
+              <option value="">اختر القسم...</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>الاسم</label>
+            <select id="employeeName" required>
+              <option value="">اختر القسم أولاً…</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="projectsContainer"></div>
+
+        <button type="button" class="add-entry-btn" onclick="addProject()">+ إضافة مشروع آخر</button>
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>إرسال التقرير</button>
+        <div class="status" id="statusMsg"></div>
+      </form>
+    </div>
+    <div class="footnote">تأكد من اختيار بيانات المهام بدقة قبل إرسال التقرير النهائي.</div>
+  </div>
+
+  <!-- SETUP VIEW -->
+  <div id="viewSetup" class="view">
+    <div class="card">
+      <h2 class="section-title">القوائم المتاحة بالنظام</h2>
+      <div class="list-block">
+        <h3>المشاريع (Projects)</h3>
+        <div class="pill-list" id="projectPills"></div>
+      </div>
+      <div class="list-block">
+        <h3>تصنيفات المهام (Tasks)</h3>
+        <div id="taskBox"></div>
+      </div>
+      <div class="hint">ملاحظة: يمكنك تعديل أو إضافة عناصر جديدة مباشرة عبر الجداول المقابلة داخل ملف Google Sheet الخاص بالنظام.</div>
+    </div>
+  </div>
+
+  <!-- MANAGER VIEW -->
+  <div id="viewManager" class="view">
+    <div class="card">
+      <h2 class="section-title">عرض تقارير الإنجاز</h2>
+      <div class="key-row">
+        <input type="password" id="managerKeyInput" placeholder="أدخل رمز المدير..." autocomplete="off">
+        <button type="button" id="loadReportsBtn" onclick="loadManagerReports()">عرض</button>
+      </div>
+      <div id="managerErrorMsg" class="pin-error" style="margin-bottom:14px;"></div>
+      <div id="managerContent" style="display:none;">
+        <div class="manager-tabs">
+          <button type="button" class="manager-tab active" id="reportsTabBtn" onclick="showManagerTab('reports')">تقارير الإنجاز</button>
+          <button type="button" class="manager-tab" id="attendanceTabBtn" onclick="showManagerTab('attendance')">الحضور</button>
+          <button type="button" class="manager-tab" id="attendanceReportTabBtn" onclick="showManagerTab('attendanceReport')">تقرير الحضور</button>
+        </div>
+        <div id="attendancePanel" class="attendance-panel">
+          <div class="attendance-actions">
+            <label for="attendanceDate">تاريخ الحضور</label>
+            <input type="date" id="attendanceDate" onchange="handleAttendanceDateChange(this.value)">
+            <label for="workStartTime">بداية الدوام</label>
+            <input type="time" id="workStartTime" value="08:00">
+            <button type="button" class="attendance-save" onclick="saveAttendance()">حفظ بيانات الحضور</button>
+          </div>
+          <div class="table-wrap">
+            <table class="attendance-table">
+              <thead><tr><th>الموظف</th><th>القسم</th><th>وقت الحضور</th><th>إجازة</th><th>غائب</th><th>الحالة</th><th>التأخير بالدقائق</th><th>ملاحظات</th></tr></thead>
+              <tbody id="attendanceTableBody"></tbody>
+            </table>
+          </div>
+          <div class="status" id="attendanceStatus"></div>
+        </div>
+
+        <div id="attendanceReportPanel" class="ar-panel">
+          <div class="attendance-actions">
+            <label for="arDept">القسم</label>
+            <select id="arDept" onchange="onArDeptChange()"><option value="">كل الأقسام</option></select>
+            <label for="arName">الاسم</label>
+            <select id="arName"><option value="">كل الموظفين</option></select>
+            <label for="arStart">من تاريخ</label>
+            <input type="date" id="arStart">
+            <label for="arEnd">إلى تاريخ</label>
+            <input type="date" id="arEnd">
+            <button type="button" class="attendance-save" onclick="setArRange('week')">هذا الأسبوع</button>
+            <button type="button" class="attendance-save" onclick="setArRange('month')">هذا الشهر</button>
+            <button type="button" class="attendance-save" onclick="loadAttendanceReport()">عرض التقرير</button>
+            <button type="button" class="print-btn" onclick="printAttendanceReport()">🖨️ طباعة / حفظ PDF</button>
+            <label style="display:flex;align-items:center;gap:6px;text-transform:none;"><input type="checkbox" id="arShowAll" onchange="toggleArShowAll()"> عرض كل الأيام</label>
+          </div>
+          <div class="status" id="arStatus"></div>
+          <div id="arResults"></div>
+        </div>
+
+        <div id="reportsPanel" class="manager-report-panel active">
+        <div class="list-block" id="missingBlock">
+          <h3>لم يرسلوا تقرير (للتاريخ المحدد)</h3>
+          <div class="pill-list" id="missingPills"></div>
+        </div>
+        <div class="print-header" id="printHeader"></div>
+        <div class="print-report" id="printReport"></div>
+        <div class="filter-bar">
+          <select id="filterDept" onchange="applyManagerFilters()">
+            <option value="">كل الأقسام</option>
+          </select>
+          <select id="filterName" onchange="applyManagerFilters()">
+            <option value="">كل الموظفين</option>
+          </select>
+          <select id="filterProject" onchange="applyManagerFilters()">
+            <option value="">كل المشاريع</option>
+          </select>
+          <select id="filterCategory" onchange="applyManagerFilters()">
+            <option value="">كل التصنيفات الرئيسية</option>
+          </select>
+          <select id="filterTask" onchange="applyManagerFilters()">
+            <option value="">كل المهام</option>
+          </select>
+          <select id="filterPreset" onchange="applyDatePreset(this.value)">
+            <option value="">فترة سريعة…</option>
+            <option value="today">اليوم</option>
+            <option value="week">هذا الأسبوع</option>
+            <option value="month">هذا الشهر</option>
+            <option value="last30">آخر 30 يوم</option>
+            <option value="last3m">آخر 3 أشهر</option>
+          </select>
+          <input type="date" id="filterDate" title="من تاريخ" onchange="applyManagerFilters()">
+          <input type="date" id="filterDateTo" title="إلى تاريخ (اختياري)" onchange="applyManagerFilters()">
+          <button type="button" class="clear-filters-btn" onclick="clearManagerFilters()">إعادة ضبط</button>
+          <button type="button" class="print-btn" onclick="printManagerReport()">🖨️ طباعة / حفظ PDF</button>
+        </div>
+        <div class="table-wrap" id="reportsTableWrap"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFfqUGWCbGcl2VVeAXWMaQfJzcYpbRFsjTRV6n3uPikC6Lprp65BHvv380PqyyPw/exec';
+const SUBMIT_KEY = '1448';
+
+// Task main-categories that should appear for every department regardless
+// of match (e.g. general meeting / status update entries).
+const ALWAYS_CATEGORIES = ['اجتماع', 'وضع راهن', 'تدقيق', 'عام', 'تدريب', 'أخرى','تطوير'];
+
+let departmentOptions = [];
+
+let projectOptions = [];
+let employeeOptions = [];
+let taskCategories = [];
+let rawManagerReports = [];
+let managerKeyForAttendance = '';
+let attendanceRecords = {};
+let attendanceStartTime = '08:00';
+let arRecords = [];
+let arQuery = null;
+let attendanceLoadedFor = '';
+let managerUnlocked = false;
+let attendanceAutoRefreshTimer = null;
+let managerReportsAutoRefreshTimer = null;
+let managerReportsRefreshing = false;
+let attendanceDirty = false;
+let attendanceFollowsToday = true;
+
+// ---- Local-date helper -------------------------------------------------
+// IMPORTANT: never use Date#toISOString() for "which calendar day is this"
+// comparisons — toISOString() converts to UTC, so for Syria (UTC+3)
+// anything submitted between midnight and 3 AM local time gets bucketed
+// under the *previous* day and silently disappears from "today's" filters.
+// Always compare using local (browser-timezone) date parts instead.
+function toLocalYMD(date) {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+// Date filter: "from" alone = single day; "from" + "to" = range.
+function getFilterRange() {
+  let from = document.getElementById('filterDate').value;
+  let to = document.getElementById('filterDateTo').value;
+  if (!from && to) from = to;
+  if (from && !to) to = from;
+  if (from && to && from > to) { const t = from; from = to; to = t; }
+  return { from, to };
+}
+function getSingleDay() {
+  const { from, to } = getFilterRange();
+  return from && from === to ? from : '';
+}
+function applyDatePreset(kind) {
+  if (!kind) return;
+  const today = new Date();
+  let start = new Date(today);
+  if (kind === 'week') start.setDate(today.getDate() - today.getDay());
+  else if (kind === 'month') start = new Date(today.getFullYear(), today.getMonth(), 1);
+  else if (kind === 'last30') start.setDate(today.getDate() - 29);
+  else if (kind === 'last3m') start.setMonth(today.getMonth() - 3);
+  document.getElementById('filterDate').value = toLocalYMD(start);
+  document.getElementById('filterDateTo').value = toLocalYMD(today);
+  document.getElementById('filterPreset').value = '';
+  applyManagerFilters();
+}
+
+// ---- Department ordering: مدني, معماري, كهرباء, ميكانيك (anything else last) ----
+function deptRank(dept) {
+  const d = (dept || '').toString().trim().toLowerCase();
+  if (d.includes('مدني') || d.includes('civil')) return 0;
+  if (d.includes('معمار') || d.includes('arch')) return 1;
+  if (d.includes('كهرب') || d.includes('elec')) return 2;
+  if (d.includes('ميكانيك') || d.includes('mech')) return 3;
+  return 99;
+}
+function compareDeptThenName(aDept, aName, bDept, bName) {
+  return (deptRank(aDept) - deptRank(bDept)) ||
+    (aDept || '').localeCompare(bDept || '', 'ar') ||
+    (aName || '').localeCompare(bName || '', 'ar');
+}
+// Days off (Date#getDay(): 5 = Friday). Add 6 here if Saturday ever becomes a day off.
+const WEEKEND_DAYS = [5];
+function parseYMD(str) {
+  const p = str.split('-').map(Number);
+  return new Date(p[0], p[1] - 1, p[2]);
+}
+
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function optionsHtml(list, placeholder) {
+  let html = '<option value="">' + escapeHtml(placeholder) + '</option>';
+  list.forEach(item => {
+    html += '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
+  });
+  return html;
+}
+
+function allowedCategoriesForDept(dept){
+  // The department name itself (from the Employees sheet) is expected to
+  // match the "main category" column in the Tasks sheet directly, e.g.
+  // both use "ميكانيك" — no separate mapping needed.
+  return dept ? ALWAYS_CATEGORIES.concat([dept]) : ALWAYS_CATEGORIES;
+}
+
+function categoriesForDept(dept){
+  const allowed = allowedCategoriesForDept(dept);
+  let groups = taskCategories.filter(c => allowed.includes(c.main));
+  return groups.length ? groups : taskCategories;
+}
+
+function categoryOptionsHtmlForDept(dept){
+  let html = '<option value="">اختر التصنيف…</option>';
+  categoriesForDept(dept).forEach(group => {
+    html += '<option value="' + escapeHtml(group.main) + '">' + escapeHtml(group.main) + '</option>';
+  });
+  return html;
+}
+
+function taskOptionsHtmlForCategory(dept, category){
+  const group = categoriesForDept(dept).find(c => c.main === category);
+  let html = '<option value="">اختر المهمة…</option>';
+  if (group) group.subs.forEach(sub => {
+    html += '<option value="' + escapeHtml(sub) + '">' + escapeHtml(sub) + '</option>';
+  });
+  return html;
+}
+
+function onCategoryChange(id){
+  const dept = document.getElementById('employeeDept').value;
+  const category = document.getElementById('category-' + id).value;
+  const task = document.getElementById('task-' + id);
+  task.innerHTML = taskOptionsHtmlForCategory(dept, category);
+}
+
+function taskOptionsHtmlForDept(dept){
+  const allowed = allowedCategoriesForDept(dept);
+  let groups = taskCategories.filter(c => allowed.includes(c.main));
+  if (groups.length === 0) {
+    // Fallback: no Tasks-sheet category matched this department's name.
+    // This usually means a typo/rename mismatch between the Employees
+    // sheet's department column and the Tasks sheet's main-category
+    // column. Warn loudly in the console so it's debuggable instead of
+    // silently showing every task to every department.
+    if (dept) {
+      console.warn(
+        `No task categories matched department "${dept}". ` +
+        `Falling back to showing all categories. Check that the Tasks ` +
+        `sheet has a main-category row spelled exactly like this department name.`
+      );
+    }
+    groups = taskCategories;
+  }
+  let html = '<option value="">اختر مهمة…</option>';
+  groups.forEach(group => {
+    html += '<optgroup label="' + escapeHtml(group.main) + '">';
+    group.subs.forEach(sub => {
+      html += '<option value="' + escapeHtml(sub) + '">' + escapeHtml(sub) + '</option>';
+    });
+    html += '</optgroup>';
+  });
+  return html;
+}
+
+// ---- Central fetch helper: gives real diagnostics instead of a generic error ----
+async function safeFetchJson(url, options) {
+  let res;
+  try {
+    res = await fetch(url, options);
+  } catch (networkErr) {
+    // Fetch itself failed: no connection, blocked domain, CORS, DNS, etc.
+    throw new Error('تعذر الوصول إلى الخادم (تحقق من الاتصال أو رابط النشر): ' + networkErr.message);
+  }
+
+  const contentType = res.headers.get('content-type') || '';
+  let bodyText;
+  try {
+    bodyText = await res.text();
+  } catch (readErr) {
+    throw new Error('تعذرت قراءة استجابة الخادم.');
+  }
+
+  if (!res.ok) {
+    throw new Error(`خطأ من الخادم (رمز ${res.status}). ${bodyText.slice(0, 150)}`);
+  }
+
+  if (!contentType.includes('application/json')) {
+    // Usually means Google returned a login/consent page instead of JSON —
+    // classic symptom of the web app deployment not being set to "Anyone".
+    console.error('Non-JSON response body:', bodyText.slice(0, 500));
+    throw new Error('استجابة غير متوقعة من الخادم (قد تكون صفحة تسجيل دخول Google). تحقق من إعدادات نشر Apps Script: "من يمكنه الوصول" يجب أن تكون "Anyone".');
+  }
+
+  try {
+    return JSON.parse(bodyText);
+  } catch (parseErr) {
+    console.error('Failed to parse JSON:', bodyText.slice(0, 500));
+    throw new Error('تعذر تحليل استجابة الخادم كـ JSON.');
+  }
+}
+
+async function checkGate() {
+  const pinInput = document.getElementById('gateInput');
+  const gateError = document.getElementById('gateError');
+  const gateBtn = document.getElementById('gateBtn');
+  const key = pinInput.value.trim();
+
+  gateError.classList.remove('show');
+  if (!key) return;
+
+  gateBtn.disabled = true;
+  gateBtn.textContent = '...جارٍ التحقق';
+
+  try {
+    const data = await safeFetchJson(`${SCRIPT_URL}?action=verify&key=${encodeURIComponent(key)}`);
+
+    if (data.ok) {
+      document.getElementById('gateOverlay').classList.remove('active');
+      document.getElementById('appRoot').style.display = 'block';
+      if (data.manager) {
+        document.getElementById('btnManager').style.display = '';
+        document.getElementById('managerKeyInput').value = key;
+        document.querySelector('#viewManager .key-row').style.display = 'none';
+        managerUnlocked = true;
+      }
+      loadOptions();
+    } else {
+      gateError.innerText = 'كلمة المرور غير صحيحة.';
+      gateError.classList.add('show');
+    }
+  } catch (err) {
+    gateError.innerText = err.message;
+    gateError.classList.add('show');
+  } finally {
+    gateBtn.disabled = false;
+    gateBtn.textContent = 'دخول';
+  }
+}
+
+document.getElementById('gateInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') checkGate();
+});
+
+async function loadOptions() {
+  // Loading state: make it obvious data is on the way rather than showing
+  // empty dropdowns with no feedback while the Sheets calls are in flight.
+  const deptSel = document.getElementById('employeeDept');
+  const submitBtn = document.getElementById('submitBtn');
+  const status = document.getElementById('statusMsg');
+  document.getElementById('reportDate').value = toLocalYMD(new Date());
+
+  deptSel.innerHTML = '<option value="">جارٍ تحميل البيانات...</option>';
+  deptSel.disabled = true;
+  submitBtn.disabled = true;
+  status.innerText = 'جارٍ تحميل بيانات النظام...';
+  status.className = 'status info';
+
+  try {
+    const [pData, eData, tData, dData] = await Promise.all([
+      safeFetchJson(`${SCRIPT_URL}?action=projects`),
+      safeFetchJson(`${SCRIPT_URL}?action=employees`),
+      safeFetchJson(`${SCRIPT_URL}?action=tasks`),
+      safeFetchJson(`${SCRIPT_URL}?action=departments`)
+    ]);
+
+    projectOptions = pData.projects || [];
+    employeeOptions = (eData.employees || []).slice().sort((a, b) => compareDeptThenName(a.department, a.name, b.department, b.name));
+    taskCategories = tData.categories || [];
+    departmentOptions = (dData.departments || []).slice().sort((a, b) => compareDeptThenName(a, '', b, ''));
+
+    populateDepartmentDropdowns();
+    renderSetupLists();
+    populateFilterDropdowns();
+
+    if (document.getElementById('projectsContainer').children.length === 0) {
+      addProject();
+    }
+
+    status.style.display = 'none';
+  } catch (err) {
+    console.error('Error loading backend data:', err);
+    status.innerText = 'تعذر تحميل بيانات النظام: ' + err.message;
+    status.className = 'status err';
+  } finally {
+    deptSel.disabled = false;
+    updateSubmitState();
+  }
+}
+
+function populateDepartmentDropdowns() {
+  const deptSel = document.getElementById('employeeDept');
+  const prevDept = deptSel.value;
+  deptSel.innerHTML = optionsHtml(departmentOptions, 'اختر القسم...');
+  if (departmentOptions.includes(prevDept)) deptSel.value = prevDept;
+
+  const filterDeptSel = document.getElementById('filterDept');
+  const prevFilter = filterDeptSel.value;
+  filterDeptSel.innerHTML = '<option value="">كل الأقسام</option>' +
+    departmentOptions.map(d => '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>').join('');
+  if (departmentOptions.includes(prevFilter)) filterDeptSel.value = prevFilter;
+}
+
+let uid = 0;
+const cleanText = s => (s || '').replace(/\s+/g, ' ').trim();
+
+function addProject() {
+  const el = document.createElement('div');
+  el.className = 'proj-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">المشروع</span>
+      <button type="button" class="remove-entry" data-remove="proj-block">حذف المشروع</button></div>
+    <div class="field"><select class="proj-sel" required>${optionsHtml(projectOptions, 'اختر المشروع…')}</select></div>
+    <div class="buildings"></div>
+    <button type="button" class="add-entry-btn sub" data-add="building">+ إضافة مبنى آخر لهذا المشروع</button>`;
+  document.getElementById('projectsContainer').appendChild(el);
+  addBuilding(el);
+  refreshRemoveButtons();
+}
+
+function addBuilding(projEl) {
+  const el = document.createElement('div');
+  el.className = 'bld-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">المبنى / المنطقة</span>
+      <button type="button" class="remove-entry" data-remove="bld-block">حذف المبنى</button></div>
+    <div class="field"><input type="text" class="bld-inp" placeholder="مثال: مبنى 10" maxlength="200" required></div>
+    <div class="tasks"></div>
+    <button type="button" class="add-entry-btn sub" data-add="task">+ إضافة مهمة أخرى لهذا المبنى</button>`;
+  projEl.querySelector('.buildings').appendChild(el);
+  addTask(el);
+}
+
+function addTask(bldEl) {
+  const dept = document.getElementById('employeeDept').value;
+  const pcts = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]
+    .map(p => `<option value="${p}%">${p}%</option>`).join('');
+  const el = document.createElement('div');
+  el.className = 'task-block';
+  el.innerHTML = `
+    <div class="blk-head"><span class="entry-label">مهمة</span>
+      <button type="button" class="remove-entry" data-remove="task-block">حذف</button></div>
+    <div class="row3">
+      <div class="field"><label>التصنيف الرئيسي</label>
+        <select class="cat-sel" required>${categoryOptionsHtmlForDept(dept)}</select></div>
+      <div class="field"><label>المهمة</label>
+        <select class="task-sel" required>${taskOptionsHtmlForCategory(dept, '')}</select></div>
+      <div class="field"><label>نسبة الإنجاز</label>
+        <select class="pct-sel" required><option value="">اختر النسبة…</option>${pcts}</select></div>
+    </div>
+    <div class="field"><label>ملاحظات إضافية (اختياري)</label>
+      <textarea class="note-txt" placeholder="تفاصيل إضافية عن المهمة..."></textarea></div>`;
+  bldEl.querySelector('.tasks').appendChild(el);
+}
+
+// Hide a "delete" button when it would remove the last block of its kind.
+function refreshRemoveButtons() {
+  document.querySelectorAll('[data-remove]').forEach(b => {
+    const blk = b.closest('.' + b.dataset.remove);
+    b.hidden = blk.parentElement.children.length < 2;
+  });
+}
+
+function updateSubmitState() {
+  document.getElementById('submitBtn').disabled = !document.getElementById('reportForm').checkValidity();
+}
+
+(function wireForm() {
+  const container = document.getElementById('projectsContainer');
+  const form = document.getElementById('reportForm');
+  container.addEventListener('click', e => {
+    const add = e.target.closest('[data-add]');
+    if (add) {
+      if (add.dataset.add === 'building') addBuilding(add.closest('.proj-block'));
+      else addTask(add.closest('.bld-block'));
+      refreshRemoveButtons(); updateSubmitState();
+      return;
+    }
+    const rm = e.target.closest('[data-remove]');
+    if (rm) {
+      rm.closest('.' + rm.dataset.remove).remove();
+      refreshRemoveButtons(); updateSubmitState();
+    }
+  });
+  // Category -> task list. Registered before the form-level listener below, so it runs first.
+  container.addEventListener('change', e => {
+    if (!e.target.classList.contains('cat-sel')) return;
+    const dept = document.getElementById('employeeDept').value;
+    e.target.closest('.task-block').querySelector('.task-sel').innerHTML =
+      taskOptionsHtmlForCategory(dept, e.target.value);
+  });
+  form.addEventListener('input', updateSubmitState);
+  form.addEventListener('change', updateSubmitState);
+})();
+
+function onDeptChange() {
+  const dept = document.getElementById('employeeDept').value;
+  const nameSel = document.getElementById('employeeName');
+  if (!dept) {
+    nameSel.innerHTML = '<option value="">اختر القسم أولاً…</option>';
+  } else {
+    const names = employeeOptions.filter(e => e.department === dept).map(e => e.name);
+    nameSel.innerHTML = optionsHtml(names, 'اختر اسمك…');
+  }
+  document.querySelectorAll('.task-block').forEach(t => {
+    const cat = t.querySelector('.cat-sel'), task = t.querySelector('.task-sel');
+    const prevCat = cat.value, prevTask = task.value;
+    cat.innerHTML = categoryOptionsHtmlForDept(dept);
+    if ([...cat.options].some(o => o.value === prevCat)) cat.value = prevCat;
+    task.innerHTML = taskOptionsHtmlForCategory(dept, cat.value);
+    if ([...task.options].some(o => o.value === prevTask)) task.value = prevTask;
+  });
+  updateSubmitState();
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('statusMsg');
+  const dept = document.getElementById('employeeDept').value;
+  const name = document.getElementById('employeeName').value;
+
+  // Flatten Project > Building > Tasks into the same entries[] the backend already expects.
+  const entries = [];
+  document.querySelectorAll('.proj-block').forEach(p => {
+    const project = p.querySelector('.proj-sel').value;
+    p.querySelectorAll('.bld-block').forEach(b => {
+      const building = cleanText(b.querySelector('.bld-inp').value);
+      b.querySelectorAll('.task-block').forEach(t => {
+        entries.push({
+          project, building,
+          mainCategory: t.querySelector('.cat-sel').value,
+          task: t.querySelector('.task-sel').value,
+          percentage: t.querySelector('.pct-sel').value,
+          report: t.querySelector('.note-txt').value
+        });
+      });
+    });
+  });
+
+  btn.disabled = true;
+  status.style.display = 'none';
+  try {
+    const data = await safeFetchJson(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ key: SUBMIT_KEY, department: dept, name: name, entries: entries })
+    });
+    if (data.ok) {
+      status.innerText = '✓ تم إرسال التقرير بنجاح!';
+      status.className = 'status ok';
+      status.style.display = 'block';
+      document.getElementById('reportForm').reset();
+      document.getElementById('projectsContainer').innerHTML = '';
+      onDeptChange();
+      addProject();
+      status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      throw new Error(data.error || 'فشل الحفظ');
+    }
+  } catch (err) {
+    status.innerText = 'حدث خطأ أثناء الإرسال: ' + err.message;
+    status.className = 'status err';
+  } finally {
+    updateSubmitState();
+  }
+}
+
+function switchView(viewName) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+
+  const mainContainer = document.getElementById('mainContainer');
+
+  if (viewName === 'form') {
+    document.getElementById('btnForm').classList.add('active');
+    document.getElementById('viewForm').classList.add('active');
+    mainContainer.classList.remove('wide');
+  } else if (viewName === 'setup') {
+    document.getElementById('btnSetup').classList.add('active');
+    document.getElementById('viewSetup').classList.add('active');
+    mainContainer.classList.remove('wide');
+  } else if (viewName === 'manager') {
+    document.getElementById('btnManager').classList.add('active');
+    document.getElementById('viewManager').classList.add('active');
+    mainContainer.classList.add('wide');
+    if (managerUnlocked && !managerKeyForAttendance) loadManagerReports();
+  }
+}
+
+function renderSetupLists() {
+  const pList = document.getElementById('projectPills');
+  pList.innerHTML = projectOptions.length
+    ? projectOptions.map(p => '<span class="pill">' + escapeHtml(p) + '</span>').join('')
+    : '<span class="empty-note">لا توجد مشاريع.</span>';
+
+  const tBox = document.getElementById('taskBox');
+  tBox.innerHTML = taskCategories.length
+    ? taskCategories.map(c =>
+        '<div style="margin-bottom:10px;"><strong>' + escapeHtml(c.main) + ':</strong> ' +
+        c.subs.map(s => '<span class="pill">' + escapeHtml(s) + '</span>').join(' ') + '</div>'
+      ).join('')
+    : '<span class="empty-note">لا توجد مهام. أنشئ تبويب Tasks بعمودين (الرئيسي، الفرعي).</span>';
+}
+
+function populateFilterDropdowns() {
+  const nameSel = document.getElementById('filterName');
+  const allNames = [...new Set(employeeOptions.map(e => e.name))];
+  nameSel.innerHTML = '<option value="">كل الموظفين</option>' +
+    allNames.map(n => '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>').join('');
+
+  const projSel = document.getElementById('filterProject');
+  projSel.innerHTML = '<option value="">كل المشاريع</option>' +
+    projectOptions.map(p => '<option value="' + escapeHtml(p) + '">' + escapeHtml(p) + '</option>').join('');
+
+  const categorySel = document.getElementById('filterCategory');
+  categorySel.innerHTML = '<option value="">كل التصنيفات الرئيسية</option>' +
+    taskCategories.map(c => '<option value="' + escapeHtml(c.main) + '">' + escapeHtml(c.main) + '</option>').join('');
+
+  const taskSel = document.getElementById('filterTask');
+  const allTasks = taskCategories.flatMap(c => c.subs);
+  taskSel.innerHTML = '<option value="">كل المهام</option>' +
+    allTasks.map(t => '<option value="' + escapeHtml(t) + '">' + escapeHtml(t) + '</option>').join('');
+}
+
+function showManagerTab(tab){
+  const isReports = tab === 'reports';
+  const isAttendance = tab === 'attendance';
+  const isArReport = tab === 'attendanceReport';
+  document.getElementById('reportsPanel').classList.toggle('active', isReports);
+  document.getElementById('attendancePanel').classList.toggle('active', isAttendance);
+  document.getElementById('attendanceReportPanel').classList.toggle('active', isArReport);
+  document.getElementById('reportsTabBtn').classList.toggle('active', isReports);
+  document.getElementById('attendanceTabBtn').classList.toggle('active', isAttendance);
+  document.getElementById('attendanceReportTabBtn').classList.toggle('active', isArReport);
+  if (isReports && managerKeyForAttendance) applyManagerFilters();
+  if (isAttendance) {
+    const attendanceDateInput = document.getElementById('attendanceDate');
+    const today = toLocalYMD(new Date());
+    if (!attendanceDateInput.value) attendanceDateInput.value = today;
+    attendanceFollowsToday = attendanceDateInput.value === today;
+    loadAttendance(attendanceDateInput.value);
+    startAttendanceAutoRefresh();
+    startManagerReportsAutoRefresh();
+  } else if (isArReport) {
+    populateAttendanceReportFilters();
+    if (!document.getElementById('arStart').value) setArRange('month');
+  }
+}
+async function handleAttendanceDateChange(date){
+  if (!date || !managerKeyForAttendance) return;
+  attendanceFollowsToday = date === toLocalYMD(new Date());
+  attendanceDirty = false;
+  await loadAttendance(date);
+}
+
+function startAttendanceAutoRefresh(){
+  if (attendanceAutoRefreshTimer) clearInterval(attendanceAutoRefreshTimer);
+  attendanceAutoRefreshTimer = setInterval(async function(){
+    if (!managerKeyForAttendance) return;
+    const panel = document.getElementById('attendancePanel');
+    if (!panel || !panel.classList.contains('active')) return;
+    const input = document.getElementById('attendanceDate');
+    if (!input || !input.value) return;
+    const today = toLocalYMD(new Date());
+
+    if (attendanceFollowsToday && input.value !== today) {
+      if (attendanceDirty) return;
+      input.value = today;
+    }
+
+    if (!attendanceDirty) await loadAttendance(input.value);
+  }, 60000);
+}
+
+// ---- Manager reports auto-refresh -------------------------------------
+// Refreshes only the manager reports data. It does not reload the page,
+// reset filters, ask for the PIN again, or interfere with attendance edits.
+async function refreshManagerReports(){
+  if (!managerKeyForAttendance || managerReportsRefreshing) return;
+
+  const panel = document.getElementById('reportsPanel');
+  if (!panel || !panel.classList.contains('active')) return;
+
+  managerReportsRefreshing = true;
+
+  try {
+    const data = await safeFetchJson(
+      `${SCRIPT_URL}?key=${encodeURIComponent(managerKeyForAttendance)}`
+    );
+
+    if (data.error) return;
+
+    rawManagerReports = data.reports || [];
+
+    // Re-render using the current manager filters/date.
+    applyManagerFilters();
+  } catch (err) {
+    console.error('Manager reports auto-refresh failed:', err);
+  } finally {
+    managerReportsRefreshing = false;
+  }
+}
+
+function startManagerReportsAutoRefresh(){
+  if (managerReportsAutoRefreshTimer) {
+    clearInterval(managerReportsAutoRefreshTimer);
+  }
+
+  managerReportsAutoRefreshTimer = setInterval(function(){
+    refreshManagerReports();
+  }, 30000);
+}
+
+document.addEventListener('visibilitychange', async function(){
+  if (document.hidden || !managerKeyForAttendance) return;
+
+  const reportsPanel = document.getElementById('reportsPanel');
+  if (reportsPanel && reportsPanel.classList.contains('active')) {
+    await refreshManagerReports();
+  }
+});
+
+document.addEventListener('visibilitychange', async function(){
+  if (document.hidden || !managerKeyForAttendance) return;
+  const panel = document.getElementById('attendancePanel');
+  if (!panel || !panel.classList.contains('active')) return;
+  const input = document.getElementById('attendanceDate');
+  if (!input || !input.value || attendanceDirty) return;
+  await loadAttendance(input.value);
+});
+
+function attendanceKey(dept, name){ return `${dept}|${name}`; }
+function renderAttendanceRows(records){
+  const map = {};
+  (records || []).forEach(r => { map[attendanceKey(r.department, r.name)] = r; });
+  attendanceRecords = map;
+  const body = document.getElementById('attendanceTableBody');
+  body.innerHTML = employeeOptions.map(e => {
+    const r = map[attendanceKey(e.department, e.name)] || {};
+    const isVacation = r.status === 'إجازة';
+    const isAbsent = r.status === 'غائب';
+    return `<tr data-dept="${escapeHtml(e.department)}" data-name="${escapeHtml(e.name)}">
+      <td>${escapeHtml(e.name)}</td><td>${escapeHtml(e.department)}</td>
+      <td><input type="time" class="arrival-time" value="${escapeHtml(r.arrivalTime || '')}" ${(isVacation || isAbsent) ? 'disabled' : ''}></td>
+      <td class="vacation-cell"><input type="checkbox" class="vacation-check" ${isVacation ? 'checked' : ''}></td>
+      <td class="vacation-cell"><input type="checkbox" class="absent-check" ${isAbsent ? 'checked' : ''}></td>
+      <td class="attendance-status"></td>
+      <td class="late-minutes">—</td>
+      <td><input type="text" class="attendance-note" maxlength="500" value="${escapeHtml(r.note || '')}" placeholder="ملاحظة"></td>
+    </tr>`;
+  }).join('');
+  body.querySelectorAll('.arrival-time').forEach(input => input.addEventListener('change', updateAttendancePreview));
+  body.querySelectorAll('.vacation-check, .absent-check').forEach(cb => cb.addEventListener('change', function(){
+    const row = this.closest('tr');
+    const vac = row.querySelector('.vacation-check');
+    const abs = row.querySelector('.absent-check');
+    if (this.checked) { (this === vac ? abs : vac).checked = false; }
+    row.querySelector('.arrival-time').disabled = vac.checked || abs.checked;
+    attendanceDirty = true;
+    updateAttendancePreview();
+  }));
+  body.querySelectorAll('.arrival-time, .attendance-note').forEach(el => {
+    el.addEventListener('input', () => { attendanceDirty = true; });
+    el.addEventListener('change', () => { attendanceDirty = true; });
+  });
+  updateAttendancePreview();
+}
+// Present is the default: no arrival time entered = present on time.
+function calculateAttendance(arrival, start){
+  if (!arrival) return {status:'حاضر', lateMinutes:''};
+  const [ah, am] = arrival.split(':').map(Number); const [sh, sm] = (start || '08:00').split(':').map(Number);
+  const late = Math.max(0, (ah * 60 + am) - (sh * 60 + sm));
+  return {status: late ? 'متأخر' : 'حاضر', lateMinutes: late};
+}
+function updateAttendancePreview(){
+  const start = document.getElementById('workStartTime').value || '08:00';
+  document.querySelectorAll('#attendanceTableBody tr').forEach(row => {
+    const statusCell = row.querySelector('.attendance-status');
+    const lateCell = row.querySelector('.late-minutes');
+    if (row.querySelector('.vacation-check').checked) { statusCell.textContent = 'إجازة'; lateCell.textContent = '—'; return; }
+    if (row.querySelector('.absent-check').checked) { statusCell.textContent = 'غائب'; lateCell.textContent = '—'; return; }
+    const result = calculateAttendance(row.querySelector('.arrival-time').value, start);
+    statusCell.textContent = result.status;
+    lateCell.textContent = result.lateMinutes === '' ? '—' : result.lateMinutes;
+  });
+}
+async function loadAttendance(date){
+  if (!managerKeyForAttendance || !date) return false;
+  document.getElementById('attendanceDate').value = date;
+  try {
+    const data = await safeFetchJson(`${SCRIPT_URL}?action=attendance&key=${encodeURIComponent(managerKeyForAttendance)}&date=${encodeURIComponent(date)}`);
+    attendanceStartTime = data.startTime || '08:00';
+    document.getElementById('workStartTime').value = attendanceStartTime;
+    renderAttendanceRows(data.records || []);
+    attendanceDirty = false;
+    attendanceLoadedFor = date;
+    return true;
+  } catch(err) {
+    attendanceLoadedFor = '';
+    const box = document.getElementById('attendanceStatus'); box.innerText = err.message; box.className = 'status err'; box.style.display = 'block';
+    return false;
+  }
+}
+async function saveAttendance(){
+  const date = document.getElementById('attendanceDate').value;
+  const startTime = document.getElementById('workStartTime').value || '08:00';
+  const box = document.getElementById('attendanceStatus');
+  if (!date) { box.innerText = 'اختر تاريخ الحضور أولاً.'; box.className='status err'; box.style.display='block'; return; }
+  const records = [...document.querySelectorAll('#attendanceTableBody tr')].map(row => ({
+    department: row.dataset.dept, name: row.dataset.name,
+    arrivalTime: row.querySelector('.arrival-time').value,
+    vacation: row.querySelector('.vacation-check').checked,
+    absent: row.querySelector('.absent-check').checked,
+    note: row.querySelector('.attendance-note').value
+  }));
+  try {
+    const data = await safeFetchJson(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({key:managerKeyForAttendance, action:'saveAttendance', date, startTime, records})});
+    if (!data.ok) throw new Error(data.error || 'فشل حفظ الحضور');
+    box.innerText = '✓ تم حفظ بيانات الحضور بنجاح.'; box.className='status ok'; box.style.display='block';
+    await loadAttendance(date);
+    if (rawManagerReports.length) renderReportsTable();
+  } catch(err) { box.innerText = 'حدث خطأ أثناء حفظ الحضور: ' + err.message; box.className='status err'; box.style.display='block'; }
+}
+
+// ---- Attendance range report (week / month / per-person / per-department) ----
+// Present is the default: on every working day (Friday excluded) up to today,
+// an employee with no saved row counts as present on time.
+function onArDeptChange(){
+  const dept = document.getElementById('arDept').value;
+  const pool = dept ? employeeOptions.filter(e => e.department === dept) : employeeOptions;
+  const names = [...new Set(pool.map(e => e.name))];
+  document.getElementById('arName').innerHTML =
+    '<option value="">كل الموظفين</option>' +
+    names.map(n => '<option value="' + escapeHtml(n) + '">' + escapeHtml(n) + '</option>').join('');
+}
+
+function populateAttendanceReportFilters(){
+  const deptSel = document.getElementById('arDept');
+  const prevDept = deptSel.value;
+  deptSel.innerHTML =
+    '<option value="">كل الأقسام</option>' +
+    departmentOptions.map(d => '<option value="' + escapeHtml(d) + '">' + escapeHtml(d) + '</option>').join('');
+  if (departmentOptions.includes(prevDept)) deptSel.value = prevDept;
+  const nameSel = document.getElementById('arName');
+  const prevName = nameSel.value;
+  onArDeptChange();
+  if ([...nameSel.options].some(o => o.value === prevName)) nameSel.value = prevName;
+}
+
+function setArRange(kind){
+  const today = new Date();
+  let start, end;
+  if (kind === 'week') {
+    // Week runs Sunday → Saturday (getDay(): 0 = Sunday).
+    start = new Date(today); start.setDate(today.getDate() - today.getDay());
+    end = new Date(start); end.setDate(start.getDate() + 6);
+  } else {
+    start = new Date(today.getFullYear(), today.getMonth(), 1);
+    end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  }
+  document.getElementById('arStart').value = toLocalYMD(start);
+  document.getElementById('arEnd').value = toLocalYMD(end);
+}
+
+async function loadAttendanceReport(){
+  const dept = document.getElementById('arDept').value;
+  const name = document.getElementById('arName').value;
+  const start = document.getElementById('arStart').value;
+  const end = document.getElementById('arEnd').value;
+  const box = document.getElementById('arStatus');
+  box.style.display = 'none';
+
+  if (!start || !end) { box.innerText = 'اختر نطاق التاريخ أولاً.'; box.className = 'status err'; box.style.display = 'block'; return; }
+  if (start > end) { box.innerText = 'تاريخ البداية يجب أن يسبق تاريخ النهاية.'; box.className = 'status err'; box.style.display = 'block'; return; }
+
+  try {
+    const url = `${SCRIPT_URL}?action=attendanceReport&key=${encodeURIComponent(managerKeyForAttendance)}` +
+      `&startDate=${start}&endDate=${end}` +
+      (dept ? `&department=${encodeURIComponent(dept)}` : '') +
+      (name ? `&name=${encodeURIComponent(name)}` : '');
+    const data = await safeFetchJson(url);
+    if (data.error) throw new Error(data.error);
+    arRecords = data.records || [];
+    arQuery = { dept, name, start, end };
+    renderAttendanceReport();
+  } catch (err) {
+    box.innerText = err.message; box.className = 'status err'; box.style.display = 'block';
+  }
+}
+
+function toggleArShowAll(){ if (arQuery) renderAttendanceReport(); }
+
+// One group per employee, one row per day from start to min(end, today).
+// Days with no saved row become a default "present" row, except days off.
+function buildAttendanceGroups(records, q){
+  const today = toLocalYMD(new Date());
+  const lastDay = q.end < today ? q.end : today;
+  const pool = employeeOptions.filter(e => (!q.dept || e.department === q.dept) && (!q.name || e.name === q.name));
+  const groups = new Map();
+  const ensure = (dept, name) => {
+    const k = `${dept}|${name}`;
+    if (!groups.has(k)) groups.set(k, { name, department: dept, recs: {} });
+    return groups.get(k);
+  };
+  pool.forEach(e => ensure(e.department, e.name));
+  records.forEach(r => { ensure(r.department, r.name).recs[r.date] = r; });
+  const result = [];
+  groups.forEach(g => {
+    const rows = [];
+    for (let d = parseYMD(q.start); toLocalYMD(d) <= lastDay; d.setDate(d.getDate() + 1)) {
+      const ymd = toLocalYMD(d);
+      if (g.recs[ymd]) rows.push(g.recs[ymd]);
+      else if (!WEEKEND_DAYS.includes(d.getDay())) {
+        rows.push({ date: ymd, department: g.department, name: g.name, arrivalTime: '', status: 'حاضر', lateMinutes: '', note: '', isDefault: true });
+      }
+    }
+    Object.keys(g.recs).forEach(k => { if (k > lastDay) rows.push(g.recs[k]); });
+    rows.sort((a, b) => a.date.localeCompare(b.date));
+    result.push({ name: g.name, department: g.department, rows });
+  });
+  result.sort((a, b) => compareDeptThenName(a.department, a.name, b.department, b.name));
+  return result;
+}
+
+function summarizeAttendance(rows){
+  const s = { days: rows.length, onTime: 0, late: 0, absent: 0, vacation: 0, notRecorded: 0, lateMinutes: 0 };
+  rows.forEach(r => {
+    if (r.status === 'إجازة') s.vacation++;
+    else if (r.status === 'غائب') s.absent++;
+    else if (r.status === 'متأخر') { s.late++; s.lateMinutes += Number(r.lateMinutes) || 0; }
+    else if (r.status === 'حاضر') s.onTime++;
+    else s.notRecorded++;
+  });
+  return s;
+}
+
+function renderAttendanceReport(){
+  const wrap = document.getElementById('arResults');
+  if (!arQuery) return;
+  const showAll = document.getElementById('arShowAll').checked;
+  const groups = buildAttendanceGroups(arRecords, arQuery);
+  if (!groups.length) {
+    wrap.innerHTML = '<div class="ar-empty-card">لا يوجد موظفون مطابقون لهذا الاختيار.</div>';
+    return;
+  }
+
+  const total = { employees: groups.length, days: 0, onTime: 0, late: 0, absent: 0, vacation: 0, notRecorded: 0, lateMinutes: 0 };
+  groups.forEach(g => {
+    const s = summarizeAttendance(g.rows);
+    total.days += s.days;
+    total.onTime += s.onTime;
+    total.late += s.late;
+    total.absent += s.absent;
+    total.vacation += s.vacation;
+    total.notRecorded += s.notRecorded;
+    total.lateMinutes += s.lateMinutes;
+  });
+
+  const periodText = `${escapeHtml(arQuery.start)} — ${escapeHtml(arQuery.end)}`;
+  const scopeText = arQuery.name
+    ? `الموظف: ${escapeHtml(arQuery.name)}`
+    : (arQuery.dept ? `القسم: ${escapeHtml(arQuery.dept)}` : 'النطاق: جميع الموظفين');
+
+  const overviewRows = groups.map(g => {
+    const s = summarizeAttendance(g.rows);
+    return `<tr>
+      <td><span class="employee-name">${escapeHtml(g.name)}</span></td>
+      <td>${escapeHtml(g.department)}</td>
+      <td class="number">${s.days}</td>
+      <td class="number">${s.onTime}</td>
+      <td class="number ${s.late ? 'exception' : ''}">${s.late}</td>
+      <td class="number ${s.absent ? 'exception' : ''}">${s.absent}</td>
+      <td class="number">${s.vacation}</td>
+      <td class="number">${s.lateMinutes}</td>
+    </tr>`;
+  }).join('');
+
+  const employeeCards = groups.map(g => {
+    const s = summarizeAttendance(g.rows);
+    const shown = g.rows.filter(r => showAll || r.status !== 'حاضر' || (r.note || '').toString().trim());
+    const rowsHtml = shown.length
+      ? shown.map(r => {
+          const statusClass = r.status === 'متأخر' ? 'late' : r.status === 'غائب' ? 'absent' : r.status === 'إجازة' ? 'vacation' : 'present';
+          const statusText = r.isDefault ? 'حاضر (افتراضي)' : (r.status || '—');
+          return `<tr>
+            <td>${escapeHtml(r.date)}</td>
+            <td>${escapeHtml(r.arrivalTime || '—')}</td>
+            <td><span class="status-pill ${statusClass}${r.isDefault ? ' default' : ''}">${escapeHtml(statusText)}</span></td>
+            <td>${r.lateMinutes === '' || r.lateMinutes == null ? '—' : escapeHtml(String(r.lateMinutes))}</td>
+            <td>${escapeHtml(r.note || '')}</td>
+          </tr>`;
+        }).join('')
+      : '<tr><td colspan="5" class="ar-empty">لا توجد استثناءات في هذه الفترة — جميع أيام العمل مسجلة كحاضر.</td></tr>';
+
+    return `<details class="ar-card" ${showAll ? 'open' : ''}>
+      <summary>
+        <div class="ar-employee-head">
+          <div><span class="ar-employee-name">${escapeHtml(g.name)}</span><span class="ar-employee-dept">${escapeHtml(g.department)}</span></div>
+          <div class="ar-mini-stats">
+            <span class="ar-stat">${s.onTime} في الموعد</span>
+            <span class="ar-stat late">${s.late} متأخر</span>
+            <span class="ar-stat absent">${s.absent} غائب</span>
+            <span class="ar-stat vacation">${s.vacation} إجازة</span>
+          </div>
+        </div>
+      </summary>
+      <div class="ar-detail">
+        <div class="hint ar-summary">أيام العمل: ${s.days} | في الموعد: ${s.onTime} | متأخر: ${s.late} (إجمالي التأخير: ${s.lateMinutes} دقيقة) | غائب: ${s.absent} | إجازة: ${s.vacation}${s.notRecorded ? ` | لم يسجل: ${s.notRecorded}` : ''}</div>
+        <div class="ar-table-wrap">
+          <table class="attendance-table ar-table">
+            <thead><tr><th>التاريخ</th><th>وقت الحضور</th><th>الحالة</th><th>دقائق التأخير</th><th>ملاحظات</th></tr></thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      </div>
+    </details>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div class="ar-report-header">
+      <div>
+        <h2 class="ar-report-title">تقرير الحضور</h2>
+        <p class="ar-report-subtitle">الفترة: ${periodText}</p>
+      </div>
+      <div class="ar-scope">${scopeText}</div>
+    </div>
+
+    <div class="ar-kpis">
+      <div class="ar-kpi"><span class="ar-kpi-label">الموظفون</span><span class="ar-kpi-value">${total.employees}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">أيام العمل</span><span class="ar-kpi-value">${total.days}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">في الموعد</span><span class="ar-kpi-value">${total.onTime}</span></div>
+      <div class="ar-kpi late"><span class="ar-kpi-label">متأخر</span><span class="ar-kpi-value">${total.late}</span></div>
+      <div class="ar-kpi absent"><span class="ar-kpi-label">غائب</span><span class="ar-kpi-value">${total.absent}</span></div>
+      <div class="ar-kpi vacation"><span class="ar-kpi-label">إجازة</span><span class="ar-kpi-value">${total.vacation}</span></div>
+      <div class="ar-kpi"><span class="ar-kpi-label">إجمالي التأخير</span><span class="ar-kpi-value">${total.lateMinutes} د</span></div>
+    </div>
+
+    <div class="ar-section-title"><span>ملخص الموظفين</span><span class="ar-section-note">عرض سريع للفترة المحددة</span></div>
+    <div class="ar-overview-wrap">
+      <table class="ar-overview">
+        <thead><tr><th>الموظف</th><th>القسم</th><th>أيام العمل</th><th>في الموعد</th><th>متأخر</th><th>غائب</th><th>إجازة</th><th>دقائق التأخير</th></tr></thead>
+        <tbody>${overviewRows}</tbody>
+      </table>
+    </div>
+
+    <div class="ar-section-title"><span>${showAll ? 'التفاصيل اليومية' : 'استثناءات الحضور'}</span><span class="ar-section-note">${showAll ? 'جميع الأيام' : 'افتح الموظف لعرض التفاصيل'}</span></div>
+    <div>${employeeCards}</div>`;
+}
+
+function printAttendanceReport(){
+  if (!arQuery) return;
+  const details = [...document.querySelectorAll('#arResults .ar-card')];
+  const previousOpen = details.map(d => d.open);
+  details.forEach(d => { d.open = true; });
+  document.body.classList.add('printing-ar');
+  window.print();
+  setTimeout(() => {
+    document.body.classList.remove('printing-ar');
+    details.forEach((d, i) => { d.open = previousOpen[i]; });
+  }, 500);
+}
+
+async function loadManagerReports() {
+  const key = document.getElementById('managerKeyInput').value.trim();
+  const btn = document.getElementById('loadReportsBtn');
+  const errBox = document.getElementById('managerErrorMsg');
+  errBox.classList.remove('show');
+  if (!key) return;
+
+  btn.disabled = true;
+
+  try {
+    const data = await safeFetchJson(`${SCRIPT_URL}?key=${encodeURIComponent(key)}`);
+
+    if (data.error) {
+      errBox.innerText = 'رمز المدير غير صحيح.';
+      errBox.classList.add('show');
+      return;
+    }
+
+    rawManagerReports = data.reports || [];
+    managerKeyForAttendance = key;
+    document.getElementById('managerContent').style.display = 'block';
+
+    // Default to today's date (LOCAL date, not UTC) so the "missing
+    // reports" list is useful immediately without a timezone off-by-one.
+    const dateInput = document.getElementById('filterDate');
+    if (!dateInput.value) {
+      dateInput.value = toLocalYMD(new Date());
+    }
+
+    applyManagerFilters();
+    const attendanceDateInput = document.getElementById('attendanceDate');
+    if (!attendanceDateInput.value) attendanceDateInput.value = toLocalYMD(new Date());
+    attendanceFollowsToday = attendanceDateInput.value === toLocalYMD(new Date());
+    loadAttendance(attendanceDateInput.value);
+    startAttendanceAutoRefresh();
+  } catch (err) {
+    errBox.innerText = err.message;
+    errBox.classList.add('show');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function getFilteredManagerReports() {
+  const dept = document.getElementById('filterDept').value;
+  const name = document.getElementById('filterName').value;
+  const project = document.getElementById('filterProject').value;
+  const category = document.getElementById('filterCategory').value;
+  const task = document.getElementById('filterTask').value;
+  const range = getFilterRange();
+
+  return rawManagerReports.filter(r => {
+    if (dept && r.department !== dept) return false;
+    if (name && r.name !== name) return false;
+    if (project && r.project !== project) return false;
+    if (category && r.mainCategory !== category) return false;
+    if (task && r.task !== task) return false;
+    if (range.from) {
+      const rDate = toLocalYMD(new Date(r.timestamp));
+      if (rDate < range.from || rDate > range.to) return false;
+    }
+    return true;
+  });
+}
+
+function renderReportsTable() {
+  const dateVal = getSingleDay();
+  const filtered = getFilteredManagerReports();
+  const wrap = document.getElementById('reportsTableWrap');
+  if (filtered.length === 0) {
+    wrap.innerHTML = '<div class="empty-note">لا توجد تقارير مطابقة للفلاتر.</div>';
+    return;
+  }
+  const groups = groupReportsByEmployee(filtered);
+  // Attendance lines only make sense for a single selected day whose data is loaded.
+  const withAtt = !!dateVal && attendanceLoadedFor === dateVal;
+  const tables = buildEmployeeGroupTables(groups, { showDate: !dateVal, withAttendance: withAtt });
+  wrap.innerHTML = tables.join('');
+}
+
+function applyManagerFilters() {
+  const dept = document.getElementById('filterDept').value;
+  const { from, to } = getFilterRange();
+  const single = getSingleDay();
+
+  renderMissingEmployees(dept, from, to);
+  renderReportsTable();
+
+  if (managerKeyForAttendance && single) {
+    loadAttendance(single).then(ok => {
+      if (ok && getSingleDay() === single) renderReportsTable();
+    });
+  }
+}
+
+// Employees expected to report on the selected period (optionally narrowed
+// to `dept`) who have NO report at all across the whole period. Shared by
+// the "missing" pills list and by the printed report's blank-row filler.
+function getMissingEmployeesForDate(dept, from, to) {
+  if (!from) return [];
+  to = to || from;
+  const pool = dept ? employeeOptions.filter(e => e.department === dept) : employeeOptions;
+  const submitted = new Set(
+    rawManagerReports
+      .filter(r => {
+        if (dept && r.department !== dept) return false;
+        const d = toLocalYMD(new Date(r.timestamp));
+        return d >= from && d <= to;
+      })
+      .map(r => `${r.department}|${r.name}`)
+  );
+  return pool.filter(e => !submitted.has(`${e.department}|${e.name}`));
+}
+
+function renderMissingEmployees(dept, from, to) {
+  const box = document.getElementById('missingPills');
+  const heading = document.querySelector('#missingBlock h3');
+
+  if (!from) {
+    heading.textContent = 'لم يرسلوا تقرير';
+    box.innerHTML = '<span class="empty-note">اختر تاريخًا لعرض من لم يرسل تقريرًا.</span>';
+    return;
+  }
+  heading.textContent = from === to
+    ? `لم يرسلوا تقرير (${from})`
+    : `لم يرسلوا أي تقرير خلال الفترة (${from} ← ${to})`;
+
+  const missing = getMissingEmployeesForDate(dept, from, to);
+  if (missing.length === 0) {
+    box.innerHTML = '<span class="empty-note">الجميع أرسلوا تقاريرهم.</span>';
+    return;
+  }
+  box.innerHTML = missing
+    .map(e => '<span class="pill">' + escapeHtml(e.name) + (dept ? '' : ' — ' + escapeHtml(e.department)) + '</span>')
+    .join('');
+}
+
+// Groups a flat report list into one entry per employee (name+department),
+// each holding its rows sorted by project → building → main category, and
+// the whole list sorted alphabetically by employee name (Arabic collation).
+function groupReportsByEmployee(reports) {
+  const groups = new Map();
+  reports.forEach((r, index) => {
+    const key = `${r.department || ''}|${r.name || 'اسم غير محدد'}`;
+    if (!groups.has(key)) groups.set(key, { name: r.name || 'اسم غير محدد', department: r.department || '', rows: [] });
+    groups.get(key).rows.push({ ...r, _index: index });
+  });
+  const list = [...groups.values()];
+  list.forEach(g => {
+    g.rows.sort((a, b) => {
+      const ak = [a.project || 'مشروع غير محدد', a.building || 'عام / غير محدد', a.mainCategory || 'غير مصنف'];
+      const bk = [b.project || 'مشروع غير محدد', b.building || 'عام / غير محدد', b.mainCategory || 'غير مصنف'];
+      return ak.join('\u0000').localeCompare(bk.join('\u0000'), 'ar') || a._index - b._index;
+    });
+  });
+  list.sort((a, b) => compareDeptThenName(a.department, a.name, b.department, b.name));
+  return list;
+}
+
+// Small status text shown under the employee name (as in the PDF: "الحالة: ...")
+function attendanceStatusHtml(dept, name) {
+  const att = attendanceRecords[attendanceKey(dept, name)] || {};
+  let text = 'حاضر';
+  if (att.status === 'إجازة') text = 'إجازة';
+  else if (att.status === 'غائب') text = 'غائب';
+  else if (att.status === 'متأخر') text = att.arrivalTime ? `متأخر — وصل ${att.arrivalTime}` : 'متأخر';
+  const note = (att.note || '').toString().trim();
+  return `<div class="emp-status">الحالة: ${escapeHtml(text)}</div>` +
+         (note ? `<div class="emp-status">${escapeHtml(note)}</div>` : '');
+}
+
+// One table per employee, with merged employee/department/project/building/category cells.
+function buildEmployeeGroupTables(groups, opts) {
+  opts = opts || {};
+  const showDate = !!opts.showDate;
+  const withAttendance = !!opts.withAttendance;
+
+  const head = '<thead><tr><th>الموظف</th><th>القسم</th><th>المشروع</th><th>المبنى</th>' +
+    '<th>التصنيف الرئيسي</th><th>المهمة</th><th>الإنجاز</th><th>تفاصيل التقرير</th></tr></thead>';
+
+  // Consecutive rows with the same key get one rowspan on their first row.
+  const spans = (rows, keyFn) => {
+    const out = new Array(rows.length).fill(0);
+    let i = 0;
+    while (i < rows.length) {
+      let j = i;
+      while (j < rows.length && keyFn(rows[j]) === keyFn(rows[i])) j++;
+      out[i] = j - i;
+      i = j;
+    }
+    return out;
+  };
+
+  return groups.map(g => {
+    const status = withAttendance ? attendanceStatusHtml(g.department, g.name) : '';
+    const empCells = span =>
+      `<td class="employee-cell" rowspan="${span}"><div class="emp-name">${escapeHtml(g.name)}</div>${status}</td>` +
+      `<td class="merged" rowspan="${span}">${escapeHtml(g.department)}</td>`;
+
+    if (!g.rows.length) {
+      return `<table class="grouped-table">${head}<tbody><tr class="missing-report-row">${empCells(1)}` +
+             `<td colspan="6" class="missing-text">لم يتم إرسال أي تقرير</td></tr></tbody></table>`;
+    }
+
+    const rows = g.rows.map(r => ({
+      r,
+      p: r.project || 'مشروع غير محدد',
+      b: r.building || 'عام / غير محدد',
+      c: r.mainCategory || '—'
+    }));
+    const pSpan = spans(rows, x => x.p);
+    const bSpan = spans(rows, x => x.p + '\u0000' + x.b);
+    const cSpan = spans(rows, x => x.p + '\u0000' + x.b + '\u0000' + x.c);
+
+    const body = rows.map((x, i) => {
+      const r = x.r;
+      const pct = (r.percentage || '').toString().trim();
+      const detail = (r.report || '').toString().trim();
+      return '<tr>' +
+        (i === 0 ? empCells(rows.length) : '') +
+        (pSpan[i] ? `<td class="merged" rowspan="${pSpan[i]}">${escapeHtml(x.p)}</td>` : '') +
+        (bSpan[i] ? `<td class="merged" rowspan="${bSpan[i]}">${escapeHtml(x.b)}</td>` : '') +
+        (cSpan[i] ? `<td class="merged" rowspan="${cSpan[i]}">${escapeHtml(x.c)}</td>` : '') +
+        `<td>${escapeHtml(r.task)}` +
+          (showDate ? `<span class="task-date">${escapeHtml(toLocalYMD(new Date(r.timestamp)))}</span>` : '') +
+        `</td>` +
+        `<td>${escapeHtml(pct)}</td>` +
+        `<td class="details">${escapeHtml(detail)}</td>` +
+      '</tr>';
+    }).join('');
+
+    return `<table class="grouped-table">${head}<tbody>${body}</tbody></table>`;
+  });
+}
+
+function buildPrintTables(groups, opts) {
+  opts = opts || {};
+  const head = '<thead><tr><th>التصنيف الرئيسي</th><th>المهمة</th><th>الإنجاز</th><th>تفاصيل التقرير</th></tr></thead>';
+  return groups.map(g => {
+    const status = opts.withAttendance ? attendanceStatusHtml(g.department, g.name) : '';
+    const title = `<div class="print-employee-heading">${escapeHtml(g.name)}` +
+      `<span class="print-employee-dept">${escapeHtml(g.department)}</span>${status}</div>`;
+    if (!g.rows.length) return title + '<div class="print-empty">لم يتم إرسال أي تقرير</div>';
+    let body = '', lastKey = '';
+    g.rows.forEach(r => {
+      const p = r.project || 'مشروع غير محدد';
+      const b = r.building || 'عام / غير محدد';
+      const key = p + '\u0000' + b;
+      if (key !== lastKey) {
+        body += `<tr class="grp"><td colspan="4">${escapeHtml(p)} — ${escapeHtml(b)}</td></tr>`;
+        lastKey = key;
+      }
+      body += '<tr>' +
+        `<td>${escapeHtml(r.mainCategory || '—')}</td>` +
+        `<td>${escapeHtml(r.task)}` +
+          (opts.showDate ? `<span class="task-date">${escapeHtml(toLocalYMD(new Date(r.timestamp)))}</span>` : '') +
+        `</td>` +
+        `<td>${escapeHtml((r.percentage || '').toString().trim())}</td>` +
+        `<td class="details">${escapeHtml((r.report || '').toString().trim())}</td>` +
+      '</tr>';
+    });
+    return title + `<table class="grouped-table print-table">${head}<tbody>${body}</tbody></table>`;
+  });
+}
+
+function clearManagerFilters() {
+  document.getElementById('filterDept').value = '';
+  document.getElementById('filterName').value = '';
+  document.getElementById('filterProject').value = '';
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterTask').value = '';
+  document.getElementById('filterDate').value = '';
+  document.getElementById('filterDateTo').value = '';
+  document.getElementById('filterPreset').value = '';
+  applyManagerFilters();
+}
+
+async function printManagerReport() {
+  const dept = document.getElementById('filterDept').value;
+  const name = document.getElementById('filterName').value;
+  const project = document.getElementById('filterProject').value;
+  const category = document.getElementById('filterCategory').value;
+  const task = document.getElementById('filterTask').value;
+  const { from, to } = getFilterRange();
+  const dateVal = getSingleDay();
+  const filtered = getFilteredManagerReports();
+  if (managerKeyForAttendance && dateVal) await loadAttendance(dateVal);
+
+  let reportDateLabel = 'تقرير متعدد الأيام';
+  if (dateVal) {
+    reportDateLabel = new Intl.DateTimeFormat('ar-EG', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+      .format(new Date(`${dateVal}T12:00:00`));
+  } else if (from && to) {
+    reportDateLabel = `الفترة: ${from} إلى ${to}`;
+  } else if (filtered.length) {
+    const days = [...new Set(filtered.map(r => toLocalYMD(new Date(r.timestamp))))].sort();
+    if (days.length === 1) {
+      reportDateLabel = new Intl.DateTimeFormat('ar-EG', { weekday:'long', day:'numeric', month:'long', year:'numeric' })
+        .format(new Date(`${days[0]}T12:00:00`));
+    } else if (days.length > 1) {
+      reportDateLabel = `الفترة: ${days[0]} إلى ${days[days.length - 1]}`;
+    }
+  }
+
+  const departmentLabel = dept || 'قسم التقييم والتسعير';
+  const logoSrc = document.querySelector('.topbar-logo')?.getAttribute('src') || '';
+  document.getElementById('printHeader').innerHTML = `
+    ${logoSrc ? `<img class="print-logo" src="${logoSrc}" alt="شعار النظام">` : ''}
+    <h1>${escapeHtml(departmentLabel)}</h1>
+    <h2>سجل تقارير الإنجاز</h2>
+    <div class="print-meta">${escapeHtml(reportDateLabel)}</div>
+  `;
+
+  const printReport = document.getElementById('printReport');
+
+  // Build the employee groups from what matched the filters...
+  const groups = groupReportsByEmployee(filtered);
+
+  // ...then, when a specific date is selected and no single employee is
+  // singled out, add a blank filler entry for anyone in that
+  // department/day who submitted nothing at all, so the printed sheet
+  // shows every expected name (with attendance) even with an empty report.
+  if (dateVal && !name) {
+    const known = new Set(groups.map(g => `${g.department}|${g.name}`));
+    getMissingEmployeesForDate(dept, dateVal, dateVal).forEach(e => {
+      const key = `${e.department}|${e.name}`;
+      if (!known.has(key)) {
+        groups.push({ name: e.name, department: e.department, rows: [] });
+        known.add(key);
+      }
+    });
+  }
+  groups.sort((a, b) => compareDeptThenName(a.department, a.name, b.department, b.name));
+
+  if (!groups.length) {
+    printReport.innerHTML = '<div class="print-empty">لا توجد تقارير مطابقة للفلاتر المحددة.</div>';
+  } else {
+    const tables = buildPrintTables(groups, {
+      showDate: !dateVal,
+      withAttendance: !!dateVal && attendanceLoadedFor === dateVal
+    });
+    printReport.innerHTML = tables.map(t => `<section class="print-employee">${t}</section>`).join('');
+  }
+
+  const originalTitle = document.title;
+  document.title = 'تقارير_' + (dateVal || toLocalYMD(new Date()));
+  window.print();
+  setTimeout(() => { document.title = originalTitle; }, 1000);
+}
+</script>
+</body>
+</html>
